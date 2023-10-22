@@ -75,10 +75,12 @@ struct JournalHomeView: View {
 }
 
 #Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let previewContainer = try! ModelContainer(for: Journal.self, configurations: config)
+    let previewContainer: ModelContainer = createPreviewModelContainer();
     previewContainer.mainContext.insert(Journal(name: "Journal 1"))
     previewContainer.mainContext.insert(Journal(name: "Journal 2"))
+    previewContainer.mainContext.insert(Account(name: "Account 1"))
+    previewContainer.mainContext.insert(Account(name: "Account 2"))
+    previewContainer.mainContext.insert(Account(name: "Account 3"))
     
     return JournalHomeView().modelContainer(previewContainer)
 }

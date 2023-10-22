@@ -47,14 +47,23 @@ struct JournalDetailView: View {
             
             Section(header: AccountsActionSheet()) {
                 ForEach(accounts) { account in
-                    NavigationLink(
-                        destination: TransactionPageView(title: account.name),
+                    DisclosureGroup(
+                        content: {
+                            ForEach(account.subAccounts, id: \.self) { subAccount in
+                                NavigationLink(
+                                    destination: TransactionPageView(title: subAccount),
+                                    label: {
+                                        Text(subAccount)
+                                    })
+                            }
+                            .onDelete(perform: deleteAccounts)
+                        },
                         label: {
                             Text(account.name)
                                 .fontWeight(.semibold)
-                        })
+                        }
+                    )
                 }
-                .onDelete(perform: deleteAccounts)
             }
             .textCase(nil)
             
@@ -87,22 +96,16 @@ struct JournalDetailView: View {
 }
 
 #Preview {
+    let previewContainer: ModelContainer = createPreviewModelContainer();
+
     let example = Journal(name: "Example")
-    
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let previewContainer = try! ModelContainer(
-        for: Journal.self, Account.self,
-        configurations: config
-    )
     previewContainer.mainContext.insert(example)
     previewContainer.mainContext.insert(Account(name: "Account 1"))
     previewContainer.mainContext.insert(Account(name: "Account 2"))
     previewContainer.mainContext.insert(Account(name: "Account 3"))
-    previewContainer.mainContext.insert(Account(name: "Account 4"))
     
     return NavigationView {
         JournalDetailView(journal: example)
-        //            .modelContainer(for: [Journal.self, Account.self], inMemory: true)
             .modelContainer(previewContainer)
     }
 }
