@@ -13,12 +13,13 @@ struct CloudSyncView: View {
     @Environment(\.dismiss) var dismiss
     @State private var isSyncEnabled: Bool = true
     @State private var showSyncAlert: Bool = false
+    @State private var showResetActionSheet: Bool = false
     
     var body: some View {
         NavigationStack {
             List {
                 Section {
-                    VStack {
+                    VStack(alignment: .leading) {
                         Toggle(isOn: $isSyncEnabled, label: {
                             Text("Cloud Sync")
                                 .font(.title)
@@ -59,7 +60,7 @@ struct CloudSyncView: View {
                     .disabled(!isSyncEnabled)
                     
                     Button(action: {
-                        // TODO
+                        showResetActionSheet = true
                     }, label: {
                         Text("Reset...")
                             .if(isSyncEnabled) {
@@ -70,6 +71,20 @@ struct CloudSyncView: View {
                             }
                     })
                     .disabled(isSyncEnabled)
+                    .confirmationDialog(
+                        "You are resetting your data.",
+                        isPresented: $showResetActionSheet,
+                        titleVisibility: .visible) {
+                            Button("Reset All Data", role: .destructive) {
+                                // TODO
+                            }
+                            Button("Reset Cloud Data", role: .destructive) {
+                                // TODO
+                            }
+                            Button("Reset App Data", role: .destructive) {
+                                // TODO
+                            }
+                        }
                     
                 }
                 .alert(isSyncEnabled ? "Enabling Sync..." : "Disabling Sync...", isPresented: $showSyncAlert) {

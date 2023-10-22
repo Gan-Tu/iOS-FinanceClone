@@ -15,6 +15,7 @@ struct FinanceCloneApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .preferredColorScheme(.light)
         }
         .modelContainer(mainModelContainer)
     }
