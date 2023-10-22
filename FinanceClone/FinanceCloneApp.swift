@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct FinanceCloneApp: App {
-    var mainModelContainer: ModelContainer = createMainModelContainer()
+    var mainModelContainer: ModelContainer = createMainModelContainer();
     
     var body: some Scene {
         WindowGroup {

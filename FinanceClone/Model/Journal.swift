@@ -15,6 +15,7 @@ final class Journal {
     var creationTimestamp: Date? = nil
     var name: String = ""
     var numTransactions: Int = 0
+    var currency: String = "US Dollar"
     
     init(name: String) {
         self.name = name

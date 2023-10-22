@@ -17,7 +17,7 @@ struct JournalDetailView: View {
     @State private var exampleAccounts: [String] = [
         "Assets", "Liabilities", "Income", "Expenses", "Equity"
     ]
-    @State private var exampleCurrencies: [String] = ["US Dollars", "Euro"]
+    @State private var exampleCurrencies: [String] = ["US Dollar", "Euro"]
     
     @State private var editMode: EditMode = .inactive
     
