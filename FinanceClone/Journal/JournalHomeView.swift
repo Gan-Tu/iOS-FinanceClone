@@ -10,7 +10,7 @@ import SwiftData
 
 struct JournalHomeView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Journal.name) private var journals: [Journal]
+    @Query(sort: \Journal.creationTimestamp) private var journals: [Journal]
     
     @State private var isAddJournalSheetPresented: Bool = false
     
