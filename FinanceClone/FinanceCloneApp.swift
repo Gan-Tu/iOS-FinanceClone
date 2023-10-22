@@ -14,6 +14,7 @@ struct FinanceCloneApp: App {
         let schema = Schema([
             Item.self,
             Journal.self,
+            Account.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
