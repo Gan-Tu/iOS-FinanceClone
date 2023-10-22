@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		5912FB622AE4A0CD00333EE8 /* FinanceCloneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5912FB612AE4A0CD00333EE8 /* FinanceCloneApp.swift */; };
 		5912FB642AE4A0CD00333EE8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5912FB632AE4A0CD00333EE8 /* ContentView.swift */; };
-		5912FB662AE4A0CD00333EE8 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5912FB652AE4A0CD00333EE8 /* Item.swift */; };
 		5912FB682AE4A0CE00333EE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5912FB672AE4A0CE00333EE8 /* Assets.xcassets */; };
 		5912FB6C2AE4A0CE00333EE8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5912FB6B2AE4A0CE00333EE8 /* Preview Assets.xcassets */; };
 		5912FB742AE4A34E00333EE8 /* JournalHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5912FB732AE4A34E00333EE8 /* JournalHomeView.swift */; };
@@ -33,7 +32,6 @@
 		5912FB5E2AE4A0CD00333EE8 /* FinanceClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinanceClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5912FB612AE4A0CD00333EE8 /* FinanceCloneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceCloneApp.swift; sourceTree = "<group>"; };
 		5912FB632AE4A0CD00333EE8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		5912FB652AE4A0CD00333EE8 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		5912FB672AE4A0CE00333EE8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5912FB692AE4A0CE00333EE8 /* FinanceClone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FinanceClone.entitlements; sourceTree = "<group>"; };
 		5912FB6B2AE4A0CE00333EE8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -125,7 +123,6 @@
 		5912FB782AE4A3C200333EE8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5912FB652AE4A0CD00333EE8 /* Item.swift */,
 				5912FB762AE4A39F00333EE8 /* Journal.swift */,
 				59D5EA3E2AE4C8B700AA36D0 /* Account.swift */,
 			);
@@ -240,7 +237,6 @@
 				59D5EA432AE4D1BF00AA36D0 /* AccountsActionSheet.swift in Sources */,
 				5912FB642AE4A0CD00333EE8 /* ContentView.swift in Sources */,
 				5912FB772AE4A39F00333EE8 /* Journal.swift in Sources */,
-				5912FB662AE4A0CD00333EE8 /* Item.swift in Sources */,
 				5912FB622AE4A0CD00333EE8 /* FinanceCloneApp.swift in Sources */,
 				59A6E29F2AE59690002ECDBE /* ModelContainer.swift in Sources */,
 				59D5EA412AE4D17400AA36D0 /* TransactionActionSheet.swift in Sources */,

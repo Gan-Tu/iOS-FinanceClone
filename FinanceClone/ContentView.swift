@@ -10,30 +10,13 @@ import SwiftData
 
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var journals: [Journal]
-    @Query private var accounts: [Account]
-    
     @State private var isSettingsSheetPresented: Bool = false
     @State private var isCloudSyncSheetPresented: Bool = false
     
     var body: some View {
         VStack {
             JournalHomeView()
-                .onAppear {
-                    if journals.isEmpty {
-                        // For test only
-                        modelContext.insert(Journal(name: "Journal 1", numTransactions: 5))
-                        modelContext.insert(Journal(name: "Journal 2", numTransactions: 10))
-                    }
-                    if accounts.isEmpty {
-                        // For test only
-                        modelContext.insert(Account(name: "Account 1"))
-                        modelContext.insert(Account(name: "Account 2"))
-                        modelContext.insert(Account(name: "Account 3"))
-                    }
-                }
-            
+
             Spacer()
             
             HStack {
@@ -61,5 +44,10 @@ struct ContentView: View {
 
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer();
+    previewContainer.mainContext.insert(Journal(name: "Journal 1", numTransactions: 5))
+    previewContainer.mainContext.insert(Journal(name: "Journal 2", numTransactions: 10))
+    previewContainer.mainContext.insert(Account(name: "Account 1"))
+    previewContainer.mainContext.insert(Account(name: "Account 2"))
+    previewContainer.mainContext.insert(Account(name: "Account 3"))
     return ContentView().modelContainer(previewContainer)
 }

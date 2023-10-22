@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 final class Journal {
-    @Attribute(.unique) var id: String = UUID().uuidString
+    var id: String = UUID().uuidString
 
     var creationTimestamp: Date? = nil
     var name: String = ""

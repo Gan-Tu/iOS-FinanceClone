@@ -9,7 +9,6 @@ import SwiftData
 
 
 let schema = Schema([
-    Item.self,
     Journal.self,
     Account.self,
 ])
