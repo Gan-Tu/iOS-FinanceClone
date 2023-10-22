@@ -57,6 +57,9 @@ struct JournalDetailView: View {
                                     })
                             }
                             .onDelete(perform: deleteAccounts)
+                            .onMove(perform: {
+                                account.subAccounts.move(fromOffsets: $0, toOffset: $1)
+                            })
                         },
                         label: {
                             Text(account.name)
@@ -76,6 +79,7 @@ struct JournalDetailView: View {
                 .onDelete(perform: { offsets in
                     // TODO
                 })
+                .onMove(perform: { exampleCurrencies.move(fromOffsets: $0, toOffset: $1) } )
             }
             .textCase(nil)
         }
@@ -97,7 +101,7 @@ struct JournalDetailView: View {
 
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer();
-
+    
     let example = Journal(name: "Example")
     previewContainer.mainContext.insert(example)
     previewContainer.mainContext.insert(Account(name: "Account 1"))
