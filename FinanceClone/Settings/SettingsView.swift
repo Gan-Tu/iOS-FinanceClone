@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
-
+import SwiftData
 
 struct SettingsView: View {
+    @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
+    
+    @State private var showSeedDataAlert: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -30,6 +33,19 @@ struct SettingsView: View {
                 }
                 
                 Section {
+                    CustomListRowView(rowLabel: "Load Fake Data", rowIcon: "doc", rowTintColor: .yellow)
+                        .onTapGesture {
+                            modelContext.insert(Journal(name: "Journal 1", numTransactions: 5))
+                            modelContext.insert(Journal(name: "Journal 2", numTransactions: 10))
+                            modelContext.insert(Account(name: "Account 1"))
+                            modelContext.insert(Account(name: "Account 2"))
+                            modelContext.insert(Account(name: "Account 3"))
+                            showSeedDataAlert = true
+                        }
+                        .alert("Fake data loaded successfully.", isPresented: $showSeedDataAlert, actions: {
+                            // TODO
+                        })
+                    
                     NavigationLink(destination: {
                         Text("Backup View")
                             .navigationTitle("Backup")
@@ -63,5 +79,6 @@ struct SettingsView: View {
 //}.padding(.vertical, 8)
 
 #Preview {
-    SettingsView()
+    let previewContainer: ModelContainer = createPreviewModelContainer();
+    return SettingsView().modelContainer(previewContainer)
 }
