@@ -1,0 +1,23 @@
+//
+//  Account.swift
+//  FinanceClone
+//
+//  Created by Gan Tu on 10/21/23.
+//
+
+import Foundation
+import SwiftData
+
+@Model
+final class Account {
+    @Attribute(.unique) var id: String = UUID().uuidString
+    
+    var name: String = ""
+    var subAccounts: [String]
+    
+    init(name: String) {
+        self.name = name
+        self.subAccounts = ["Sub-Account 1", "Sub-Account 2", "Sub-Account 3"]
+    }
+}
+
