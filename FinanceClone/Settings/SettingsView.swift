@@ -16,8 +16,7 @@ struct SettingsView: View {
             List {
                 Section {
                     NavigationLink(destination: {
-                        Text("Cloud Sync View")
-                            .navigationTitle("Cloud Sync")
+                        CloudSyncView(showDoneButton: false)
                     }, label: {
                         CustomListRowView(rowLabel: "Cloud Sync", rowIcon: "cloud", rowTintColor: .blue)
                     })

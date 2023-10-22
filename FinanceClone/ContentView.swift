@@ -15,6 +15,7 @@ struct ContentView: View {
     @Query private var accounts: [Account]
     
     @State private var isSettingsSheetPresented: Bool = false
+    @State private var isCloudSyncSheetPresented: Bool = false
     
     var body: some View {
         VStack {
@@ -44,9 +45,7 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                Button(action: {
-                    // TODO
-                }, label: {
+                Button(action: { isCloudSyncSheetPresented = true }, label: {
                     Text("Update to date")
                 })
                 
@@ -55,6 +54,7 @@ struct ContentView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
             .sheet(isPresented: $isSettingsSheetPresented, content: { SettingsView() })
+            .sheet(isPresented: $isCloudSyncSheetPresented, content: { CloudSyncView(showDoneButton: true) })
         }
     }
 }
