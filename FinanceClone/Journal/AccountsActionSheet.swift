@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AccountsActionSheet: View {
-    @State private var isOpen = false
+    @State private var showActionSheet = false
+    @State private var openCreateAccountSheet = false
     
     var body: some View {
         HStack {
@@ -16,21 +18,25 @@ struct AccountsActionSheet: View {
             
             Spacer()
             
-            Button(action: { isOpen = true }) {
+            Button(action: { showActionSheet = true }) {
                 Image(systemName: "ellipsis")
             }
             .confirmationDialog(
-                "Select a action", isPresented: $isOpen, titleVisibility: .hidden
+                "Select a action", isPresented: $showActionSheet, titleVisibility: .hidden
             ) {
                 Button("Create Account") {
-                    // TODO
+                    openCreateAccountSheet = true
                 }
             }
-            .textCase(nil)
         }
+        .sheet(isPresented: $openCreateAccountSheet, content: {
+            CreateAccountView()
+        })
+        .textCase(nil)
     }
 }
 
 #Preview {
-    AccountsActionSheet()
+    let previewContainer: ModelContainer = createPreviewModelContainer();
+    return AccountsActionSheet().modelContainer(previewContainer)
 }
