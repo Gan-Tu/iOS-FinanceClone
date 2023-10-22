@@ -34,6 +34,7 @@ struct TransactionActionSheet: View {
                     // TODO
                 }
             }
+            .textCase(nil)
         }
     }
 }

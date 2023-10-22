@@ -26,6 +26,7 @@ struct CurrencyActionSheet: View {
                     // TODO
                 }
             }
+            .textCase(nil)
         }
     }
 }

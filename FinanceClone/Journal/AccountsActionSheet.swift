@@ -26,6 +26,7 @@ struct AccountsActionSheet: View {
                     // TODO
                 }
             }
+            .textCase(nil)
         }
     }
 }

@@ -10,6 +10,7 @@ import SwiftData
 
 struct JournalDetailView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.editMode) private var editMode
     @Query(sort: \Account.name) private var accounts: [Account]
     
     var journal: Journal
@@ -18,9 +19,6 @@ struct JournalDetailView: View {
         "Assets", "Liabilities", "Income", "Expenses", "Equity"
     ]
     @State private var exampleCurrencies: [String] = ["US Dollar", "Euro"]
-    
-    @State private var editMode: EditMode = .inactive
-    
     
     var body: some View {
         List {
@@ -43,7 +41,6 @@ struct JournalDetailView: View {
                     Text("Repeating")
                 })
             }
-            .textCase(nil)
             
             Section(header: AccountsActionSheet()) {
                 ForEach(accounts) { account in
@@ -68,7 +65,6 @@ struct JournalDetailView: View {
                     )
                 }
             }
-            .textCase(nil)
             
             Section(header: CurrencyActionSheet()) {
                 ForEach(exampleCurrencies, id: \.self) { currency in
@@ -76,18 +72,14 @@ struct JournalDetailView: View {
                         Text(currency)
                     })
                 }
-                .onDelete(perform: { offsets in
-                    // TODO
-                })
+                .onDelete(perform: { exampleCurrencies.remove(atOffsets: $0) })
                 .onMove(perform: { exampleCurrencies.move(fromOffsets: $0, toOffset: $1) } )
             }
-            .textCase(nil)
         }
         .listStyle(.sidebar)
         .navigationTitle(journal.name)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(trailing: EditButton())
-        .environment(\.editMode, $editMode)
     }
     
     private func deleteAccounts(offsets: IndexSet) {
