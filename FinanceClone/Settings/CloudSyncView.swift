@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CloudSyncView: View {
+    @Environment(\.modelContext) private var modelContext
+
     var showDoneButton: Bool = true
     
     @Environment(\.dismiss) var dismiss
@@ -76,13 +79,13 @@ struct CloudSyncView: View {
                         isPresented: $showResetActionSheet,
                         titleVisibility: .visible) {
                             Button("Reset All Data", role: .destructive) {
-                                // TODO
+                                resetData()
                             }
                             Button("Reset Cloud Data", role: .destructive) {
-                                // TODO
+                                resetData()
                             }
                             Button("Reset App Data", role: .destructive) {
-                                // TODO
+                                resetData()
                             }
                         }
                     
@@ -110,12 +113,23 @@ struct CloudSyncView: View {
             }
         }
     }
+    
+    func resetData() {
+        do {
+            try modelContext.delete(model: Journal.self)
+            try modelContext.delete(model: Account.self)
+        } catch {
+            print("Failed to clear all Country and City data.")
+        }
+    }
 }
 
 #Preview("Sheet") {
-    CloudSyncView(showDoneButton: true)
+    let previewContainer: ModelContainer = createPreviewModelContainer();
+    return CloudSyncView(showDoneButton: true).modelContainer(previewContainer)
 }
 
 #Preview("Navigation") {
-    CloudSyncView(showDoneButton: false)
+    let previewContainer: ModelContainer = createPreviewModelContainer();
+    return CloudSyncView(showDoneButton: false).modelContainer(previewContainer)
 }

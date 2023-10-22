@@ -20,7 +20,6 @@
 		59A6E2A32AE5A9B2002ECDBE /* CustomListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A6E2A22AE5A9B2002ECDBE /* CustomListRowView.swift */; };
 		59A6E2A72AE5C2D2002ECDBE /* CloudSyncView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A6E2A62AE5C2D2002ECDBE /* CloudSyncView.swift */; };
 		59A6E2A92AE5C543002ECDBE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A6E2A82AE5C543002ECDBE /* Extensions.swift */; };
-		59A6E2AB2AE5CC00002ECDBE /* ResetActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A6E2AA2AE5CC00002ECDBE /* ResetActionSheet.swift */; };
 		59D5EA3C2AE4C0DD00AA36D0 /* TransactionPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D5EA3B2AE4C0DD00AA36D0 /* TransactionPageView.swift */; };
 		59D5EA3F2AE4C8B700AA36D0 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D5EA3E2AE4C8B700AA36D0 /* Account.swift */; };
 		59D5EA412AE4D17400AA36D0 /* TransactionActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D5EA402AE4D17400AA36D0 /* TransactionActionSheet.swift */; };
@@ -45,7 +44,6 @@
 		59A6E2A22AE5A9B2002ECDBE /* CustomListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListRowView.swift; sourceTree = "<group>"; };
 		59A6E2A62AE5C2D2002ECDBE /* CloudSyncView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncView.swift; sourceTree = "<group>"; };
 		59A6E2A82AE5C543002ECDBE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		59A6E2AA2AE5CC00002ECDBE /* ResetActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetActionSheet.swift; sourceTree = "<group>"; };
 		59D5EA3B2AE4C0DD00AA36D0 /* TransactionPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionPageView.swift; sourceTree = "<group>"; };
 		59D5EA3E2AE4C8B700AA36D0 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		59D5EA402AE4D17400AA36D0 /* TransactionActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionActionSheet.swift; sourceTree = "<group>"; };
@@ -151,7 +149,6 @@
 			children = (
 				59A6E2A02AE5A8E5002ECDBE /* SettingsView.swift */,
 				59A6E2A62AE5C2D2002ECDBE /* CloudSyncView.swift */,
-				59A6E2AA2AE5CC00002ECDBE /* ResetActionSheet.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -248,7 +245,6 @@
 				5912FB742AE4A34E00333EE8 /* JournalHomeView.swift in Sources */,
 				59A6E2A72AE5C2D2002ECDBE /* CloudSyncView.swift in Sources */,
 				59A6E2A92AE5C543002ECDBE /* Extensions.swift in Sources */,
-				59A6E2AB2AE5CC00002ECDBE /* ResetActionSheet.swift in Sources */,
 				5912FB7A2AE4AA5000333EE8 /* JournalDetailView.swift in Sources */,
 				5912FB7C2AE4B40500333EE8 /* AddJournalSheetView.swift in Sources */,
 			);
