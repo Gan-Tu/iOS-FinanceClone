@@ -17,6 +17,8 @@
 		5912FB7A2AE4AA5000333EE8 /* JournalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5912FB792AE4AA5000333EE8 /* JournalDetailView.swift */; };
 		5912FB7C2AE4B40500333EE8 /* AddJournalSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5912FB7B2AE4B40500333EE8 /* AddJournalSheetView.swift */; };
 		59A6E29F2AE59690002ECDBE /* ModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A6E29E2AE59690002ECDBE /* ModelContainer.swift */; };
+		59A6E2A12AE5A8E5002ECDBE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A6E2A02AE5A8E5002ECDBE /* SettingsView.swift */; };
+		59A6E2A32AE5A9B2002ECDBE /* CustomListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A6E2A22AE5A9B2002ECDBE /* CustomListRowView.swift */; };
 		59D5EA3C2AE4C0DD00AA36D0 /* TransactionPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D5EA3B2AE4C0DD00AA36D0 /* TransactionPageView.swift */; };
 		59D5EA3F2AE4C8B700AA36D0 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D5EA3E2AE4C8B700AA36D0 /* Account.swift */; };
 		59D5EA412AE4D17400AA36D0 /* TransactionActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D5EA402AE4D17400AA36D0 /* TransactionActionSheet.swift */; };
@@ -38,6 +40,8 @@
 		5912FB792AE4AA5000333EE8 /* JournalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalDetailView.swift; sourceTree = "<group>"; };
 		5912FB7B2AE4B40500333EE8 /* AddJournalSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddJournalSheetView.swift; sourceTree = "<group>"; };
 		59A6E29E2AE59690002ECDBE /* ModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelContainer.swift; sourceTree = "<group>"; };
+		59A6E2A02AE5A8E5002ECDBE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		59A6E2A22AE5A9B2002ECDBE /* CustomListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListRowView.swift; sourceTree = "<group>"; };
 		59D5EA3B2AE4C0DD00AA36D0 /* TransactionPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionPageView.swift; sourceTree = "<group>"; };
 		59D5EA3E2AE4C8B700AA36D0 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		59D5EA402AE4D17400AA36D0 /* TransactionActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionActionSheet.swift; sourceTree = "<group>"; };
@@ -76,12 +80,14 @@
 			isa = PBXGroup;
 			children = (
 				5912FB612AE4A0CD00333EE8 /* FinanceCloneApp.swift */,
-				5912FB632AE4A0CD00333EE8 /* ContentView.swift */,
 				5912FB672AE4A0CE00333EE8 /* Assets.xcassets */,
+				5912FB632AE4A0CD00333EE8 /* ContentView.swift */,
+				59A6E2A52AE5AB15002ECDBE /* Settings */,
 				5912FB752AE4A35200333EE8 /* Journal */,
 				59D5EA3D2AE4C0E300AA36D0 /* Transaction */,
 				5912FB782AE4A3C200333EE8 /* Model */,
 				59A6E29D2AE5967E002ECDBE /* Containers */,
+				59A6E2A42AE5A9B7002ECDBE /* Helpers */,
 				5912FB692AE4A0CE00333EE8 /* FinanceClone.entitlements */,
 				5912FB6D2AE4A0CE00333EE8 /* Info.plist */,
 				5912FB6A2AE4A0CE00333EE8 /* Preview Content */,
@@ -126,6 +132,22 @@
 				59A6E29E2AE59690002ECDBE /* ModelContainer.swift */,
 			);
 			path = Containers;
+			sourceTree = "<group>";
+		};
+		59A6E2A42AE5A9B7002ECDBE /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				59A6E2A22AE5A9B2002ECDBE /* CustomListRowView.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		59A6E2A52AE5AB15002ECDBE /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				59A6E2A02AE5A8E5002ECDBE /* SettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		59D5EA3D2AE4C0E300AA36D0 /* Transaction */ = {
@@ -213,6 +235,8 @@
 				5912FB622AE4A0CD00333EE8 /* FinanceCloneApp.swift in Sources */,
 				59A6E29F2AE59690002ECDBE /* ModelContainer.swift in Sources */,
 				59D5EA412AE4D17400AA36D0 /* TransactionActionSheet.swift in Sources */,
+				59A6E2A32AE5A9B2002ECDBE /* CustomListRowView.swift in Sources */,
+				59A6E2A12AE5A8E5002ECDBE /* SettingsView.swift in Sources */,
 				59D5EA452AE4D1DD00AA36D0 /* CurrencyActionSheet.swift in Sources */,
 				59D5EA3C2AE4C0DD00AA36D0 /* TransactionPageView.swift in Sources */,
 				59D5EA3F2AE4C8B700AA36D0 /* Account.swift in Sources */,
