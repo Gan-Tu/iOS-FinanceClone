@@ -12,6 +12,11 @@
 		5912FB662AE4A0CD00333EE8 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5912FB652AE4A0CD00333EE8 /* Item.swift */; };
 		5912FB682AE4A0CE00333EE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5912FB672AE4A0CE00333EE8 /* Assets.xcassets */; };
 		5912FB6C2AE4A0CE00333EE8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5912FB6B2AE4A0CE00333EE8 /* Preview Assets.xcassets */; };
+		5912FB742AE4A34E00333EE8 /* JournalHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5912FB732AE4A34E00333EE8 /* JournalHomeView.swift */; };
+		5912FB772AE4A39F00333EE8 /* Journal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5912FB762AE4A39F00333EE8 /* Journal.swift */; };
+		5912FB7A2AE4AA5000333EE8 /* JournalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5912FB792AE4AA5000333EE8 /* JournalDetailView.swift */; };
+		5912FB7C2AE4B40500333EE8 /* AddJournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5912FB7B2AE4B40500333EE8 /* AddJournalView.swift */; };
+		59D5EA3C2AE4C0DD00AA36D0 /* TransactionPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D5EA3B2AE4C0DD00AA36D0 /* TransactionPageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +28,11 @@
 		5912FB692AE4A0CE00333EE8 /* FinanceClone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FinanceClone.entitlements; sourceTree = "<group>"; };
 		5912FB6B2AE4A0CE00333EE8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5912FB6D2AE4A0CE00333EE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5912FB732AE4A34E00333EE8 /* JournalHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalHomeView.swift; sourceTree = "<group>"; };
+		5912FB762AE4A39F00333EE8 /* Journal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Journal.swift; sourceTree = "<group>"; };
+		5912FB792AE4AA5000333EE8 /* JournalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalDetailView.swift; sourceTree = "<group>"; };
+		5912FB7B2AE4B40500333EE8 /* AddJournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddJournalView.swift; sourceTree = "<group>"; };
+		59D5EA3B2AE4C0DD00AA36D0 /* TransactionPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionPageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,8 +67,10 @@
 			children = (
 				5912FB612AE4A0CD00333EE8 /* FinanceCloneApp.swift */,
 				5912FB632AE4A0CD00333EE8 /* ContentView.swift */,
-				5912FB652AE4A0CD00333EE8 /* Item.swift */,
 				5912FB672AE4A0CE00333EE8 /* Assets.xcassets */,
+				5912FB752AE4A35200333EE8 /* Journal */,
+				59D5EA3D2AE4C0E300AA36D0 /* Transaction */,
+				5912FB782AE4A3C200333EE8 /* Model */,
 				5912FB692AE4A0CE00333EE8 /* FinanceClone.entitlements */,
 				5912FB6D2AE4A0CE00333EE8 /* Info.plist */,
 				5912FB6A2AE4A0CE00333EE8 /* Preview Content */,
@@ -72,6 +84,33 @@
 				5912FB6B2AE4A0CE00333EE8 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		5912FB752AE4A35200333EE8 /* Journal */ = {
+			isa = PBXGroup;
+			children = (
+				5912FB732AE4A34E00333EE8 /* JournalHomeView.swift */,
+				5912FB792AE4AA5000333EE8 /* JournalDetailView.swift */,
+				5912FB7B2AE4B40500333EE8 /* AddJournalView.swift */,
+			);
+			path = Journal;
+			sourceTree = "<group>";
+		};
+		5912FB782AE4A3C200333EE8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5912FB652AE4A0CD00333EE8 /* Item.swift */,
+				5912FB762AE4A39F00333EE8 /* Journal.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		59D5EA3D2AE4C0E300AA36D0 /* Transaction */ = {
+			isa = PBXGroup;
+			children = (
+				59D5EA3B2AE4C0DD00AA36D0 /* TransactionPageView.swift */,
+			);
+			path = Transaction;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,8 +184,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5912FB642AE4A0CD00333EE8 /* ContentView.swift in Sources */,
+				5912FB772AE4A39F00333EE8 /* Journal.swift in Sources */,
 				5912FB662AE4A0CD00333EE8 /* Item.swift in Sources */,
 				5912FB622AE4A0CD00333EE8 /* FinanceCloneApp.swift in Sources */,
+				59D5EA3C2AE4C0DD00AA36D0 /* TransactionPageView.swift in Sources */,
+				5912FB742AE4A34E00333EE8 /* JournalHomeView.swift in Sources */,
+				5912FB7A2AE4AA5000333EE8 /* JournalDetailView.swift in Sources */,
+				5912FB7C2AE4B40500333EE8 /* AddJournalView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,6 +325,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FinanceClone/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -289,8 +334,7 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -320,6 +364,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = FinanceClone/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -328,8 +373,7 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
