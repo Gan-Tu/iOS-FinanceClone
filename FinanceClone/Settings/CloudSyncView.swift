@@ -119,7 +119,7 @@ struct CloudSyncView: View {
             try modelContext.delete(model: Journal.self)
             try modelContext.delete(model: Account.self)
         } catch {
-            print("Failed to clear all Country and City data.")
+            print("Failed to clear all Journal and Account data.")
         }
     }
 }
