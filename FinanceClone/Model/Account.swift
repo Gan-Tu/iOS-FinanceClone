@@ -14,17 +14,21 @@ final class Account {
     
     var name: String = ""
     var accountDescription: String = ""
-    var subAccounts: [String] = []
+    var category: AccountCategory?
     
-    init(name: String) {
+    // TODO(tugan): add currency
+
+    var journal: Journal?
+    
+    init(name: String, category: AccountCategory) {
         self.name = name
-        self.subAccounts = ["Sub-Account 1", "Sub-Account 2", "Sub-Account 3"]
+        self.category = category
     }
     
-    init(name: String, accountDescription: String) {
+    init(name: String, accountDescription: String, category: AccountCategory) {
         self.name = name
+        self.category = category
         self.accountDescription = accountDescription
-        self.subAccounts = ["Sub-Account 1", "Sub-Account 2", "Sub-Account 3"]
     }
 }
 

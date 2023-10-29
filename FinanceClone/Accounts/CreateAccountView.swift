@@ -14,10 +14,14 @@ struct CreateAccountView: View {
     
     @State private var name: String = ""
     @State private var description: String = ""
+    @State private var category: AccountCategory = .asset
     
     private var exampleCurrencies: [String] = ["US Dollar", "Euro"]
-    @State private var selectedCurrency: String = "US Dollar"
+    @State private var currency: String = "US Dollar"
     
+    init(category: AccountCategory) {
+        _category = State(initialValue: category)
+    }
     
     var body: some View {
         NavigationStack {
@@ -28,7 +32,14 @@ struct CreateAccountView: View {
                 }
                 
                 Section {
-                    Picker("Currency", selection: $selectedCurrency) {
+                    Picker("Group In", selection: $category) {
+                        ForEach(AccountCategory.allCases, id: \.self) { category in
+                            Text(category.rawValue).tag(category)
+                        }
+                    }
+                    .pickerStyle(.navigationLink)
+                    
+                    Picker("Currency", selection: $currency) {
                         ForEach(exampleCurrencies, id: \.self) { currency in
                             Text(currency).tag(currency)
                         }
@@ -55,13 +66,21 @@ struct CreateAccountView: View {
     
     func saveAccount() {
         if !name.isEmpty {
-            modelContext.insert(Account(name: name, accountDescription: description))
+            modelContext.insert(
+                Account(name: name,
+                        accountDescription: description,
+                        category: category))
             dismiss()
         }
     }
 }
 
-#Preview {
-    CreateAccountView()
+#Preview("Asset") {
+    CreateAccountView(category: .asset)
+        .modelContainer(for: Account.self, inMemory: true)
+}
+
+#Preview("Income") {
+    CreateAccountView(category: .income)
         .modelContainer(for: Account.self, inMemory: true)
 }

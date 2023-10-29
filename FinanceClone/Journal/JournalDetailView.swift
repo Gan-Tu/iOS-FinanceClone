@@ -15,9 +15,9 @@ struct JournalDetailView: View {
     
     var journal: Journal
     
-    @State private var exampleAccounts: [String] = [
-        "Assets", "Liabilities", "Income", "Expenses", "Equity"
-    ]
+    //    @State private var exampleAccounts: [String] = [
+    //        "Assets", "Liabilities", "Income", "Expenses", "Equity"
+    //    ]
     @State private var exampleCurrencies: [String] = ["US Dollar", "Euro"]
     
     var body: some View {
@@ -43,24 +43,24 @@ struct JournalDetailView: View {
             }
             
             Section(header: AccountsActionSheet()) {
-                ForEach(accounts) { account in
+                ForEach(AccountCategory.allCases, id: \.self) { category in
                     DisclosureGroup(
                         content: {
-                            ForEach(account.subAccounts, id: \.self) { subAccount in
-                                NavigationLink(
-                                    destination: TransactionPageView(title: subAccount),
-                                    label: {
-                                        Text(subAccount)
-                                    })
+                            ForEach(accounts) { account in
+                                if account.category == category {
+                                    NavigationLink(
+                                        destination: TransactionPageView(title: account.name),
+                                        label: {
+                                            Text(account.name)
+                                        }
+                                    )
+                                }
                             }
                             .onDelete(perform: deleteAccounts)
-                            .onMove(perform: {
-                                account.subAccounts.move(fromOffsets: $0, toOffset: $1)
-                            })
+                            // TODO(tugan): add onMove
                         },
                         label: {
-                            Text(account.name)
-                                .fontWeight(.semibold)
+                            Text(category.rawValue).fontWeight(.semibold)
                         }
                     )
                 }
@@ -96,9 +96,12 @@ struct JournalDetailView: View {
     
     let example = Journal(name: "Example")
     previewContainer.mainContext.insert(example)
-    previewContainer.mainContext.insert(Account(name: "Account 1"))
-    previewContainer.mainContext.insert(Account(name: "Account 2"))
-    previewContainer.mainContext.insert(Account(name: "Account 3"))
+    previewContainer.mainContext.insert(Account(name: "Checking", category: .asset))
+    previewContainer.mainContext.insert(Account(name: "Cash", category: .asset))
+    previewContainer.mainContext.insert(Account(name: "Credit Card", category: .liabilities))
+    previewContainer.mainContext.insert(Account(name: "Salary", category: .income))
+    previewContainer.mainContext.insert(Account(name: "Household", category: .expense))
+    previewContainer.mainContext.insert(Account(name: "Opening Balance", category: .equity))
     
     return NavigationView {
         JournalDetailView(journal: example)

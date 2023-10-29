@@ -13,6 +13,18 @@ struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
     
     @State private var showSeedDataAlert: Bool = false
+    
+    func seedData() {
+        modelContext.insert(Journal(name: "Journal 1", numTransactions: 5))
+        modelContext.insert(Journal(name: "Journal 2", numTransactions: 10))
+        modelContext.insert(Account(name: "Checking", category: .asset))
+        modelContext.insert(Account(name: "Cash", category: .asset))
+        modelContext.insert(Account(name: "Credit Card", category: .liabilities))
+        modelContext.insert(Account(name: "Salary", category: .income))
+        modelContext.insert(Account(name: "Household", category: .expense))
+        modelContext.insert(Account(name: "Opening Balance", category: .equity))
+        showSeedDataAlert = true
+    }
 
     var body: some View {
         NavigationStack {
@@ -35,12 +47,7 @@ struct SettingsView: View {
                 Section {
                     CustomListRowView(rowLabel: "Load Fake Data", rowIcon: "doc", rowTintColor: .yellow)
                         .onTapGesture {
-                            modelContext.insert(Journal(name: "Journal 1", numTransactions: 5))
-                            modelContext.insert(Journal(name: "Journal 2", numTransactions: 10))
-                            modelContext.insert(Account(name: "Account 1"))
-                            modelContext.insert(Account(name: "Account 2"))
-                            modelContext.insert(Account(name: "Account 3"))
-                            showSeedDataAlert = true
+                            seedData()
                         }
                         .alert("Fake data loaded successfully.", isPresented: $showSeedDataAlert, actions: {
                             // TODO

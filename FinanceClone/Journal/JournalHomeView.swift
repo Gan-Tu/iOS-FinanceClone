@@ -76,11 +76,11 @@ struct JournalHomeView: View {
 
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer();
-    previewContainer.mainContext.insert(Journal(name: "Journal 1"))
-    previewContainer.mainContext.insert(Journal(name: "Journal 2", numTransactions: 10))
-    previewContainer.mainContext.insert(Account(name: "Account 1"))
-    previewContainer.mainContext.insert(Account(name: "Account 2"))
-    previewContainer.mainContext.insert(Account(name: "Account 3"))
+//    previewContainer.mainContext.insert(Journal(name: "Journal 1"))
+//    previewContainer.mainContext.insert(Journal(name: "Journal 2", numTransactions: 10))
+//    previewContainer.mainContext.insert(Account(name: "Account 1"))
+//    previewContainer.mainContext.insert(Account(name: "Account 2"))
+//    previewContainer.mainContext.insert(Account(name: "Account 3"))
     
     return JournalHomeView().modelContainer(previewContainer)
 }

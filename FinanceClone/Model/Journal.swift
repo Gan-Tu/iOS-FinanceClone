@@ -17,6 +17,9 @@ final class Journal {
     var numTransactions: Int = 0
     var currency: String = "US Dollar"
     
+    @Relationship(deleteRule: .cascade, inverse: \Account.journal)
+    var accounts: [Account]? = []
+    
     init(name: String) {
         self.name = name
         self.creationTimestamp = Date()
