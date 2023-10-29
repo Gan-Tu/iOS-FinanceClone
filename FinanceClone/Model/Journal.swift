@@ -9,15 +9,14 @@ import Foundation
 import SwiftData
 
 @Model
-final class Journal {
+final class Journal: ObservableObject {
     var id: String = UUID().uuidString
 
     var creationTimestamp: Date? = nil
     var name: String = ""
     var numTransactions: Int = 0
 
-    // TODO(tugan): fetch this from journal's currency
-    var currency: String = "US Dollar"
+    var currencies: [Currency] = [Currency.USD]
     
     @Relationship(deleteRule: .cascade, inverse: \Account.journal)
     var accounts: [Account]? = []

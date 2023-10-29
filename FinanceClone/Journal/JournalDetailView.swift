@@ -11,15 +11,10 @@ import SwiftData
 struct JournalDetailView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.editMode) private var editMode
+
     @Query(sort: \Account.name) private var accounts: [Account]
     
     var journal: Journal
-    
-    //    @State private var exampleAccounts: [String] = [
-    //        "Assets", "Liabilities", "Income", "Expenses", "Equity"
-    //    ]
-    // TODO(tugan): fetch this from journal's currency
-    @State private var exampleCurrencies: [String] = ["US Dollar", "Euro"]
     
     var body: some View {
         List {
@@ -68,19 +63,25 @@ struct JournalDetailView: View {
             }
             
             Section(header: CurrencyActionSheet()) {
-                ForEach(exampleCurrencies, id: \.self) { currency in
-                    NavigationLink(destination: TransactionPageView(title: currency), label: {
-                        Text(currency)
-                    })
+                ForEach(journal.currencies, id: \.self) { currency in
+                    NavigationLink(
+                        destination: TransactionPageView(title: currency.name),
+                        label: { Text(currency.name) })
                 }
-                .onDelete(perform: { exampleCurrencies.remove(atOffsets: $0) })
-                .onMove(perform: { exampleCurrencies.move(fromOffsets: $0, toOffset: $1) } )
+                .onDelete(perform: {
+                    journal.currencies.remove(atOffsets: $0)
+                })
+                .onMove(perform: {
+                    journal.currencies.move(fromOffsets: $0, toOffset: $1)
+                })
             }
         }
         .listStyle(.sidebar)
         .navigationTitle(journal.name)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(trailing: EditButton())
+        .environmentObject(journal)
+
     }
     
     private func deleteAccounts(offsets: IndexSet) {
@@ -103,7 +104,7 @@ struct JournalDetailView: View {
     previewContainer.mainContext.insert(Account(name: "Salary", category: .income))
     previewContainer.mainContext.insert(Account(name: "Household", category: .expense))
     previewContainer.mainContext.insert(Account(name: "Opening Balance", category: .equity))
-    
+
     return NavigationView {
         JournalDetailView(journal: example)
             .modelContainer(previewContainer)

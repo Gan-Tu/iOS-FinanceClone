@@ -17,9 +17,6 @@ struct CreateAccountView: View {
     @State private var category: AccountCategory = .asset
     @State private var accountCurrency: Currency?
     
-    // TODO(tugan): fetch this from journal's currency
-    @State private var journalCurrencies: [Currency] = [Currency.USD]
-    
     
     init(category: AccountCategory) {
         _category = State(initialValue: category)
@@ -85,11 +82,21 @@ struct CreateAccountView: View {
 }
 
 #Preview("Asset") {
-    CreateAccountView(category: .asset)
+    let previewContainer: ModelContainer = createPreviewModelContainer();
+    let example = Journal(name: "Example")
+    previewContainer.mainContext.insert(example)
+    
+    return CreateAccountView(category: .asset)
         .modelContainer(for: Account.self, inMemory: true)
+        .environmentObject(example)
 }
 
 #Preview("Income") {
-    CreateAccountView(category: .income)
+    let previewContainer: ModelContainer = createPreviewModelContainer();
+    let example = Journal(name: "Example")
+    previewContainer.mainContext.insert(example)
+    
+    return CreateAccountView(category: .income)
         .modelContainer(for: Account.self, inMemory: true)
+        .environmentObject(example)
 }

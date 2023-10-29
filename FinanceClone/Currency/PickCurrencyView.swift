@@ -6,18 +6,20 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct PickCurrencyView: View {
-    // TODO(tugan): replace with journal currencies
-    @Binding var selectedCurrency: Currency?
-    
+    @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
-    @State private var currencies: [Currency] = [Currency.USD]
+    @EnvironmentObject var journal: Journal
+    
+    @Binding var selectedCurrency: Currency?
+    @State private var showAddCurrencySheet = false
     
     var body: some View {
         NavigationStack {
             List {
-                ForEach(currencies, id: \.self) { currency in
+                ForEach(journal.currencies, id: \.self) { currency in
                     CurrencyItem(currency: currency, isSelected: false)
                         .onTapGesture(perform: {
                             selectedCurrency = currency;
@@ -29,21 +31,33 @@ struct PickCurrencyView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: {
-                        CurrencySelectorView(showCancelButton: false) { currency in
-                            // TODO(tugan): update journal currency
-                            currencies.append(currency)
-                        }
+                    Button(action: {
+                        showAddCurrencySheet = true
                     }, label: {
                         Image(systemName: "plus")
                     })
                 }
             }
+            .sheet(isPresented: $showAddCurrencySheet) {
+                AddCurrencySheetView() { currency in
+                    if currency != nil {
+                        journal.currencies.append(currency!)
+                    }
+                }
+            }
+            .textCase(nil)
         }
     }
 }
 
 #Preview {
     @State var selectedCurrency: Currency?
+    
+    let previewContainer: ModelContainer = createPreviewModelContainer();
+    let example = Journal(name: "Example")
+    previewContainer.mainContext.insert(example)
+    
     return PickCurrencyView(selectedCurrency: $selectedCurrency)
+        .modelContainer(previewContainer)
+        .environmentObject(example)
 }
