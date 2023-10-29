@@ -15,8 +15,8 @@ struct SettingsView: View {
     @State private var showSeedDataAlert: Bool = false
     
     @MainActor func seedData() {
-        let journal1 = seedJournal(container: modelContext.container, name: "Journal 1")
-        initPersonalTemplate(container: modelContext.container, journal: journal1)
+        initJournal(name: "Personal", currency: .USD, withTemplate: .personal, container: modelContext.container)
+        initJournal(name: "Business", currency: .USD, withTemplate: .business, container: modelContext.container)
         showSeedDataAlert = true
     }
     
@@ -72,12 +72,6 @@ struct SettingsView: View {
         }
     }
 }
-
-//footer: HStack {
-//    Spacer()
-//    Text("Copyright © All rights reserved")
-//    Spacer()
-//}.padding(.vertical, 8)
 
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer()

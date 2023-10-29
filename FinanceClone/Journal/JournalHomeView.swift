@@ -42,7 +42,6 @@ struct JournalHomeView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     Button(action: {
                         isAddJournalSheetPresented = true
-                        // addJournal(name: "test")
                     }) {
                         Label("Add Journal", systemImage: "plus")
                     }
@@ -58,13 +57,7 @@ struct JournalHomeView: View {
         })
     }
     
-    private func addJournal(name: String) {
-        withAnimation {
-            let newJournal = Journal(name: name)
-            modelContext.insert(newJournal)
-        }
-    }
-    
+
     private func deleteJournals(offsets: IndexSet) {
         withAnimation {
             for index in offsets {

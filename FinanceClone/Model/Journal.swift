@@ -27,3 +27,7 @@ final class Journal: ObservableObject {
     }
 }
 
+enum JournalTemplate: String, CaseIterable {
+    case personal = "Personal"
+    case business = "Business"
+}

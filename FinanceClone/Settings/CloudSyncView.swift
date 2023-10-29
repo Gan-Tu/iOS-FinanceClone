@@ -14,7 +14,7 @@ struct CloudSyncView: View {
     var showDoneButton: Bool = true
     
     @Environment(\.dismiss) var dismiss
-    @State private var isSyncEnabled: Bool = true
+    @State private var isSyncEnabled: Bool = false
     @State private var showSyncAlert: Bool = false
     @State private var showResetActionSheet: Bool = false
     

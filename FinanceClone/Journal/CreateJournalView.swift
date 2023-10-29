@@ -15,9 +15,7 @@ struct CreateJournalView: View {
     @State private var name: String = ""
     
     @State private var defaultCurrency: Currency? = .USD
-    
-    private var exampleTemplates: [String] = ["Personal", "Business"]
-    @State private var selectedTemplate: String = "Personal"
+    @State private var selectedTemplate: JournalTemplate = .personal
     
     var body: some View {
         NavigationStack {
@@ -45,8 +43,8 @@ struct CreateJournalView: View {
                 
                 Section(header: Text("TEMPLATES")) {
                     Picker("Template", selection: $selectedTemplate) {
-                        ForEach(exampleTemplates, id: \.self) { tmpl in
-                            Text(tmpl).tag(tmpl)
+                        ForEach(JournalTemplate.allCases, id: \.self) { tmpl in
+                            Text(tmpl.rawValue).tag(tmpl)
                         }
                     }
                     .labelsHidden()
@@ -63,26 +61,34 @@ struct CreateJournalView: View {
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Save", action: saveJournal)
-                        .disabled(name.isEmpty)
+                    Button("Save", action: {
+                        saveJournal()
+                    })
+                    .disabled(name.isEmpty)
                 }
             }
         }
     }
     
-    func saveJournal() {
+    @MainActor func saveJournal() {
         if !name.isEmpty {
             let journal = Journal(name: name)
-//            if selectedTemplate == "Personal" {
-//                initPersonalTemplate(
-//                    container: modelContext.container,
-//                    journal: journal)
-//            }
-            // TODO(tugan): seed data based on templates
             if defaultCurrency != nil {
                 journal.currencies = [defaultCurrency!]
             }
             modelContext.insert(journal)
+            
+            if selectedTemplate == .personal {
+                initPersonalTemplate(
+                    container: modelContext.container,
+                    journal: journal
+                )
+            } else if selectedTemplate == .business {
+                initBusinessTemplate(
+                    container: modelContext.container,
+                    journal: journal
+                )
+            }
         }
         dismiss()
     }
