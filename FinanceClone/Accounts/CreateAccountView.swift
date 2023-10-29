@@ -17,6 +17,7 @@ struct CreateAccountView: View {
     @State private var description: String = ""
     @State private var category: AccountCategory = .asset
     @State private var accountCurrency: Currency?
+    @State private var label: AccountLabel?
     
     
     init(category: AccountCategory) {
@@ -29,7 +30,9 @@ struct CreateAccountView: View {
                 name: $name,
                 description: $description,
                 category: $category,
-                accountCurrency: $accountCurrency)
+                accountCurrency: $accountCurrency,
+                label: $label
+            )
             .font(.body)
             .navigationBarTitle("New Account")
             .navigationBarTitleDisplayMode(.inline)
@@ -52,6 +55,7 @@ struct CreateAccountView: View {
                                   journal: journal,
                                   category: category,
                                   description: description)
+            account.label = label
             if accountCurrency != nil {
                 account.currency = accountCurrency!;
             }

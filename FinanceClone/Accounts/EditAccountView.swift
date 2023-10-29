@@ -19,6 +19,7 @@ struct EditAccountView: View {
     @State private var description: String = ""
     @State private var category: AccountCategory = .asset
     @State private var accountCurrency: Currency?
+    @State private var label: AccountLabel?
     
     init(account: Account) {
         self.account = account
@@ -26,6 +27,7 @@ struct EditAccountView: View {
         _description = State(initialValue: account.accountDescription)
         _category = State(initialValue: account.category)
         _accountCurrency = State(initialValue: account.currency)
+        _label = State(initialValue: account.label)
     }
 
     var body: some View {
@@ -34,7 +36,9 @@ struct EditAccountView: View {
                 name: $name,
                 description: $description,
                 category: $category,
-                accountCurrency: $accountCurrency)
+                accountCurrency: $accountCurrency,
+                label: $label
+            )
             .font(.body)
             .navigationBarTitle("Account")
             .navigationBarTitleDisplayMode(.inline)
@@ -56,6 +60,7 @@ struct EditAccountView: View {
             account.name = name
             account.accountDescription = description
             account.category = category
+            account.label = label
             if accountCurrency != nil {
                 account.currency = accountCurrency ?? Currency.USD
             }

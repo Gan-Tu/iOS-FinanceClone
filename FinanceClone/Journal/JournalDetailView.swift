@@ -78,8 +78,7 @@ struct AccountSection: View {
     @EnvironmentObject var journal: Journal
     @Environment(\.modelContext) private var modelContext
     @Environment(\.editMode) private var editMode
-    
-    @State private var editAccount = false
+
     @State private var accountToEdit: Account?
     
     var body: some View {
@@ -90,20 +89,20 @@ struct AccountSection: View {
                         ForEach(journal.accounts ?? [], id: \.self) { account in
                             if account.category == category {
                                 HStack {
-                                    //                                        NavigationLink(destination: {
-                                    //                                            TransactionPageView(title: account.name)
-                                    //                                        }, label: {
-                                    //                                            Text(account.name)
-                                    //                                        })
+                                    if account.label != nil {
+                                        Circle()
+                                            .foregroundStyle(account.label!.color)
+                                            .frame(height: 20)
+                                    }
+                                    
                                     Text(account.name)
-
+                                    
                                     Spacer()
                                     
                                     if editMode?.wrappedValue.isEditing == true {
                                         EmptyView()
                                     } else {
                                         Button(action: {
-                                            editAccount = true
                                             accountToEdit = account
                                         }, label: {
                                             Image(systemName: "info.circle")
@@ -125,14 +124,10 @@ struct AccountSection: View {
                     }
                 )
             }
-            .sheet(isPresented: $editAccount, content: {
-                if accountToEdit != nil {
-                    EditAccountView(account: accountToEdit!)
-                } else {
-                    Text("Something went wrong")
-                }
-            })
         }
+        .sheet(item: $accountToEdit, content: { account in
+            EditAccountView(account: account)
+        })
     }
 }
 
