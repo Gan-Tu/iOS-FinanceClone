@@ -10,13 +10,15 @@ import SwiftData
 
 
 struct ContentView: View {
+    private let appState = AppState()
+    
     @State private var isSettingsSheetPresented: Bool = false
     @State private var isCloudSyncSheetPresented: Bool = false
     
     var body: some View {
         VStack {
             JournalHomeView()
-
+            
             Spacer()
             
             HStack {
@@ -29,8 +31,11 @@ struct ContentView: View {
                 Spacer()
                 
                 Button(action: { isCloudSyncSheetPresented = true }, label: {
-                    // TODO(tuagn): should update the text based on status
-                    Text("Update to date")
+                    if appState.isCloudSyncEnabled {
+                        Text("Update to date")
+                    } else {
+                        Text("Sync Disabled")
+                    }
                 })
                 
                 Spacer()
@@ -38,12 +43,15 @@ struct ContentView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
             .sheet(isPresented: $isSettingsSheetPresented, content: { SettingsView() })
-            .sheet(isPresented: $isCloudSyncSheetPresented, content: { CloudSyncView(showDoneButton: true) })
+            .sheet(isPresented: $isCloudSyncSheetPresented, content: { CloudSyncView(showDoneButton: true)
+            })
         }
+        .environmentObject(appState)
     }
 }
 
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer()
-    return ContentView().modelContainer(previewContainer)
+    return ContentView()
+        .modelContainer(previewContainer)
 }

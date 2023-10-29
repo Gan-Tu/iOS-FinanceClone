@@ -10,24 +10,28 @@ import SwiftData
 
 struct CloudSyncView: View {
     @Environment(\.modelContext) private var modelContext
-
+    @EnvironmentObject var appState: AppState
+    
     var showDoneButton: Bool = true
     
     @Environment(\.dismiss) var dismiss
-    @State private var isSyncEnabled: Bool = false
     @State private var showSyncAlert: Bool = false
     @State private var showResetActionSheet: Bool = false
+    
+    private var isCloudSyncEnabled: Bool {
+        return appState.isCloudSyncEnabled
+    }
     
     var body: some View {
         NavigationStack {
             List {
                 Section {
                     VStack(alignment: .leading) {
-                        Toggle(isOn: $isSyncEnabled, label: {
+                        Toggle(isOn: $appState.isCloudSyncEnabled, label: {
                             Text("Cloud Sync")
                                 .font(.title)
                         })
-                        .onChange(of: isSyncEnabled, initial: false, {
+                        .onChange(of: isCloudSyncEnabled, initial: false, {
                             showSyncAlert = true
                             // Automatically dismiss after 1 second
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -41,7 +45,7 @@ struct CloudSyncView: View {
                 }
                 
                 Section(header: Text("Status")) {
-                    if isSyncEnabled {
+                    if isCloudSyncEnabled {
                         Text("Up to date")
                     } else {
                         Text("Sync Disabled")
@@ -53,27 +57,27 @@ struct CloudSyncView: View {
                         // TODO
                     }, label: {
                         Text("Sync Now")
-                            .if(!isSyncEnabled) {
+                            .if(!isCloudSyncEnabled) {
                                 $0.foregroundStyle(Color.gray)
                             }
-                            .if(isSyncEnabled) {
+                            .if(isCloudSyncEnabled) {
                                 $0.foregroundStyle(Color.blue)
                             }
                     })
-                    .disabled(!isSyncEnabled)
+                    .disabled(!isCloudSyncEnabled)
                     
                     Button(action: {
                         showResetActionSheet = true
                     }, label: {
                         Text("Reset...")
-                            .if(isSyncEnabled) {
+                            .if(isCloudSyncEnabled) {
                                 $0.foregroundStyle(Color.gray)
                             }
-                            .if(!isSyncEnabled) {
+                            .if(!isCloudSyncEnabled) {
                                 $0.foregroundStyle(Color.blue)
                             }
                     })
-                    .disabled(isSyncEnabled)
+                    .disabled(isCloudSyncEnabled)
                     .confirmationDialog(
                         "You are resetting your data.",
                         isPresented: $showResetActionSheet,
@@ -90,7 +94,7 @@ struct CloudSyncView: View {
                         }
                     
                 }
-                .alert(isSyncEnabled ? "Enabling Sync..." : "Disabling Sync...", isPresented: $showSyncAlert) {
+                .alert(isCloudSyncEnabled ? "Enabling Sync..." : "Disabling Sync...", isPresented: $showSyncAlert) {
                     Button("Cancel", role: .cancel) {
                         // TODO
                     }
@@ -126,10 +130,15 @@ struct CloudSyncView: View {
 
 #Preview("Sheet") {
     let previewContainer: ModelContainer = createPreviewModelContainer();
-    return CloudSyncView(showDoneButton: true).modelContainer(previewContainer)
+    return CloudSyncView(showDoneButton: true)
+        .modelContainer(previewContainer)
+        .environmentObject(AppState())
 }
 
 #Preview("Navigation") {
+    @State var isSyncEnabled = false
     let previewContainer: ModelContainer = createPreviewModelContainer();
-    return CloudSyncView(showDoneButton: false).modelContainer(previewContainer)
+    return CloudSyncView(showDoneButton: false)
+        .modelContainer(previewContainer)
+        .environmentObject(AppState())
 }
