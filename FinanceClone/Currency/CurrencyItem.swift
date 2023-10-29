@@ -14,11 +14,10 @@ struct CurrencyItem: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0, content: {
             Text(currency.name)
-                .if(isSelected) {
-                    $0.foregroundStyle(Color.accentColor)
-                }
+                .foregroundStyle(isSelected ? Color.accentColor : Color.primary)
+                .font(.body)
             Text(currency.rawValue)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondary)
                 .font(.footnote)
         })
     }

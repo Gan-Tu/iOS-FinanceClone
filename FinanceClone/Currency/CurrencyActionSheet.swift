@@ -41,7 +41,7 @@ struct CurrencyActionSheet: View {
                     }
                 }
             }
-            .textCase(nil)
+            .textCase(.none)
         }
     }
 }

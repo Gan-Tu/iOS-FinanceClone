@@ -49,7 +49,7 @@ struct AccountsActionSheet: View {
         .sheet(isPresented: $openCreateAccountSheet, content: {
             CreateAccountView(category: selectedCategroy)
         })
-        .textCase(nil)
+        .textCase(.none)
     }
 }
 

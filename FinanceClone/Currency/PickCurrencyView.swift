@@ -45,7 +45,7 @@ struct PickCurrencyView: View {
                     }
                 }
             }
-            .textCase(nil)
+            .textCase(.none)
         }
     }
 }
