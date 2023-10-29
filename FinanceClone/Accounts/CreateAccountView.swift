@@ -11,6 +11,7 @@ import SwiftData
 struct CreateAccountView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var journal: Journal
     
     @State private var name: String = ""
     @State private var description: String = ""
@@ -31,11 +32,14 @@ struct CreateAccountView: View {
                 }
                 
                 Section {
-                    Picker("Group In", selection: $category) {
+                    Picker(selection: $category, content: {
                         ForEach(AccountCategory.allCases, id: \.self) { category in
                             Text(category.rawValue).tag(category)
                         }
-                    }
+                    }, label: {
+                        Text("Group In")
+                            .foregroundStyle(Color.primary)
+                    })
                     .pickerStyle(.navigationLink)
                     
                     NavigationLink(destination: {
@@ -43,15 +47,19 @@ struct CreateAccountView: View {
                     }, label: {
                         HStack {
                             Text("Currency")
+                                .foregroundStyle(Color.primary)
+
                             Spacer()
+
                             if accountCurrency != nil {
                                 Text(accountCurrency!.name)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(Color.secondary)
                             }
                         }
                     })
                 }
             }
+            .font(.body)
             .navigationBarTitle("New Account")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -71,32 +79,24 @@ struct CreateAccountView: View {
     
     func saveAccount() {
         if !name.isEmpty {
-            let account = Account(name: name,
-                                  accountDescription: description,
-                                  category: category);
-            account.currency = accountCurrency;
-            modelContext.insert(account)
+            let account = Account(name: name, 
+                                  journal: journal,
+                                  category: category,
+                                  description: description)
+            if accountCurrency != nil {
+                account.currency = accountCurrency!;
+            }
+            journal.accounts?.append(account)
             dismiss()
         }
     }
 }
 
-#Preview("Asset") {
-    let previewContainer: ModelContainer = createPreviewModelContainer();
-    let example = Journal(name: "Example")
-    previewContainer.mainContext.insert(example)
-    
-    return CreateAccountView(category: .asset)
-        .modelContainer(for: Account.self, inMemory: true)
-        .environmentObject(example)
-}
-
-#Preview("Income") {
-    let previewContainer: ModelContainer = createPreviewModelContainer();
-    let example = Journal(name: "Example")
-    previewContainer.mainContext.insert(example)
-    
+#Preview {
+    let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false)
+    let journal = seedJournal(container: previewContainer)
+    initPersonalTemplate(container: previewContainer, journal: journal)
     return CreateAccountView(category: .income)
-        .modelContainer(for: Account.self, inMemory: true)
-        .environmentObject(example)
+        .modelContainer(previewContainer)
+        .environmentObject(journal)
 }

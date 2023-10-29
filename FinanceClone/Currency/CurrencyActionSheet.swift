@@ -35,13 +35,12 @@ struct CurrencyActionSheet: View {
                 }
             }
             .sheet(isPresented: $showAddCurrencySheet) {
-                AddCurrencySheetView() { currency in
+                AddCurrencySheetView { currency in
                     if currency != nil {
                         journal.currencies.append(currency!)
                     }
                 }
             }
-            .textCase(.none)
         }
     }
 }

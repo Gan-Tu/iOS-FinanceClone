@@ -35,7 +35,7 @@ struct AddCurrencySheetView: View {
 }
 
 #Preview {
-    AddCurrencySheetView() { currency in
+    AddCurrencySheetView { currency in
         print(currency?.name)
     }
 }

@@ -9,10 +9,12 @@ import SwiftUI
 import SwiftData
 
 struct AccountsActionSheet: View {
+    @EnvironmentObject var journal: Journal
+    
     @State private var showActionSheet = false
     @State private var chooseAccountType = false
     @State private var openCreateAccountSheet = false
-
+    
     @State private var selectedCategroy: AccountCategory = .asset
     
     var body: some View {
@@ -49,11 +51,14 @@ struct AccountsActionSheet: View {
         .sheet(isPresented: $openCreateAccountSheet, content: {
             CreateAccountView(category: selectedCategroy)
         })
-        .textCase(.none)
     }
 }
 
 #Preview {
-    let previewContainer: ModelContainer = createPreviewModelContainer();
-    return AccountsActionSheet().modelContainer(previewContainer)
+    let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false)
+    let journal = seedJournal(container: previewContainer)
+    initPersonalTemplate(container: previewContainer, journal: journal)
+    return AccountsActionSheet()
+        .modelContainer(previewContainer)
+        .environmentObject(journal)
 }

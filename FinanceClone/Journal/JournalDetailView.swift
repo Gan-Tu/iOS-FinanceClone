@@ -29,7 +29,7 @@ struct JournalDetailView: View {
 
 struct TransactionSectionView: View {
     var body: some View {
-        Section(header: TransactionActionSheet()) {
+        Section(header: TransactionActionSheet().textCase(.none)) {
             NavigationLink(destination: TransactionPageView(title: "All"), label: {
                 Image(systemName: "arrow.right")
                     .foregroundStyle(.accent)
@@ -77,45 +77,46 @@ struct CurrencySection: View {
 struct AccountSection: View {
     @EnvironmentObject var journal: Journal
     @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Account.name) private var accounts: [Account]
+    @Environment(\.editMode) private var editMode
     
     @State private var editAccount = false
     
     var body: some View {
-        Section(header: AccountsActionSheet()) {
+        Section(header: AccountsActionSheet().textCase(.none)) {
             ForEach(AccountCategory.allCases, id: \.self) { category in
                 DisclosureGroup(
                     content: {
-                        ForEach(accounts) { account in
+                        ForEach(journal.accounts ?? []) { account in
                             if account.category == category {
                                 Group {
                                     HStack {
-//                                        NavigationLink(destination: {
-//                                            TransactionPageView(title: account.name)
-//                                        }, label: {
-//                                            Text(account.name)
-//                                        })
+                                        //                                        NavigationLink(destination: {
+                                        //                                            TransactionPageView(title: account.name)
+                                        //                                        }, label: {
+                                        //                                            Text(account.name)
+                                        //                                        })
                                         Text(account.name)
                                         Spacer()
-                                        Button(action: { editAccount.toggle() }, label: {
-                                            Image(systemName: "info.circle")
-                                                .foregroundStyle(Color.accentColor)
-                                        })
+                                        
+                                        if editMode?.wrappedValue.isEditing != true {
+                                            Button(action: { editAccount.toggle() }, label: {
+                                                Image(systemName: "info.circle")
+                                                    .foregroundStyle(Color.accentColor)
+                                            })
+                                        }
                                     }
                                 }
                                 .sheet(isPresented: $editAccount, content: {
-                                    EditAccountView(account: account)
+                                    EditAccountView()
                                 })
                             }
                         }
-                        .onDelete(perform: { offsets in
-                            withAnimation {
-                                for index in offsets {
-                                    modelContext.delete(accounts[index])
-                                }
-                            }
+                        .onDelete(perform: {
+                            journal.accounts!.remove(atOffsets: $0)
                         })
-                        // TODO(tugan): add onMove
+                        .onMove(perform: {
+                            journal.accounts!.move(fromOffsets: $0, toOffset: $1)
+                        })
                     },
                     label: {
                         Text(category.rawValue).fontWeight(.semibold)
@@ -127,19 +128,11 @@ struct AccountSection: View {
 }
 
 #Preview {
-    let previewContainer: ModelContainer = createPreviewModelContainer();
-    
-    let example = Journal(name: "Example")
-    previewContainer.mainContext.insert(example)
-    previewContainer.mainContext.insert(Account(name: "Checking", category: .asset))
-    previewContainer.mainContext.insert(Account(name: "Cash", category: .asset))
-    previewContainer.mainContext.insert(Account(name: "Credit Card", category: .liabilities))
-    previewContainer.mainContext.insert(Account(name: "Salary", category: .income))
-    previewContainer.mainContext.insert(Account(name: "Household", category: .expense))
-    previewContainer.mainContext.insert(Account(name: "Opening Balance", category: .equity))
-    
+    let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false)
+    let journal = seedJournal(container: previewContainer)
+    initPersonalTemplate(container: previewContainer, journal: journal)
     return NavigationView {
-        JournalDetailView(journal: example)
+        JournalDetailView(journal: journal)
             .modelContainer(previewContainer)
     }
 }

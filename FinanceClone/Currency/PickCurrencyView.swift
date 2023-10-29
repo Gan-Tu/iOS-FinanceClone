@@ -39,25 +39,21 @@ struct PickCurrencyView: View {
                 }
             }
             .sheet(isPresented: $showAddCurrencySheet) {
-                AddCurrencySheetView() { currency in
+                AddCurrencySheetView { currency in
                     if currency != nil {
                         journal.currencies.append(currency!)
                     }
                 }
             }
-            .textCase(.none)
         }
     }
 }
 
 #Preview {
     @State var selectedCurrency: Currency?
-    
-    let previewContainer: ModelContainer = createPreviewModelContainer();
-    let example = Journal(name: "Example")
-    previewContainer.mainContext.insert(example)
-    
+    let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false);
+    let journal = seedJournal(container: previewContainer)
     return PickCurrencyView(selectedCurrency: $selectedCurrency)
         .modelContainer(previewContainer)
-        .environmentObject(example)
+        .environmentObject(journal)
 }

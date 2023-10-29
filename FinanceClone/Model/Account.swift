@@ -13,23 +13,22 @@ final class Account {
     var id: String = UUID().uuidString
     
     var name: String = ""
+    var journal: Journal? = nil
+    
     var accountDescription: String = ""
-    var category: AccountCategory?
-    var currency: Currency?
+    var category: AccountCategory = AccountCategory.asset
+    var currency: Currency = Currency.USD
     
-    // TODO(tugan): add currency
-
-    var journal: Journal?
-    
-    init(name: String, category: AccountCategory) {
+    init(name: String,
+         journal: Journal,
+         category: AccountCategory,
+         description: String = "",
+         currency: Currency = .USD) {
         self.name = name
+        self.journal = journal
+        self.accountDescription = description
         self.category = category
-    }
-    
-    init(name: String, accountDescription: String, category: AccountCategory) {
-        self.name = name
-        self.category = category
-        self.accountDescription = accountDescription
+        self.currency = currency
     }
 }
 

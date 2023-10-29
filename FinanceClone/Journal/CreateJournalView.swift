@@ -1,5 +1,5 @@
 //
-//  AddJournalSheetView.swift
+//  CreateJournalView.swift
 //  FinanceClone
 //
 //  Created by Gan Tu on 10/21/23.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct AddJournalSheetView: View {
+struct CreateJournalView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
     
@@ -73,16 +73,22 @@ struct AddJournalSheetView: View {
     func saveJournal() {
         if !name.isEmpty {
             let journal = Journal(name: name)
+//            if selectedTemplate == "Personal" {
+//                initPersonalTemplate(
+//                    container: modelContext.container,
+//                    journal: journal)
+//            }
+            // TODO(tugan): seed data based on templates
             if defaultCurrency != nil {
                 journal.currencies = [defaultCurrency!]
             }
             modelContext.insert(journal)
-            dismiss()
         }
+        dismiss()
     }
 }
 
 #Preview {
-    AddJournalSheetView()
-        .modelContainer(for: Journal.self, inMemory: true)
+    let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false)
+    return CreateJournalView().modelContainer(previewContainer)
 }

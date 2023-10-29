@@ -12,7 +12,7 @@ struct EditAccountView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
 
-    let account: Account
+//    let account: Account
     
     var body: some View {
         NavigationStack {
@@ -37,11 +37,13 @@ struct EditAccountView: View {
     }
 }
 
+
 #Preview {
-    let previewContainer: ModelContainer = createPreviewModelContainer();
-    let account = Account(name: "Test", category: .asset)
-    previewContainer.mainContext.insert(account)
-    
-    return EditAccountView(account: account)
+    let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false)
+    let journal = seedJournal(container: previewContainer)
+    initPersonalTemplate(container: previewContainer, journal: journal)
+    return EditAccountView()
         .modelContainer(previewContainer)
+        .environmentObject(journal)
 }
+

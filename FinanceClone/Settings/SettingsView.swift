@@ -14,18 +14,12 @@ struct SettingsView: View {
     
     @State private var showSeedDataAlert: Bool = false
     
-    func seedData() {
-        modelContext.insert(Journal(name: "Journal 1", numTransactions: 5))
-        modelContext.insert(Journal(name: "Journal 2", numTransactions: 10))
-        modelContext.insert(Account(name: "Checking", category: .asset))
-        modelContext.insert(Account(name: "Cash", category: .asset))
-        modelContext.insert(Account(name: "Credit Card", category: .liabilities))
-        modelContext.insert(Account(name: "Salary", category: .income))
-        modelContext.insert(Account(name: "Household", category: .expense))
-        modelContext.insert(Account(name: "Opening Balance", category: .equity))
+    @MainActor func seedData() {
+        let journal1 = seedJournal(container: modelContext.container, name: "Journal 1")
+        initPersonalTemplate(container: modelContext.container, journal: journal1)
         showSeedDataAlert = true
     }
-
+    
     var body: some View {
         NavigationStack {
             List {
@@ -86,6 +80,6 @@ struct SettingsView: View {
 //}.padding(.vertical, 8)
 
 #Preview {
-    let previewContainer: ModelContainer = createPreviewModelContainer();
+    let previewContainer: ModelContainer = createPreviewModelContainer()
     return SettingsView().modelContainer(previewContainer)
 }

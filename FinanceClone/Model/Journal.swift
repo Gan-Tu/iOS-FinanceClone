@@ -11,11 +11,10 @@ import SwiftData
 @Model
 final class Journal: ObservableObject {
     var id: String = UUID().uuidString
-
-    var creationTimestamp: Date? = nil
+    
     var name: String = ""
+    var creationTimestamp: Date? = nil
     var numTransactions: Int = 0
-
     var currencies: [Currency] = [Currency.USD]
     
     @Relationship(deleteRule: .cascade, inverse: \Account.journal)
@@ -24,11 +23,7 @@ final class Journal: ObservableObject {
     init(name: String) {
         self.name = name
         self.creationTimestamp = Date()
-    }
-    
-    init(name: String, numTransactions: Int) {
-        self.name = name
-        self.numTransactions = numTransactions
+        self.accounts = []
     }
 }
 
