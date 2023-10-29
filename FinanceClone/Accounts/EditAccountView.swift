@@ -40,8 +40,7 @@ struct EditAccountView: View {
 
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false)
-    let journal = seedJournal(container: previewContainer)
-    initPersonalTemplate(container: previewContainer, journal: journal)
+    let journal = initPreviewJournal(container: previewContainer)
     return EditAccountView()
         .modelContainer(previewContainer)
         .environmentObject(journal)

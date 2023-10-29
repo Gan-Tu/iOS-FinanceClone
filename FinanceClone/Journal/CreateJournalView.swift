@@ -62,35 +62,20 @@ struct CreateJournalView: View {
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save", action: {
-                        saveJournal()
+                        if !name.isEmpty {
+                            initJournal(
+                                name: name,
+                                currency: defaultCurrency ?? .USD,
+                                withTemplate: selectedTemplate,
+                                container: modelContext.container
+                            )
+                        }
+                        dismiss()
                     })
                     .disabled(name.isEmpty)
                 }
             }
         }
-    }
-    
-    @MainActor func saveJournal() {
-        if !name.isEmpty {
-            let journal = Journal(name: name)
-            if defaultCurrency != nil {
-                journal.currencies = [defaultCurrency!]
-            }
-            modelContext.insert(journal)
-            
-            if selectedTemplate == .personal {
-                initPersonalTemplate(
-                    container: modelContext.container,
-                    journal: journal
-                )
-            } else if selectedTemplate == .business {
-                initBusinessTemplate(
-                    container: modelContext.container,
-                    journal: journal
-                )
-            }
-        }
-        dismiss()
     }
 }
 

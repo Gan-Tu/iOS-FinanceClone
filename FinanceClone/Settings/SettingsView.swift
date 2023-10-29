@@ -44,7 +44,7 @@ struct SettingsView: View {
                             seedData()
                         }
                         .alert("Fake data loaded successfully.", isPresented: $showSeedDataAlert, actions: {
-                            // TODO
+                            // no actions
                         })
                     
                     NavigationLink(destination: {

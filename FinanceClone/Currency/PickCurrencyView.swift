@@ -52,7 +52,7 @@ struct PickCurrencyView: View {
 #Preview {
     @State var selectedCurrency: Currency?
     let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false);
-    let journal = seedJournal(container: previewContainer)
+    let journal = initPreviewJournal(container: previewContainer)
     return PickCurrencyView(selectedCurrency: $selectedCurrency)
         .modelContainer(previewContainer)
         .environmentObject(journal)
