@@ -14,13 +14,10 @@ struct AddJournalSheetView: View {
     
     @State private var name: String = ""
     
-    // TODO(tugan): fetch this from journal's currency
-    private var exampleCurrencies: [String] = ["US Dollar", "Euro"]
-    @State private var selectedCurrency: String = "US Dollar"
+    @State private var defaultCurrency: Currency? = .USD
     
     private var exampleTemplates: [String] = ["Personal", "Business"]
     @State private var selectedTemplate: String = "Personal"
-    
     
     var body: some View {
         NavigationStack {
@@ -30,12 +27,20 @@ struct AddJournalSheetView: View {
                 }
                 
                 Section {
-                    Picker("Currency", selection: $selectedCurrency) {
-                        ForEach(exampleCurrencies, id: \.self) { currency in
-                            Text(currency).tag(currency)
+                    NavigationLink(destination: {
+                        CurrencySelectorView(selectedCurrency: $defaultCurrency)
+                            .navigationBarTitle("Currency")
+                            .navigationBarTitleDisplayMode(.large)
+                    }, label: {
+                        HStack {
+                            Text("Currency")
+                            Spacer()
+                            if defaultCurrency != nil {
+                                Text(defaultCurrency!.name).foregroundStyle(.secondary)
+                            }
                         }
-                    }
-                    .pickerStyle(.navigationLink)
+                        
+                    })
                 }
                 
                 Section(header: Text("TEMPLATES")) {
@@ -67,7 +72,11 @@ struct AddJournalSheetView: View {
     
     func saveJournal() {
         if !name.isEmpty {
-            modelContext.insert(Journal(name: name))
+            let journal = Journal(name: name)
+            if defaultCurrency != nil {
+                journal.currencies = [defaultCurrency!]
+            }
+            modelContext.insert(journal)
             dismiss()
         }
     }
