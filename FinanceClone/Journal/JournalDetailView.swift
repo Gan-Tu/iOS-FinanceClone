@@ -80,35 +80,37 @@ struct AccountSection: View {
     @Environment(\.editMode) private var editMode
     
     @State private var editAccount = false
+    @State private var accountToEdit: Account?
     
     var body: some View {
         Section(header: AccountsActionSheet().textCase(.none)) {
             ForEach(AccountCategory.allCases, id: \.self) { category in
                 DisclosureGroup(
                     content: {
-                        ForEach(journal.accounts ?? []) { account in
+                        ForEach(journal.accounts ?? [], id: \.self) { account in
                             if account.category == category {
-                                Group {
-                                    HStack {
-                                        //                                        NavigationLink(destination: {
-                                        //                                            TransactionPageView(title: account.name)
-                                        //                                        }, label: {
-                                        //                                            Text(account.name)
-                                        //                                        })
-                                        Text(account.name)
-                                        Spacer()
-                                        
-                                        if editMode?.wrappedValue.isEditing != true {
-                                            Button(action: { editAccount.toggle() }, label: {
-                                                Image(systemName: "info.circle")
-                                                    .foregroundStyle(Color.accentColor)
-                                            })
-                                        }
+                                HStack {
+                                    //                                        NavigationLink(destination: {
+                                    //                                            TransactionPageView(title: account.name)
+                                    //                                        }, label: {
+                                    //                                            Text(account.name)
+                                    //                                        })
+                                    Text(account.name)
+
+                                    Spacer()
+                                    
+                                    if editMode?.wrappedValue.isEditing == true {
+                                        EmptyView()
+                                    } else {
+                                        Button(action: {
+                                            editAccount = true
+                                            accountToEdit = account
+                                        }, label: {
+                                            Image(systemName: "info.circle")
+                                                .foregroundStyle(Color.accentColor)
+                                        })
                                     }
                                 }
-                                .sheet(isPresented: $editAccount, content: {
-                                    EditAccountView()
-                                })
                             }
                         }
                         .onDelete(perform: {
@@ -123,6 +125,13 @@ struct AccountSection: View {
                     }
                 )
             }
+            .sheet(isPresented: $editAccount, content: {
+                if accountToEdit != nil {
+                    EditAccountView(account: accountToEdit!)
+                } else {
+                    Text("Something went wrong")
+                }
+            })
         }
     }
 }

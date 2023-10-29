@@ -25,48 +25,17 @@ struct CreateAccountView: View {
     
     var body: some View {
         NavigationStack {
-            Form {
-                Section {
-                    TextField("Name", text: $name)
-                    TextField("Description", text: $description)
-                }
-                
-                Section {
-                    Picker(selection: $category, content: {
-                        ForEach(AccountCategory.allCases, id: \.self) { category in
-                            Text(category.rawValue).tag(category)
-                        }
-                    }, label: {
-                        Text("Group In")
-                            .foregroundStyle(Color.primary)
-                    })
-                    .pickerStyle(.navigationLink)
-                    
-                    NavigationLink(destination: {
-                        PickCurrencyView(selectedCurrency: $accountCurrency)
-                    }, label: {
-                        HStack {
-                            Text("Currency")
-                                .foregroundStyle(Color.primary)
-
-                            Spacer()
-
-                            if accountCurrency != nil {
-                                Text(accountCurrency!.name)
-                                    .foregroundStyle(Color.secondary)
-                            }
-                        }
-                    })
-                }
-            }
+            AccountMetadataForm(
+                name: $name,
+                description: $description,
+                category: $category,
+                accountCurrency: $accountCurrency)
             .font(.body)
             .navigationBarTitle("New Account")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Cancel", action: {
-                        dismiss()
-                    })
+                    Button("Cancel", action: { dismiss() })
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
@@ -79,7 +48,7 @@ struct CreateAccountView: View {
     
     func saveAccount() {
         if !name.isEmpty {
-            let account = Account(name: name, 
+            let account = Account(name: name,
                                   journal: journal,
                                   category: category,
                                   description: description)

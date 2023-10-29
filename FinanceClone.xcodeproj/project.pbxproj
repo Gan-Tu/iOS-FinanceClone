@@ -16,6 +16,7 @@
 		5912FB7A2AE4AA5000333EE8 /* JournalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5912FB792AE4AA5000333EE8 /* JournalDetailView.swift */; };
 		5912FB7C2AE4B40500333EE8 /* CreateJournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5912FB7B2AE4B40500333EE8 /* CreateJournalView.swift */; };
 		593B23762AEE5E8700BA4EBE /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593B23752AEE5E8700BA4EBE /* AppState.swift */; };
+		593B23782AEE60EC00BA4EBE /* AccountMetadataForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593B23772AEE60EC00BA4EBE /* AccountMetadataForm.swift */; };
 		594D1ED12AEE042D00A3BB57 /* PickCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594D1ED02AEE042D00A3BB57 /* PickCurrencyView.swift */; };
 		594D1ED32AEE0D6100A3BB57 /* AddCurrencySheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594D1ED22AEE0D6100A3BB57 /* AddCurrencySheetView.swift */; };
 		594D1ED72AEE19FB00A3BB57 /* EditAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594D1ED62AEE19FB00A3BB57 /* EditAccountView.swift */; };
@@ -49,6 +50,7 @@
 		5912FB792AE4AA5000333EE8 /* JournalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalDetailView.swift; sourceTree = "<group>"; };
 		5912FB7B2AE4B40500333EE8 /* CreateJournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateJournalView.swift; sourceTree = "<group>"; };
 		593B23752AEE5E8700BA4EBE /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		593B23772AEE60EC00BA4EBE /* AccountMetadataForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountMetadataForm.swift; sourceTree = "<group>"; };
 		594D1ED02AEE042D00A3BB57 /* PickCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickCurrencyView.swift; sourceTree = "<group>"; };
 		594D1ED22AEE0D6100A3BB57 /* AddCurrencySheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCurrencySheetView.swift; sourceTree = "<group>"; };
 		594D1ED62AEE19FB00A3BB57 /* EditAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountView.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				59D5EA422AE4D1BF00AA36D0 /* AccountsActionSheet.swift */,
 				59A6E2AE2AE5E131002ECDBE /* CreateAccountView.swift */,
 				594D1ED62AEE19FB00A3BB57 /* EditAccountView.swift */,
+				593B23772AEE60EC00BA4EBE /* AccountMetadataForm.swift */,
 			);
 			path = Accounts;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 				59D5EA412AE4D17400AA36D0 /* TransactionActionSheet.swift in Sources */,
 				59A6E2A32AE5A9B2002ECDBE /* CustomListRowView.swift in Sources */,
 				59A6E2A12AE5A8E5002ECDBE /* SettingsView.swift in Sources */,
+				593B23782AEE60EC00BA4EBE /* AccountMetadataForm.swift in Sources */,
 				59D5EA452AE4D1DD00AA36D0 /* CurrencyActionSheet.swift in Sources */,
 				597729642AEDFC1000BE0733 /* CurrencyItem.swift in Sources */,
 				597729602AEDECD100BE0733 /* Currency.swift in Sources */,
