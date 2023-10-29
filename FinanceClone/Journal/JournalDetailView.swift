@@ -18,6 +18,7 @@ struct JournalDetailView: View {
     //    @State private var exampleAccounts: [String] = [
     //        "Assets", "Liabilities", "Income", "Expenses", "Equity"
     //    ]
+    // TODO(tugan): fetch this from journal's currency
     @State private var exampleCurrencies: [String] = ["US Dollar", "Euro"]
     
     var body: some View {

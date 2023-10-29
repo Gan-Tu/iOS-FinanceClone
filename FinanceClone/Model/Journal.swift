@@ -15,6 +15,8 @@ final class Journal {
     var creationTimestamp: Date? = nil
     var name: String = ""
     var numTransactions: Int = 0
+
+    // TODO(tugan): fetch this from journal's currency
     var currency: String = "US Dollar"
     
     @Relationship(deleteRule: .cascade, inverse: \Account.journal)

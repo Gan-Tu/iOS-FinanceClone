@@ -14,6 +14,7 @@ struct AddJournalSheetView: View {
     
     @State private var name: String = ""
     
+    // TODO(tugan): fetch this from journal's currency
     private var exampleCurrencies: [String] = ["US Dollar", "Euro"]
     @State private var selectedCurrency: String = "US Dollar"
     

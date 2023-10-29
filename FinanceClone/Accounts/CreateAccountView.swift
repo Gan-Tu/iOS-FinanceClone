@@ -15,9 +15,11 @@ struct CreateAccountView: View {
     @State private var name: String = ""
     @State private var description: String = ""
     @State private var category: AccountCategory = .asset
+    @State private var accountCurrency: Currency?
     
-    private var exampleCurrencies: [String] = ["US Dollar", "Euro"]
-    @State private var currency: String = "US Dollar"
+    // TODO(tugan): fetch this from journal's currency
+    @State private var journalCurrencies: [Currency] = [Currency.USD]
+    
     
     init(category: AccountCategory) {
         _category = State(initialValue: category)
@@ -39,12 +41,18 @@ struct CreateAccountView: View {
                     }
                     .pickerStyle(.navigationLink)
                     
-                    Picker("Currency", selection: $currency) {
-                        ForEach(exampleCurrencies, id: \.self) { currency in
-                            Text(currency).tag(currency)
+                    NavigationLink(destination: {
+                        PickCurrencyView(selectedCurrency: $accountCurrency)
+                    }, label: {
+                        HStack {
+                            Text("Currency")
+                            Spacer()
+                            if accountCurrency != nil {
+                                Text(accountCurrency!.name)
+                                    .foregroundStyle(.secondary)
+                            }
                         }
-                    }
-                    .pickerStyle(.navigationLink)
+                    })
                 }
             }
             .navigationBarTitle("New Account")
@@ -66,10 +74,11 @@ struct CreateAccountView: View {
     
     func saveAccount() {
         if !name.isEmpty {
-            modelContext.insert(
-                Account(name: name,
-                        accountDescription: description,
-                        category: category))
+            let account = Account(name: name,
+                                  accountDescription: description,
+                                  category: category);
+            account.currency = accountCurrency;
+            modelContext.insert(account)
             dismiss()
         }
     }

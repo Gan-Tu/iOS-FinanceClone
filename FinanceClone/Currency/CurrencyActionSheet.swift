@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct CurrencyActionSheet: View {
-    @State private var isOpen = false
+    @State private var showChoices = false
+    @State private var showCurrencySelector = false
     
     var body: some View {
         HStack {
@@ -16,13 +17,20 @@ struct CurrencyActionSheet: View {
             
             Spacer()
             
-            Button(action: { isOpen = true }) {
+            Button(action: { showChoices = true }) {
                 Image(systemName: "ellipsis")
             }
             .confirmationDialog(
-                "Select a action", isPresented: $isOpen, titleVisibility: .hidden
+                "Select a action",
+                isPresented: $showChoices,
+                titleVisibility: .hidden
             ) {
                 Button("Add Curency") {
+                    showCurrencySelector = true
+                }
+            }
+            .sheet(isPresented: $showCurrencySelector) {
+                CurrencySelectorView(showCancelButton: true) { currency in
                     // TODO
                 }
             }

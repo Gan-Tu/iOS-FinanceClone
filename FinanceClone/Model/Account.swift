@@ -15,6 +15,7 @@ final class Account {
     var name: String = ""
     var accountDescription: String = ""
     var category: AccountCategory?
+    var currency: Currency?
     
     // TODO(tugan): add currency
 
