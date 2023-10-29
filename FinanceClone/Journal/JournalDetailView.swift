@@ -56,7 +56,7 @@ struct CurrencySection: View {
     @EnvironmentObject var journal: Journal
     
     var body: some View {
-        Section(header: CurrencyActionSheet()) {
+        Section(header: CurrencyActionSheet().textCase(.none)) {
             ForEach(journal.currencies, id: \.self) { currency in
                 NavigationLink(
                     destination: TransactionPageView(title: currency.name),
