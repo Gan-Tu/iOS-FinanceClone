@@ -37,7 +37,7 @@ struct EditAccountView: View {
                 description: $description,
                 category: $category,
                 accountCurrency: $accountCurrency,
-                label: $label
+                accountLabel: $label
             )
             .font(.body)
             .navigationBarTitle("Account")

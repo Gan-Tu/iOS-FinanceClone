@@ -31,7 +31,7 @@ struct CreateAccountView: View {
                 description: $description,
                 category: $category,
                 accountCurrency: $accountCurrency,
-                label: $label
+                accountLabel: $label
             )
             .font(.body)
             .navigationBarTitle("New Account")
