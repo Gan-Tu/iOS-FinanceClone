@@ -78,7 +78,7 @@ struct AccountSection: View {
     @EnvironmentObject var journal: Journal
     @Environment(\.modelContext) private var modelContext
     @Environment(\.editMode) private var editMode
-
+    
     @State private var accountToEdit: Account?
     
     var body: some View {
@@ -95,19 +95,26 @@ struct AccountSection: View {
                                             .frame(height: 20)
                                     }
                                     
-                                    Text(account.name)
-                                    
-                                    Spacer()
                                     
                                     if editMode?.wrappedValue.isEditing == true {
-                                        EmptyView()
-                                    } else {
+                                        Text(account.name)
+                                        
+                                        Spacer()
+                                        
                                         Button(action: {
                                             accountToEdit = account
                                         }, label: {
-                                            Image(systemName: "info.circle")
-                                                .foregroundStyle(Color.accentColor)
+                                            Button(action: {
+                                                accountToEdit = account
+                                            }, label: {
+                                                Image(systemName: "info.circle")
+                                                    .foregroundStyle(Color.accentColor)
+                                            })
                                         })
+                                    } else {
+                                        NavigationLink(destination: TransactionPageView(title: account.name)) {
+                                            Text(account.name)
+                                        }
                                     }
                                 }
                             }

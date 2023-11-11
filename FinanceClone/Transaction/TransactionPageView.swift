@@ -11,7 +11,7 @@ struct TransactionPageView: View {
     var title: String
     
     var body: some View {
-        Text("Account \(title)")
+        Text("\(title) Transactions")
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
     }
@@ -19,6 +19,6 @@ struct TransactionPageView: View {
 
 #Preview {
     NavigationView {
-        TransactionPageView(title: "Transactions")
+        TransactionPageView(title: "Credit Card")
     }
 }
