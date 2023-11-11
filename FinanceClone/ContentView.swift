@@ -10,7 +10,7 @@ import SwiftData
 
 
 struct ContentView: View {
-    private let appState = AppState()
+    @ObservedObject var appState = AppState()
     
     @State private var isSettingsSheetPresented: Bool = false
     @State private var isCloudSyncSheetPresented: Bool = false
