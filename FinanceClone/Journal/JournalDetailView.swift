@@ -112,7 +112,7 @@ struct AccountSection: View {
                                             })
                                         })
                                     } else {
-                                        NavigationLink(destination: TransactionPageView(title: account.name)) {
+                                        NavigationLink(destination: AccountTransactionsView(account: account)) {
                                             Text(account.name)
                                         }
                                     }

@@ -21,6 +21,9 @@ final class Account {
     var currency: Currency = Currency.USD
     var label: AccountLabel? = nil
     
+    @Relationship(deleteRule: .cascade, inverse: \CashFlowEntry.account)
+    var cash_flow_entries: [CashFlowEntry]? = []
+    
     init(name: String,
          journal: Journal,
          category: AccountCategory,
@@ -33,6 +36,34 @@ final class Account {
         self.category = category
         self.currency = currency
         self.label = label
+    }
+    
+    func getFullDetailName() -> String {
+        return "\(category.rawValue):\(name)"
+    }
+    
+    var balance: Double {
+        // TODO(tugan): calculate balance from cashflow
+        if cash_flow_entries != nil {
+            return cash_flow_entries!.reduce(0, { cur, entry in
+                cur + entry.amount
+            })
+        }
+        return 0.0
+    }
+    
+    func balanceUntil(date: Date) -> Double {
+        // TODO(tugan): calculate balance from cashflow
+        if cash_flow_entries != nil {
+            return cash_flow_entries!.reduce(0, { cur, entry in
+                if entry.transactionRef?.date != nil &&
+                    entry.transactionRef!.date! < date {
+                    return cur + entry.amount
+                }
+                return cur
+            })
+        }
+        return 0.0
     }
 }
 

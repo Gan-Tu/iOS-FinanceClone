@@ -14,7 +14,6 @@ final class Journal: ObservableObject {
     
     var name: String = ""
     var creationTimestamp: Date? = nil
-    var numTransactions: Int = 0
     var currencies: [Currency] = [Currency.USD]
     
     @Relationship(deleteRule: .cascade, inverse: \Account.journal)
@@ -24,6 +23,18 @@ final class Journal: ObservableObject {
         self.name = name
         self.creationTimestamp = Date()
         self.accounts = []
+    }
+    
+    var numTransactions : Int {
+        var total = 0
+        if let accounts = self.accounts {
+            for account in accounts {
+                if let entries = account.cash_flow_entries {
+                    total += entries.count
+                }
+            }
+        }
+        return total
     }
 }
 
