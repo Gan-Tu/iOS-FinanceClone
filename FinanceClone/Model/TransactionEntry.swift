@@ -35,6 +35,16 @@ final class TransactionEntry {
         self.init(date: date, note: note, payee: payee, number: number, cleared: cleared, entries: [])
     }
     
+    func copy() -> TransactionEntry {
+        let copy = TransactionEntry(date: self.date ?? Date(),
+                                    note: self.note,
+                                    payee: self.payee,
+                                    number: self.number,
+                                    cleared: self.cleared,
+                                    entries: self.entries ?? [])
+        return copy
+    }
+    
     @Transient
     var debitedAcconuts: [Account] {
         if self.entries != nil {

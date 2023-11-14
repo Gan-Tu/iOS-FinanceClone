@@ -10,6 +10,7 @@ import SwiftData
 
 struct TransactionPreviewRow: View {
     let entry: TransactionEntry
+    @Environment(\.modelContext) private var modelContext
     
     var note: String {
         entry.note.isEmpty ? "Expense" : entry.note
@@ -79,6 +80,22 @@ struct TransactionPreviewRow: View {
                     Text(entry.cleared ? "Uncleared" : "Clearaed")
                 })
                 .tint(.blue)
+            }
+            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                Button(role: .destructive, action: {
+                     modelContext.delete(entry)
+                }, label: {
+                    Text("Delete")
+                })
+                .tint(.red)
+                
+                Button(action: {
+                    // TODO
+                }, label: {
+                    Text("Duplicate")
+                })
+                .tint(.gray)
+                
             }
         }
     }
