@@ -36,7 +36,7 @@ struct EditTransactionView: View {
         self._entries = State(initialValue: txn.entries ?? [])
     }
     
-    var hasValidData : Bool {
+    var hasValidData: Bool {
         self.entries.count >= 2 && self.entries.allSatisfy({$0.amount != 0})
     }
     
@@ -64,34 +64,36 @@ struct EditTransactionView: View {
                 Section(content: {
                     ForEach(entries, id: \.self) { entry in
                         HStack {
-                            if entry.account != nil {
-                                Image(systemName: entry.amount > 0 ?  "arrow.right.circle.fill" : "arrow.left.circle.fill")
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .foregroundStyle(
-                                        entry.account?.label != nil ? entry.account!.label!.color : .secondary
-                                    )
-                                
-                                
-                                Text(entry.account!.name)
-                                    .foregroundStyle(.primary)
-                                    .multilineTextAlignment(.leading)
-                                    .lineLimit(2, reservesSpace: false)
-                                    .background {
-                                        NavigationLink(destination: {
-                                            PickAccountView(selectedAccount: $account)
-                                        }, label: {
-                                            EmptyView()
-                                        })
-                                        .opacity(0)
-                                    }
-                            } else {
-                                Button(action: {
-                                    // TODO
+                            Group {
+                                if entry.account != nil {
+                                    Image(systemName: entry.amount > 0 ?  "arrow.right.circle.fill" : "arrow.left.circle.fill")
+                                        .resizable()
+                                        .frame(width: 20, height: 20)
+                                        .foregroundStyle(
+                                            entry.account?.label != nil ? entry.account!.label!.color : .secondary
+                                        )
+                                    
+                                    
+                                    Text(entry.account!.name)
+                                        .foregroundStyle(.primary)
+                                        .multilineTextAlignment(.leading)
+                                        .lineLimit(2, reservesSpace: false)
+                                } else {
+                                    Button(action: {
+                                        // TODO
+                                    }, label: {
+                                        Text("Select Account")
+                                            .foregroundStyle(.blue)
+                                    })
+                                }
+                            }
+                            .background {
+                                NavigationLink(destination: {
+                                    PickAccountView(selectedAccount: $account)
                                 }, label: {
-                                    Text("Select Account")
-                                        .foregroundStyle(.blue)
+                                    EmptyView()
                                 })
+                                .opacity(0)
                             }
                             
                             
@@ -110,8 +112,16 @@ struct EditTransactionView: View {
                                     .foregroundStyle(.secondary)
                                 // TODO
                             }
-                        }
+                        } // HSTACK
                         .fontWeight(.regular)
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button(role: .destructive, action: {
+                                self.entries.removeAll(where: {$0 == entry})
+                            }, label: {
+                                Text("Delete")
+                            })
+                            .tint(.red)
+                        }
                     }
                 }, footer: {
                     Button(action: {
