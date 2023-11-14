@@ -23,6 +23,8 @@ struct EditTransactionView: View {
     @State private var number = ""
     @State private var cleared = true
     
+    @State private var account: Account? = nil
+    
 //    @State private var amount = 0.0
     
     init(txn: TransactionEntry) {
@@ -56,7 +58,7 @@ struct EditTransactionView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 // MARK: - Cash Flow Section
                 
@@ -71,10 +73,15 @@ struct EditTransactionView: View {
                                         entry.account?.label != nil ? entry.account!.label!.color : .secondary
                                     )
                                 
-                                Text(entry.account!.name)
-                                    .foregroundStyle(.primary)
-                                    .multilineTextAlignment(.leading)
-                                    .lineLimit(2, reservesSpace: false)
+                                
+                                NavigationLink(destination: {
+                                    PickAccountView(selectedAccount: $account)
+                                }, label: {
+                                    Text(entry.account!.name)
+                                        .foregroundStyle(.primary)
+                                        .multilineTextAlignment(.leading)
+                                        .lineLimit(2, reservesSpace: false)
+                                })
                             } else {
                                 Button(action: {
                                     // TODO
@@ -185,12 +192,16 @@ struct EditTransactionView: View {
 
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false)
-    let journal = Journal(name: "Test")
-    journal.currencies.append(Currency.USD)
-    previewContainer.mainContext.insert(journal)
+    let journal = initJournal(name: "Test", currency: .USD, withTemplate: .personal, container: previewContainer)
     
     let checking = Account(name: "Checking", journal: journal, category: .asset)
     let salary = Account(name: "Salary", journal: journal, category: .income, label: .green)
+    
+    journal.accounts?.removeAll(where: {
+        $0.name == checking.name || $0.name == salary.name
+    })
+    journal.accounts?.append(checking)
+    journal.accounts?.append(salary)
     
     let trans = addTransaction(container: previewContainer, from: salary, to: checking, amount: 5000, note: "Paycheck", payee: "Google", currency: Currency.USD)
     trans.cleared = false
@@ -199,12 +210,16 @@ struct EditTransactionView: View {
 
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false)
-    let journal = Journal(name: "Test")
-    journal.currencies.append(Currency.USD)
-    previewContainer.mainContext.insert(journal)
+    let journal = initJournal(name: "Test", currency: .USD, withTemplate: .personal, container: previewContainer)
     
     let credit = Account(name: "Credit Card", journal: journal, category: .liabilities)
     let utilities = Account(name: "Utilities", journal: journal, category: .expense, label: .yellow)
+    
+    journal.accounts?.removeAll(where: {
+        $0.name == credit.name || $0.name == utilities.name
+    })
+    journal.accounts?.append(credit)
+    journal.accounts?.append(utilities)
     
     let trans = addTransaction(container: previewContainer, from: credit, to: utilities, amount: 94.223, note: "Electricity", payee: "Edison", currency: Currency.USD)
     

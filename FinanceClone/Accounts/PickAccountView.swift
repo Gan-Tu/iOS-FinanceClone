@@ -35,12 +35,21 @@ struct PickAccountView: View {
                                                     .foregroundStyle(acc.label!.color)
                                                     .frame(height: 20)
                                             }
-                                            //
-                                            Text(acc.name)
-                                                .onTapGesture(perform: {
-                                                    selectedAccount = acc;
-                                                    dismiss();
+                                            
+                                            VStack(alignment: .leading) {
+                                                Text(acc.name)
+                                                    .onTapGesture(perform: {
+                                                        selectedAccount = acc;
+                                                        dismiss();
                                                 })
+                                                
+                                                if !acc.accountDescription.isEmpty {
+                                                    Text(acc.accountDescription)
+                                                        .multilineTextAlignment(.leading)
+                                                        .font(.footnote)
+                                                        .foregroundStyle(.secondary)
+                                                }
+                                            }
                                             
                                             Spacer()
                                             

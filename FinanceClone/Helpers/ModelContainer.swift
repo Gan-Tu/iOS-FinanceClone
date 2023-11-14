@@ -54,6 +54,7 @@ func initJournal(name: String, currency: Currency?, withTemplate: JournalTemplat
         let utilities = Account(name: "Utilities", journal: journal, category: .expense, label: .yellow)
         let personal = Account(name: "Personal", journal: journal, category: .expense, label: .green)
         let health = Account(name: "Health Care", journal: journal, category: .expense, label: .cyan)
+        health.accountDescription = "Medication, Doctor Visits, Co-Pays, etc."
         let food = Account(name: "Food", journal: journal, category: .expense, label: .blue)
         let entertainment = Account(name: "Entertainment", journal: journal, category: .expense, label: .pink)
         let opening_balance = Account(name: "Opening Balance", journal: journal, category: .equity)
