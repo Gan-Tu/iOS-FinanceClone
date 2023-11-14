@@ -71,7 +71,7 @@ struct AccountMetadataForm: View {
                                 }
                             }
                         })
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(Color.primary)
                     }
                 }
             }
@@ -86,13 +86,15 @@ struct AccountMetadataForm: View {
     @State var currency: Currency? = Currency.USD
     @State var accountLabel: AccountLabel? = nil
 
-    return AccountMetadataForm(
-        name: $name,
-        description: $description,
-        category: $category,
-        accountCurrency: $currency,
-        accountLabel: $accountLabel
-    )
+    return NavigationStack {
+        AccountMetadataForm(
+            name: $name,
+            description: $description,
+            category: $category,
+            accountCurrency: $currency,
+            accountLabel: $accountLabel
+        )
+    }
 }
 
 #Preview("Income") {
@@ -102,11 +104,13 @@ struct AccountMetadataForm: View {
     @State var currency: Currency? = Currency.GBP
     @State var accountLabel: AccountLabel? = .green
 
-    return AccountMetadataForm(
-        name: $name,
-        description: $description,
-        category: $category,
-        accountCurrency: $currency,
-        accountLabel: $accountLabel
-    )
+    return NavigationStack {
+        AccountMetadataForm(
+            name: $name,
+            description: $description,
+            category: $category,
+            accountCurrency: $currency,
+            accountLabel: $accountLabel
+        )
+    }
 }

@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class CashFlowEntry {
+final class CashFlowEntry : Identifiable {
     var id: String = UUID().uuidString
 
     var transactionRef: TransactionEntry? = nil

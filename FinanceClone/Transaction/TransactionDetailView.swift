@@ -13,6 +13,7 @@ struct TransactionDetailView: View {
     
     @State private var showClearSheet = false
     @State private var showEditView = false
+    @EnvironmentObject var journal: Journal
     
     func formatDate(date: Date) -> String {
         let formatter = DateFormatter()
@@ -79,6 +80,7 @@ struct TransactionDetailView: View {
         }
         .sheet(isPresented: $showEditView) {
             EditTransactionView(txn: txn)
+                .environmentObject(journal)
         }
     }
 }

@@ -68,7 +68,7 @@ struct SettingsView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Done", action: { dismiss() })
                 }
-            }
+        }
         }
     }
 }

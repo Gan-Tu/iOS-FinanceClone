@@ -16,7 +16,7 @@ struct ContentView: View {
     @State private var isCloudSyncSheetPresented: Bool = false
     
     var body: some View {
-        VStack {
+        NavigationStack {
             JournalHomeView()
             
             Spacer()
@@ -42,8 +42,11 @@ struct ContentView: View {
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
-            .sheet(isPresented: $isSettingsSheetPresented, content: { SettingsView() })
-            .sheet(isPresented: $isCloudSyncSheetPresented, content: { CloudSyncView(showDoneButton: true)
+            .sheet(isPresented: $isSettingsSheetPresented, content: {
+                SettingsView()
+            })
+            .sheet(isPresented: $isCloudSyncSheetPresented, content: {
+                CloudSyncView(showDoneButton: true)
             })
         }
         .environmentObject(appState)

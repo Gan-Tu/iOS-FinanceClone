@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftData
 
 @Model
-final class Account {
+final class Account : Identifiable {
     var id: String = UUID().uuidString
     
     var name: String = ""

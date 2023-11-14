@@ -17,32 +17,30 @@ struct PickCurrencyView: View {
     @State private var showAddCurrencySheet = false
     
     var body: some View {
-        NavigationStack {
-            List {
-                ForEach(journal.currencies, id: \.self) { currency in
-                    CurrencyItem(currency: currency, isSelected: false)
-                        .onTapGesture(perform: {
-                            selectedCurrency = currency;
-                            dismiss();
-                        })
-                }
-            }
-            .navigationBarTitle("Currencies")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {
-                        showAddCurrencySheet = true
-                    }, label: {
-                        Image(systemName: "plus")
+        List {
+            ForEach(journal.currencies, id: \.self) { currency in
+                CurrencyItem(currency: currency, isSelected: false)
+                    .onTapGesture(perform: {
+                        selectedCurrency = currency;
+                        dismiss();
                     })
-                }
             }
-            .sheet(isPresented: $showAddCurrencySheet) {
-                AddCurrencySheetView { currency in
-                    if currency != nil {
-                        journal.currencies.append(currency!)
-                    }
+        }
+        .navigationBarTitle("Currencies")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: {
+                    showAddCurrencySheet = true
+                }, label: {
+                    Image(systemName: "plus")
+                })
+            }
+        }
+        .sheet(isPresented: $showAddCurrencySheet) {
+            AddCurrencySheetView { currency in
+                if currency != nil {
+                    journal.currencies.append(currency!)
                 }
             }
         }
@@ -53,7 +51,9 @@ struct PickCurrencyView: View {
     @State var selectedCurrency: Currency?
     let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false);
     let journal = initPreviewJournal(container: previewContainer)
-    return PickCurrencyView(selectedCurrency: $selectedCurrency)
-        .modelContainer(previewContainer)
+    return NavigationStack {
+        PickCurrencyView(selectedCurrency: $selectedCurrency)
+            .modelContainer(previewContainer)
         .environmentObject(journal)
+    }
 }

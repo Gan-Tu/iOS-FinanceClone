@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class TransactionEntry {
+final class TransactionEntry : Identifiable{
     var id: String = UUID().uuidString
     
     var date: Date? = nil

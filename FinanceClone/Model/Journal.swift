@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class Journal: ObservableObject {
+final class Journal: Identifiable, ObservableObject {
     var id: String = UUID().uuidString
     
     var name: String = ""

@@ -13,43 +13,42 @@ struct JournalHomeView: View {
     @Query(sort: [SortDescriptor(\Journal.creationTimestamp)]) private var journals: [Journal]
     
     @State private var isAddJournalSheetPresented: Bool = false
+    @State private var currentJournal: Journal? = nil
     
     var body: some View {
-        NavigationStack {
-            List {
-                ForEach(journals) { journal in
-                    NavigationLink {
-                        JournalDetailView(journal: journal)
-                    } label: {
-                        HStack(spacing: 10) {
-                            Image(systemName: "folder")
-                                .foregroundStyle(Color.accentColor)
-                                .font(.title2)
-                            
-                            VStack(alignment: .leading, spacing: 0) {
-                                Text(journal.name)
-                                Text("\(journal.numTransactions) Transactions")
-                                    .font(.footnote)
-                                    .foregroundStyle(Color.gray)
-                            }
+        List {
+            ForEach(journals) { journal in
+                NavigationLink {
+                    JournalDetailView(journal: journal)
+                } label: {
+                    HStack(spacing: 10) {
+                        Image(systemName: "folder")
+                            .foregroundStyle(Color.accentColor)
+                            .font(.title2)
+                        
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(journal.name)
+                            Text("\(journal.numTransactions) Transactions")
+                                .font(.footnote)
+                                .foregroundStyle(Color.gray)
                         }
                     }
                 }
-                .onDelete(perform: deleteJournals)
             }
-            .navigationTitle("Journals")
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(action: {
-                        isAddJournalSheetPresented = true
-                    }) {
-                        Label("Add Journal", systemImage: "plus")
-                    }
+            .onDelete(perform: deleteJournals)
+        }
+        .navigationTitle("Journals")
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    isAddJournalSheetPresented = true
+                }) {
+                    Label("Add Journal", systemImage: "plus")
                 }
-                
-                ToolbarItem(placement: .topBarTrailing) {
-                    EditButton()
-                }
+            }
+            
+            ToolbarItem(placement: .topBarTrailing) {
+                EditButton()
             }
         }
         .sheet(isPresented: $isAddJournalSheetPresented, content: {
@@ -69,5 +68,7 @@ struct JournalHomeView: View {
 
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer()
-    return JournalHomeView().modelContainer(previewContainer)
+    return NavigationStack{
+        JournalHomeView().modelContainer(previewContainer)
+    }
 }

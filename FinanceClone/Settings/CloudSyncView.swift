@@ -138,7 +138,7 @@ struct CloudSyncView: View {
 #Preview("Navigation") {
     @State var isSyncEnabled = false
     let previewContainer: ModelContainer = createPreviewModelContainer();
-    return CloudSyncView(showDoneButton: false)
+    return CloudSyncView(showDoneButton: true)
         .modelContainer(previewContainer)
         .environmentObject(AppState())
 }
