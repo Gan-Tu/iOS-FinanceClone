@@ -21,6 +21,7 @@
 		594D1ED12AEE042D00A3BB57 /* PickCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594D1ED02AEE042D00A3BB57 /* PickCurrencyView.swift */; };
 		594D1ED32AEE0D6100A3BB57 /* AddCurrencySheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594D1ED22AEE0D6100A3BB57 /* AddCurrencySheetView.swift */; };
 		594D1ED72AEE19FB00A3BB57 /* EditAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594D1ED62AEE19FB00A3BB57 /* EditAccountView.swift */; };
+		596D40192B0341E900D751D9 /* PickAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596D40182B0341E900D751D9 /* PickAccountView.swift */; };
 		597729602AEDECD100BE0733 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5977295F2AEDECD100BE0733 /* Currency.swift */; };
 		597729622AEDF2DB00BE0733 /* CurrencySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597729612AEDF2DB00BE0733 /* CurrencySelectorView.swift */; };
 		597729642AEDFC1000BE0733 /* CurrencyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597729632AEDFC1000BE0733 /* CurrencyItem.swift */; };
@@ -62,6 +63,7 @@
 		594D1ED02AEE042D00A3BB57 /* PickCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickCurrencyView.swift; sourceTree = "<group>"; };
 		594D1ED22AEE0D6100A3BB57 /* AddCurrencySheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCurrencySheetView.swift; sourceTree = "<group>"; };
 		594D1ED62AEE19FB00A3BB57 /* EditAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountView.swift; sourceTree = "<group>"; };
+		596D40182B0341E900D751D9 /* PickAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickAccountView.swift; sourceTree = "<group>"; };
 		5977295F2AEDECD100BE0733 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		597729612AEDF2DB00BE0733 /* CurrencySelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySelectorView.swift; sourceTree = "<group>"; };
 		597729632AEDFC1000BE0733 /* CurrencyItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyItem.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				59A6E2AE2AE5E131002ECDBE /* CreateAccountView.swift */,
 				594D1ED62AEE19FB00A3BB57 /* EditAccountView.swift */,
 				593B23772AEE60EC00BA4EBE /* AccountMetadataForm.swift */,
+				596D40182B0341E900D751D9 /* PickAccountView.swift */,
 			);
 			path = Accounts;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				5912FB7A2AE4AA5000333EE8 /* JournalDetailView.swift in Sources */,
 				597C502E2B00A1CF00C1C818 /* CashFlowEntry.swift in Sources */,
 				5912FB7C2AE4B40500333EE8 /* CreateJournalView.swift in Sources */,
+				596D40192B0341E900D751D9 /* PickAccountView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
