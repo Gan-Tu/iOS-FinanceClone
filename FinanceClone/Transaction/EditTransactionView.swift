@@ -73,15 +73,18 @@ struct EditTransactionView: View {
                                     )
                                 
                                 
-                                NavigationLink(destination: {
-                                    PickAccountView(selectedAccount: $account)
-                                    //                                    Text("hi")
-                                }, label: {
-                                    Text(entry.account!.name)
-                                        .foregroundStyle(.primary)
-                                        .multilineTextAlignment(.leading)
-                                        .lineLimit(2, reservesSpace: false)
-                                })
+                                Text(entry.account!.name)
+                                    .foregroundStyle(.primary)
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(2, reservesSpace: false)
+                                    .background {
+                                        NavigationLink(destination: {
+                                            PickAccountView(selectedAccount: $account)
+                                        }, label: {
+                                            EmptyView()
+                                        })
+                                        .opacity(0)
+                                    }
                             } else {
                                 Button(action: {
                                     // TODO
