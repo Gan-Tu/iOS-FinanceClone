@@ -19,33 +19,7 @@ struct TransactionPreviewRow: View {
         entry.entries != nil &&
         entry.entries!.contains(where: { $0.account?.category == .income })
     }
-    
-    var remainingBalance: Double {
-        if entry.entries != nil {
-            for cashFlowEntry in entry.entries! {
-                if cashFlowEntry.account?.category == .asset  {
-                    return cashFlowEntry.account!.balanceUntil(date: entry.date!)
-                }
-            }
-            for cashFlowEntry in entry.entries! {
-                if cashFlowEntry.account?.category == .liabilities  {
-                    return cashFlowEntry.account!.balanceUntil(date: entry.date!)
-                }
-            }
-        }
-        return 0.0
-    }
-    
-    var cashFlowDesc: String {
-        let from = entry.creditedAcconuts.map({ $0.name }).joined(separator: ", ")
-        let to = entry.debitedAcconuts.map({ $0.name }).joined(separator: ", ")
-        if isIncome {
-            return "\(from) -> \(to)"
-        } else {
-            return "\(from) -> \(to)"
-        }
-    }
-    
+
     var body: some View {
         HStack {
             VStack {
@@ -73,41 +47,37 @@ struct TransactionPreviewRow: View {
                 }
                 
                 HStack {
-                    HStack {
-                        if isIncome {
-                            ForEach(entry.debitedAcconuts, id: \.self) { acc in
-                                Text(acc.name)
-                                    .foregroundStyle(
-                                        acc.label != nil ? acc.label!.color : .secondary
-                                    )
-                            }
-                            
-                            Image(systemName: "arrow.left")
-                            
-                            ForEach(entry.creditedAcconuts, id: \.self) { acc in
-                                Text(acc.name)
-                                    .foregroundStyle(acc.label != nil ? acc.label!.color : .secondary )
-                            }
-                        } else {
-                            ForEach(entry.creditedAcconuts, id: \.self) { acc in
-                                Text(acc.name)
-                                    .foregroundStyle(
-                                        acc.label != nil ? acc.label!.color : .secondary
-                                    )
-                            }
-                            
-                            Image(systemName: "arrow.right")
-                            
-                            ForEach(entry.debitedAcconuts, id: \.self) { acc in
-                                Text(acc.name)
-                                    .foregroundStyle(acc.label != nil ? acc.label!.color : .secondary )
-                            }
+                    if isIncome {
+                        ForEach(entry.debitedAcconuts, id: \.self) { acc in
+                            Text(acc.name)
+                                .foregroundStyle(
+                                    acc.label != nil ? acc.label!.color : .secondary
+                                )
+                        }
+                        
+                        Image(systemName: "arrow.left")
+                        
+                        ForEach(entry.creditedAcconuts, id: \.self) { acc in
+                            Text(acc.name)
+                                .foregroundStyle(acc.label != nil ? acc.label!.color : .secondary )
+                        }
+                    } else {
+                        ForEach(entry.creditedAcconuts, id: \.self) { acc in
+                            Text(acc.name)
+                                .foregroundStyle(
+                                    acc.label != nil ? acc.label!.color : .secondary
+                                )
+                        }
+                        
+                        Image(systemName: "arrow.right")
+                        
+                        ForEach(entry.debitedAcconuts, id: \.self) { acc in
+                            Text(acc.name)
+                                .foregroundStyle(acc.label != nil ? acc.label!.color : .secondary )
                         }
                     }
                     
                     Spacer()
-                    
-//                    Text("\(entry.currencySymbol)\(String(format: "%.2f", remainingBalance))")
                 }
                 .foregroundStyle(.secondary)
                 .font(.subheadline)
@@ -115,6 +85,14 @@ struct TransactionPreviewRow: View {
             }
             .multilineTextAlignment(.leading)
             .lineLimit(1, reservesSpace: false)
+            .swipeActions(edge: .leading) {
+                Button(action: {
+                    entry.cleared.toggle()
+                }, label: {
+                    Text(entry.cleared ? "Uncleared" : "Clearaed")
+                })
+                .tint(.blue)
+            }
         }
     }
 }
@@ -135,15 +113,19 @@ struct TransactionPreviewRow: View {
     trans2.cleared = false
     let trans3 = addTransaction(container: previewContainer, from: credit, to: utilities, amount: 94.2, note: "Electricity", payee: "Edison", currency: Currency.USD)
     
-    return VStack(spacing: 15) {
-        TransactionPreviewRow(entry: trans1)
-            .modelContainer(previewContainer)
-        
-        TransactionPreviewRow(entry: trans2)
-            .modelContainer(previewContainer)
-        
-        TransactionPreviewRow(entry: trans3)
-            .modelContainer(previewContainer)
+    return NavigationView {
+        List {
+            TransactionPreviewRow(entry: trans1)
+                .modelContainer(previewContainer)
+            
+            TransactionPreviewRow(entry: trans2)
+                .modelContainer(previewContainer)
+            
+            TransactionPreviewRow(entry: trans3)
+                .modelContainer(previewContainer)
+        }
+        .listStyle(.plain)
+        .listRowSeparator(.hidden, edges: .all)
     }
     .padding(.horizontal, 10)
 }

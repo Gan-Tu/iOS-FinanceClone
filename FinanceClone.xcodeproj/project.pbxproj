@@ -33,6 +33,7 @@
 		59A6E2A72AE5C2D2002ECDBE /* CloudSyncView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A6E2A62AE5C2D2002ECDBE /* CloudSyncView.swift */; };
 		59A6E2A92AE5C543002ECDBE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A6E2A82AE5C543002ECDBE /* Extensions.swift */; };
 		59A6E2AF2AE5E131002ECDBE /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A6E2AE2AE5E131002ECDBE /* CreateAccountView.swift */; };
+		59B6E68D2B0305FD00B6AF6A /* TransactionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B6E68C2B0305FD00B6AF6A /* TransactionDetailView.swift */; };
 		59C58D772AEDDEE500D8F379 /* AccountCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C58D762AEDDEE500D8F379 /* AccountCategory.swift */; };
 		59D5EA3C2AE4C0DD00AA36D0 /* TransactionPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D5EA3B2AE4C0DD00AA36D0 /* TransactionPageView.swift */; };
 		59D5EA3F2AE4C8B700AA36D0 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D5EA3E2AE4C8B700AA36D0 /* Account.swift */; };
@@ -72,6 +73,7 @@
 		59A6E2A62AE5C2D2002ECDBE /* CloudSyncView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncView.swift; sourceTree = "<group>"; };
 		59A6E2A82AE5C543002ECDBE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		59A6E2AE2AE5E131002ECDBE /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
+		59B6E68C2B0305FD00B6AF6A /* TransactionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailView.swift; sourceTree = "<group>"; };
 		59C58D762AEDDEE500D8F379 /* AccountCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCategory.swift; sourceTree = "<group>"; };
 		59D5EA3B2AE4C0DD00AA36D0 /* TransactionPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionPageView.swift; sourceTree = "<group>"; };
 		59D5EA3E2AE4C8B700AA36D0 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				59FE738B2AEEB50B00EB88DE /* CreateTransactionView.swift */,
 				597C50312B00A70200C1C818 /* AccountTransactionsView.swift */,
 				5910AAAC2B00B1050012F4AE /* TransactionPreviewRow.swift */,
+				59B6E68C2B0305FD00B6AF6A /* TransactionDetailView.swift */,
 			);
 			path = Transaction;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 				59A6E29F2AE59690002ECDBE /* ModelContainer.swift in Sources */,
 				59C58D772AEDDEE500D8F379 /* AccountCategory.swift in Sources */,
 				59D5EA412AE4D17400AA36D0 /* TransactionActionSheet.swift in Sources */,
+				59B6E68D2B0305FD00B6AF6A /* TransactionDetailView.swift in Sources */,
 				597C50302B00A41400C1C818 /* TransactionEntry.swift in Sources */,
 				59FE738C2AEEB50B00EB88DE /* CreateTransactionView.swift in Sources */,
 				59A6E2A32AE5A9B2002ECDBE /* CustomListRowView.swift in Sources */,

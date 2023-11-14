@@ -14,30 +14,38 @@ struct AccountTransactionsView: View {
     let account: Account
     
     var body: some View {
-        VStack(spacing: 10) {
+        List {
             ForEach(account.cash_flow_entries ?? [], id: \.self) { entry in
                 if entry.transactionRef != nil {
                     TransactionPreviewRow(entry: entry.transactionRef!)
+                        .listRowSeparator(.hidden, edges: .all)
+                        .overlay {
+                            NavigationLink(destination: TransactionDetailView(), label: {
+                                EmptyView()
+                            })
+                            .opacity(0)
+                        }
+                    
                 }
             }
-            Spacer()
         }
-        .padding(.horizontal, 10)
+        .listStyle(.plain)
+        
     }
 }
 
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false)
     let journal = initPreviewJournal(container: previewContainer)
-    return VStack(spacing: 5) {
-        Spacer()
-        ForEach(journal.accounts ?? [], id: \.self) { account in
-            if account.category == .asset ||
-                account.category == .liabilities {
-                AccountTransactionsView(account: account)
+    return NavigationView {
+        VStack {
+            ForEach(journal.accounts ?? [], id: \.self) { account in
+                if account.category == .asset ||
+                    account.category == .liabilities {
+                    AccountTransactionsView(account: account)
+                }
             }
         }
-        Spacer()
     }
     .modelContainer(previewContainer)
 }
