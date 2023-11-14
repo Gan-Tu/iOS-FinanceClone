@@ -17,7 +17,7 @@ final class CashFlowEntry {
     var amount: Double = 0.0
     var currency: Currency? = nil
     
-    init(transactionRef: TransactionEntry, account: Account, amount: Double, currency: Currency? = nil) {
+    init(transactionRef: TransactionEntry, account: Account?, amount: Double, currency: Currency? = nil) {
         self.transactionRef = transactionRef
         self.account = account
         self.amount = amount

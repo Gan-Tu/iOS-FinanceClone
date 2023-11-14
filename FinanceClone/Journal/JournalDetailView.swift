@@ -20,7 +20,11 @@ struct JournalDetailView: View {
         .listStyle(.sidebar)
         .navigationTitle(journal.name)
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarItems(trailing: EditButton())
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                EditButton()
+            }
+        }
         .environmentObject(journal)
         
     }

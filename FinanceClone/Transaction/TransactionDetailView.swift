@@ -12,6 +12,7 @@ struct TransactionDetailView: View {
     let txn: TransactionEntry
     
     @State private var showClearSheet = false
+    @State private var showEditView = false
     
     func formatDate(date: Date) -> String {
         let formatter = DateFormatter()
@@ -66,11 +67,18 @@ struct TransactionDetailView: View {
         .multilineTextAlignment(.leading)
         .navigationTitle("Details")
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarItems(trailing: EditButton())
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: { showEditView.toggle() }, label: { Text("Edit")})
+            }
+        }
         .confirmationDialog("Mark as Cleared?", isPresented: $showClearSheet, titleVisibility: .hidden) {
             Button("Mark as Cleared") {
                 txn.cleared = true
             }
+        }
+        .sheet(isPresented: $showEditView) {
+            EditTransactionView(txn: txn)
         }
     }
 }
@@ -119,7 +127,10 @@ struct CashFlowEntryRow: View {
     let trans = addTransaction(container: previewContainer, from: salary, to: checking, amount: 5000, note: "Paycheck", payee: "Google", currency: Currency.USD)
     trans.cleared = false
     
-    return TransactionDetailView(txn: trans)
+    return NavigationView {
+        TransactionDetailView(txn: trans)
+    }
+    .environmentObject(journal)
 }
 
 #Preview {
@@ -136,4 +147,5 @@ struct CashFlowEntryRow: View {
     return NavigationView {
         TransactionDetailView(txn: trans)
     }
+    .environmentObject(journal)
 }

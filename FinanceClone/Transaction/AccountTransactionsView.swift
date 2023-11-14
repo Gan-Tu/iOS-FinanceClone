@@ -48,4 +48,5 @@ struct AccountTransactionsView: View {
         }
     }
     .modelContainer(previewContainer)
+    .environmentObject(journal)
 }
