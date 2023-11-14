@@ -20,7 +20,7 @@ struct AccountTransactionsView: View {
                     TransactionPreviewRow(entry: entry.transactionRef!)
                         .listRowSeparator(.hidden, edges: .all)
                         .overlay {
-                            NavigationLink(destination: TransactionDetailView(), label: {
+                            NavigationLink(destination: TransactionDetailView(txn: entry.transactionRef!), label: {
                                 EmptyView()
                             })
                             .opacity(0)

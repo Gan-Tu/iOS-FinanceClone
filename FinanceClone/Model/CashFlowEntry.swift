@@ -23,4 +23,8 @@ final class CashFlowEntry {
         self.amount = amount
         self.currency = currency
     }
+
+    func describeAmount() -> String {
+        return "\(amount > 0 ? "" : "-")\(currency?.symbol ?? "$")\(String(format: "%.2f", abs(amount)))"
+    }
 }

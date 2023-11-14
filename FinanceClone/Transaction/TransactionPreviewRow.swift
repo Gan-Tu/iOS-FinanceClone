@@ -19,7 +19,7 @@ struct TransactionPreviewRow: View {
         entry.entries != nil &&
         entry.entries!.contains(where: { $0.account?.category == .income })
     }
-
+    
     var body: some View {
         HStack {
             VStack {
@@ -47,37 +47,24 @@ struct TransactionPreviewRow: View {
                 }
                 
                 HStack {
-                    if isIncome {
-                        ForEach(entry.debitedAcconuts, id: \.self) { acc in
-                            Text(acc.name)
-                                .foregroundStyle(
-                                    acc.label != nil ? acc.label!.color : .secondary
-                                )
-                        }
-                        
-                        Image(systemName: "arrow.left")
-                        
-                        ForEach(entry.creditedAcconuts, id: \.self) { acc in
-                            Text(acc.name)
-                                .foregroundStyle(acc.label != nil ? acc.label!.color : .secondary )
-                        }
-                    } else {
-                        ForEach(entry.creditedAcconuts, id: \.self) { acc in
-                            Text(acc.name)
-                                .foregroundStyle(
-                                    acc.label != nil ? acc.label!.color : .secondary
-                                )
-                        }
-                        
-                        Image(systemName: "arrow.right")
-                        
-                        ForEach(entry.debitedAcconuts, id: \.self) { acc in
-                            Text(acc.name)
-                                .foregroundStyle(acc.label != nil ? acc.label!.color : .secondary )
-                        }
+                    ForEach(isIncome ? entry.debitedAcconuts : entry.creditedAcconuts, id: \.self) { acc in
+                        Text(acc.name)
+                            .foregroundStyle(
+                                acc.label != nil ? acc.label!.color : .secondary
+                            )
                     }
                     
+                    Image(systemName: isIncome ? "arrow.left" : "arrow.right")
+                    
+                    ForEach(isIncome ? entry.creditedAcconuts : entry.debitedAcconuts, id: \.self) { acc in
+                        Text(acc.name)
+                            .foregroundStyle(acc.label != nil ? acc.label!.color : .secondary)
+                    }
+                    
+                    
                     Spacer()
+                    
+                    Text("$balance")
                 }
                 .foregroundStyle(.secondary)
                 .font(.subheadline)
