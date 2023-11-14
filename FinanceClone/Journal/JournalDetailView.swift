@@ -26,7 +26,6 @@ struct JournalDetailView: View {
             }
         }
         .environmentObject(journal)
-        
     }
 }
 

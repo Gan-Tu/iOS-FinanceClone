@@ -117,35 +117,22 @@ struct CashFlowEntryRow: View {
 
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false)
-    let journal = Journal(name: "Test")
-    journal.currencies.append(Currency.USD)
-    previewContainer.mainContext.insert(journal)
-    
-    let checking = Account(name: "Checking", journal: journal, category: .asset)
-    let salary = Account(name: "Salary", journal: journal, category: .income, label: .green)
-    
-    let trans = addTransaction(container: previewContainer, from: salary, to: checking, amount: 5000, note: "Paycheck", payee: "Google", currency: Currency.USD)
-    trans.cleared = false
-    
+    let journal = initPreviewJournal(container: previewContainer, seedTransactions: false)
+    let txn = seedIncomeTransaction(container: previewContainer, journal: journal)
     return NavigationView {
-        TransactionDetailView(txn: trans)
+        TransactionDetailView(txn: txn)
+            .modelContainer(previewContainer)
+            .environmentObject(journal)
     }
-    .environmentObject(journal)
 }
 
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false)
-    let journal = Journal(name: "Test")
-    journal.currencies.append(Currency.USD)
-    previewContainer.mainContext.insert(journal)
-    
-    let credit = Account(name: "Credit Card", journal: journal, category: .liabilities)
-    let utilities = Account(name: "Utilities", journal: journal, category: .expense, label: .yellow)
-    
-    let trans = addTransaction(container: previewContainer, from: credit, to: utilities, amount: 94.2, note: "Electricity", payee: "Edison", currency: Currency.USD)
-    
+    let journal = initPreviewJournal(container: previewContainer, seedTransactions: false)
+    let txn = seedExpenseTransaction(container: previewContainer, journal: journal)
     return NavigationView {
-        TransactionDetailView(txn: trans)
+        TransactionDetailView(txn: txn)
+            .modelContainer(previewContainer)
+            .environmentObject(journal)
     }
-    .environmentObject(journal)
 }

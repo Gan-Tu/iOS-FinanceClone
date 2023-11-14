@@ -110,8 +110,42 @@ func initJournal(name: String, currency: Currency?, withTemplate: JournalTemplat
     return journal;
 }
 
-@MainActor func initPreviewJournal(container: ModelContainer) -> Journal {
-    initJournal(name: "Personal", currency: .USD, withTemplate: .personal, container: container)
+@MainActor  @discardableResult
+func seedIncomeTransaction(container: ModelContainer, journal: Journal) -> TransactionEntry {
+    let checking = Account(name: "Checking", journal: journal, category: .asset)
+    let salary = Account(name: "Salary", journal: journal, category: .income, label: .green)
+    
+    journal.accounts?.removeAll(where: {
+        $0.name == checking.name || $0.name == salary.name
+    })
+    journal.accounts?.append(checking)
+    journal.accounts?.append(salary)
+    
+    return addTransaction(container: container, from: salary, to: checking, amount: 5000, note: "Paycheck", payee: "Google", currency: Currency.USD)
+}
+
+@MainActor  @discardableResult
+func seedExpenseTransaction(container: ModelContainer, journal: Journal) -> TransactionEntry {
+    let credit = Account(name: "Credit Card", journal: journal, category: .liabilities)
+    let utilities = Account(name: "Utilities", journal: journal, category: .expense, label: .yellow)
+    
+    journal.accounts?.removeAll(where: {
+        $0.name == credit.name || $0.name == utilities.name
+    })
+    journal.accounts?.append(credit)
+    journal.accounts?.append(utilities)
+    
+    return addTransaction(container: container, from: credit, to: utilities, amount: 94.223, note: "Electricity", payee: "Edison", currency: Currency.USD)
+}
+
+@MainActor @discardableResult
+func initPreviewJournal(container: ModelContainer, seedTransactions: Bool = true) -> Journal {
+    let journal = initJournal(name: "Personal", currency: .USD, withTemplate: .personal, container: container)
+    if seedTransactions {
+        seedIncomeTransaction(container: container, journal: journal)
+        seedExpenseTransaction(container: container, journal: journal)
+    }
+    return journal
 }
 
 @MainActor func createPreviewModelContainer(seedData: Bool = true) -> ModelContainer {
@@ -119,7 +153,10 @@ func initJournal(name: String, currency: Currency?, withTemplate: JournalTemplat
     do {
         let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
         if seedData {
-            initJournal(name: "Personal", currency: .USD, withTemplate: .personal, container: container)
+            let journal = initJournal(name: "Personal", currency: .USD, withTemplate: .personal, container: container)
+            seedIncomeTransaction(container: container, journal: journal)
+            seedExpenseTransaction(container: container, journal: journal)
+
             initJournal(name: "Business", currency: .USD, withTemplate: .business, container: container)
         }
         return container

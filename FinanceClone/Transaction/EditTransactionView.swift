@@ -11,7 +11,6 @@ import SwiftData
 struct EditTransactionView: View {
     let txn: TransactionEntry
     
-    @Environment(\.editMode) private var editMode
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var journal: Journal
@@ -25,7 +24,7 @@ struct EditTransactionView: View {
     
     @State private var account: Account? = nil
     
-//    @State private var amount = 0.0
+    //    @State private var amount = 0.0
     
     init(txn: TransactionEntry) {
         self.txn = txn
@@ -76,6 +75,7 @@ struct EditTransactionView: View {
                                 
                                 NavigationLink(destination: {
                                     PickAccountView(selectedAccount: $account)
+                                    //                                    Text("hi")
                                 }, label: {
                                     Text(entry.account!.name)
                                         .foregroundStyle(.primary)
@@ -94,23 +94,18 @@ struct EditTransactionView: View {
                             
                             Spacer()
                             
-//                            TextField(value: $amount, format: .number, label: {
-//                                Text("0.00")
-//                            })
-//                            .keyboardType(.numbersAndPunctuation)
-//                            .multilineTextAlignment(.trailing)
+                            //                            TextField(value: $amount, format: .number, label: {
+                            //                                Text("0.00")
+                            //                            })
+                            //                            .keyboardType(.numbersAndPunctuation)
+                            //                            .multilineTextAlignment(.trailing)
                             
                             Text(entry.amount.formatted(.number.precision(.fractionLength(0...2))))
                             
                             if entry.currency != nil {
                                 Text(entry.currency!.rawValue)
                                     .foregroundStyle(.secondary)
-                                //                                    .overlay {
-                                //                                        NavigationLink(destination: Text("PickCurrencyView"), label: {
-                                //                                            EmptyView()
-                                //                                        })
-                                //                                        .opacity(0)
-                                //                                    }
+                                // TODO
                             }
                         }
                         .fontWeight(.regular)
@@ -192,37 +187,20 @@ struct EditTransactionView: View {
 
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false)
-    let journal = initJournal(name: "Test", currency: .USD, withTemplate: .personal, container: previewContainer)
-    
-    let checking = Account(name: "Checking", journal: journal, category: .asset)
-    let salary = Account(name: "Salary", journal: journal, category: .income, label: .green)
-    
-    journal.accounts?.removeAll(where: {
-        $0.name == checking.name || $0.name == salary.name
-    })
-    journal.accounts?.append(checking)
-    journal.accounts?.append(salary)
-    
-    let trans = addTransaction(container: previewContainer, from: salary, to: checking, amount: 5000, note: "Paycheck", payee: "Google", currency: Currency.USD)
-    trans.cleared = false
-    
-    return EditTransactionView(txn: trans).environmentObject(journal)}
+    let journal = initPreviewJournal(container: previewContainer, seedTransactions: false)
+    let txn = seedIncomeTransaction(container: previewContainer, journal: journal)
+    txn.cleared = false
+    return EditTransactionView(txn: txn)
+        .modelContainer(previewContainer)
+        .environmentObject(journal)
+}
 
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false)
-    let journal = initJournal(name: "Test", currency: .USD, withTemplate: .personal, container: previewContainer)
-    
-    let credit = Account(name: "Credit Card", journal: journal, category: .liabilities)
-    let utilities = Account(name: "Utilities", journal: journal, category: .expense, label: .yellow)
-    
-    journal.accounts?.removeAll(where: {
-        $0.name == credit.name || $0.name == utilities.name
-    })
-    journal.accounts?.append(credit)
-    journal.accounts?.append(utilities)
-    
-    let trans = addTransaction(container: previewContainer, from: credit, to: utilities, amount: 94.223, note: "Electricity", payee: "Edison", currency: Currency.USD)
-    
-    return EditTransactionView(txn: trans).environmentObject(journal)
+    let journal = initPreviewJournal(container: previewContainer, seedTransactions: false)
+    let txn = seedExpenseTransaction(container: previewContainer, journal: journal)
+    return EditTransactionView(txn: txn)
+        .modelContainer(previewContainer)
+        .environmentObject(journal)
 }
 
