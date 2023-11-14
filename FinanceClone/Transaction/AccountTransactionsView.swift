@@ -10,6 +10,7 @@ import SwiftData
 
 struct AccountTransactionsView: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var journal: Journal
     
     let account: Account
     
@@ -18,7 +19,7 @@ struct AccountTransactionsView: View {
             ForEach(account.cash_flow_entries ?? [], id: \.self) { entry in
                 if entry.transactionRef != nil {
                     ZStack {
-                        NavigationLink(destination: TransactionDetailView(txn: entry.transactionRef!), label: {
+                        NavigationLink(destination: TransactionDetailView(txn: entry.transactionRef!).environmentObject(journal), label: {
                             EmptyView()
                         })
                         .opacity(0)

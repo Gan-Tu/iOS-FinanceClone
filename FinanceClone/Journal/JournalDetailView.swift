@@ -17,6 +17,7 @@ struct JournalDetailView: View {
             AccountSection()
             CurrencySection()
         }
+        .environmentObject(journal)
         .listStyle(.sidebar)
         .navigationTitle(journal.name)
         .navigationBarTitleDisplayMode(.inline)
@@ -25,7 +26,6 @@ struct JournalDetailView: View {
                 EditButton()
             }
         }
-        .environmentObject(journal)
     }
 }
 
@@ -115,7 +115,7 @@ struct AccountSection: View {
                                             })
                                         })
                                     } else {
-                                        NavigationLink(destination: AccountTransactionsView(account: account)) {
+                                        NavigationLink(destination: AccountTransactionsView(account: account).environmentObject(journal)) {
                                             Text(account.name)
                                         }
                                     }
