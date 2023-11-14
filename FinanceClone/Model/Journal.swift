@@ -26,15 +26,19 @@ final class Journal: Identifiable, ObservableObject {
     }
     
     var numTransactions : Int {
-        var total = 0
+        var seenTrans = Set<String>()
         if let accounts = self.accounts {
             for account in accounts {
                 if let entries = account.cash_flow_entries {
-                    total += entries.count
+                    for entry in entries {
+                        if entry.transactionRef != nil {
+                            seenTrans.insert(entry.transactionRef!.id)
+                        }
+                    }
                 }
             }
         }
-        return total
+        return seenTrans.count
     }
 }
 
