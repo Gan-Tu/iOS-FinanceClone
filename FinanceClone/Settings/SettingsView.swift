@@ -15,7 +15,11 @@ struct SettingsView: View {
     @State private var showSeedDataAlert: Bool = false
     
     @MainActor func seedData() {
-        initJournal(name: "Personal", currency: .USD, withTemplate: .personal, container: modelContext.container)
+        let personal = initJournal(name: "Personal", currency: .USD, withTemplate: .personal, container: modelContext.container)
+        seedIncomeTransaction(container: modelContext.container, journal: personal)
+        seedExpenseTransaction(container: modelContext.container, journal: personal)
+        seedMutliAccountTransaction(container: modelContext.container, journal: personal)
+        
         initJournal(name: "Business", currency: .USD, withTemplate: .business, container: modelContext.container)
         showSeedDataAlert = true
     }
