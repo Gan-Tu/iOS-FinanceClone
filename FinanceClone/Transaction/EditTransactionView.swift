@@ -10,6 +10,7 @@ import SwiftData
 
 struct EditTransactionView: View {
     let txn: TransactionEntry
+    let onSaveCallback: (_ txn: TransactionEntry) -> Void
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
@@ -26,8 +27,10 @@ struct EditTransactionView: View {
     
     //    @State private var amount = 0.0
     
-    init(txn: TransactionEntry) {
+    init(txn: TransactionEntry,
+         onSaveCallback: @escaping (_ txn: TransactionEntry) -> Void = {txn in }) {
         self.txn = txn
+        self.onSaveCallback = onSaveCallback
         self._date = State(initialValue: txn.date ?? Date())
         self._notes = State(initialValue: txn.note)
         self._payee = State(initialValue: txn.payee)
@@ -48,7 +51,12 @@ struct EditTransactionView: View {
     }
     
     var hasValidData: Bool {
-        self.entries.count >= 2 && self.entries.allSatisfy({$0.amount != 0})
+        self.entries.count >= 2 &&
+        self.entries.allSatisfy({$0.account != nil}) &&
+        self.entries.allSatisfy({$0.amount != 0}) &&
+        (self.entries.reduce(0, { total, newEntry in
+            return total + newEntry.amount
+        }) == 0)
     }
     
     func save() {
@@ -62,6 +70,7 @@ struct EditTransactionView: View {
             let newEntry = CashFlowEntry(transactionRef: txn, account: entry.account, amount: entry.amount, currency: entry.currency)
             txn.entries!.append(newEntry)
         }
+        onSaveCallback(txn)
         dismiss()
     }
     
