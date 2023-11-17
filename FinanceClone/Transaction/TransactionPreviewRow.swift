@@ -21,6 +21,14 @@ struct TransactionPreviewRow: View {
         entry.entries!.contains(where: { $0.account?.category == .income })
     }
     
+    var lhsAccounts: [Account] {
+        isIncome ? entry.debitedAcconuts : entry.creditedAcconuts
+    }
+    
+    var rhsAccounts: [Account] {
+        isIncome ? entry.creditedAcconuts : entry.debitedAcconuts
+    }
+    
     var body: some View {
         HStack {
             VStack {
@@ -48,18 +56,30 @@ struct TransactionPreviewRow: View {
                 }
                 
                 HStack {
-                    ForEach(isIncome ? entry.debitedAcconuts : entry.creditedAcconuts, id: \.self) { acc in
-                        Text(acc.name)
-                            .foregroundStyle(
-                                acc.label != nil ? acc.label!.color : .secondary
-                            )
+                    HStack(spacing: 0) {
+                        ForEach(Array(lhsAccounts.enumerated()), id: \.offset) { idx, acc in
+                            Text(acc.name)
+                                .foregroundStyle(
+                                    acc.label != nil ? acc.label!.color : .secondary
+                                )
+                            if idx != lhsAccounts.endIndex - 1 {
+                                Text(",")
+                            }
+                        }
                     }
                     
                     Image(systemName: isIncome ? "arrow.left" : "arrow.right")
                     
-                    ForEach(isIncome ? entry.creditedAcconuts : entry.debitedAcconuts, id: \.self) { acc in
-                        Text(acc.name)
-                            .foregroundStyle(acc.label != nil ? acc.label!.color : .secondary)
+                    HStack(spacing: 0) {
+                        ForEach(Array(rhsAccounts.enumerated()), id: \.offset) { idx, acc in
+                            Text(acc.name)
+                                .foregroundStyle(
+                                    acc.label != nil ? acc.label!.color : .secondary
+                                )
+                            if idx != rhsAccounts.endIndex - 1 {
+                                Text(", ")
+                            }
+                        }
                     }
                     
                     
@@ -116,6 +136,7 @@ struct TransactionPreviewRow: View {
     let trans2 = addTransaction(container: previewContainer, from: salary, to: checking, amount: 4000, note: "", payee: "Google", currency: Currency.EUR)
     trans2.cleared = false
     let trans3 = addTransaction(container: previewContainer, from: credit, to: utilities, amount: 94.2, note: "Electricity", payee: "Edison", currency: Currency.USD)
+    let trans4 = seedMutliAccountTransaction(container: previewContainer, journal: journal)
     
     return NavigationView {
         List {
@@ -126,6 +147,9 @@ struct TransactionPreviewRow: View {
                 .modelContainer(previewContainer)
             
             TransactionPreviewRow(entry: trans3)
+                .modelContainer(previewContainer)
+            
+            TransactionPreviewRow(entry: trans4)
                 .modelContainer(previewContainer)
         }
         .listStyle(.plain)

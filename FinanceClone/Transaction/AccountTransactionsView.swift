@@ -12,26 +12,32 @@ struct AccountTransactionsView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var journal: Journal
     
-    let account: Account
+    var account: Account
     
     var body: some View {
-        List {
-            ForEach(account.cash_flow_entries ?? [], id: \.self) { entry in
-                if entry.transactionRef != nil {
-                    ZStack {
-                        NavigationLink(destination: TransactionDetailView(txn: entry.transactionRef!).environmentObject(journal), label: {
-                            EmptyView()
-                        })
-                        .opacity(0)
+        if account.cash_flow_entries != nil {
+            List {
+                ForEach(account.cash_flow_entries!) { entry in
+                    if entry.transactionRef != nil {
+                        ZStack {
+                            NavigationLink(destination: TransactionDetailView(txn: entry.transactionRef!).environmentObject(journal), label: {
+                                EmptyView()
+                            })
+                            .opacity(0)
 
-                        TransactionPreviewRow(entry: entry.transactionRef!)
-                            .listRowSeparator(.hidden, edges: .all)
+                            TransactionPreviewRow(entry: entry.transactionRef!)
+                                .listRowSeparator(.hidden, edges: .all)
+                        }
+                        
                     }
-                    
                 }
             }
+            .navigationTitle(account.name)
+            .navigationBarTitleDisplayMode(.inline)
+            .listStyle(.plain)
+        } else {
+            Text("No transactions")
         }
-        .listStyle(.plain)
         
     }
 }
@@ -42,6 +48,7 @@ struct AccountTransactionsView: View {
     return NavigationView {
         VStack {
             ForEach(journal.accounts ?? [], id: \.self) { account in
+
                 AccountTransactionsView(account: account)
             }
         }

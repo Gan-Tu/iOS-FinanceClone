@@ -10,6 +10,7 @@ import SwiftData
 
 struct JournalDetailView: View {
     var journal: Journal
+    @EnvironmentObject var appState: AppState
     
     var body: some View {
         List {
@@ -25,6 +26,9 @@ struct JournalDetailView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 EditButton()
             }
+        }
+        .onAppear {
+            appState.currentJournal = journal
         }
     }
 }
@@ -89,7 +93,7 @@ struct AccountSection: View {
             ForEach(AccountCategory.allCases, id: \.self) { category in
                 DisclosureGroup(
                     content: {
-                        ForEach(journal.accounts ?? [], id: \.self) { account in
+                        ForEach(journal.accounts ?? []) { account in
                             if account.category == category {
                                 HStack {
                                     if account.label != nil {
@@ -115,7 +119,9 @@ struct AccountSection: View {
                                             })
                                         })
                                     } else {
-                                        NavigationLink(destination: AccountTransactionsView(account: account).environmentObject(journal)) {
+                                        NavigationLink(destination: AccountTransactionsView(account: account)
+                                                .environmentObject(journal)
+                                        ) {
                                             Text(account.name)
                                         }
                                     }
@@ -147,5 +153,6 @@ struct AccountSection: View {
     return NavigationView {
         JournalDetailView(journal: journal)
             .modelContainer(previewContainer)
+            .environmentObject(AppState())
     }
 }

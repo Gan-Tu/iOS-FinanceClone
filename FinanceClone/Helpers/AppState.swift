@@ -11,6 +11,7 @@ import LocalAuthentication
 class AppState: ObservableObject {
     @Published var isCloudSyncEnabled: Bool = false
     @Published var isAuthenticated: Bool = false
+    @Published var currentJournal: Journal? = nil
     
     func authenticate() {
         let context = LAContext()

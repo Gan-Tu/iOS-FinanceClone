@@ -79,5 +79,7 @@ struct SettingsView: View {
 
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer()
-    return SettingsView().modelContainer(previewContainer).environmentObject(AppState())
+    return SettingsView()
+        .modelContainer(previewContainer)
+        .environmentObject(AppState())
 }

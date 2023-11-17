@@ -44,8 +44,9 @@ struct EditTransactionView: View {
             }
         }
         if entries.isEmpty {
-            entries.append(CashFlowEntryWrapper())
-            entries.append(CashFlowEntryWrapper())
+            // TODO(tugan): remove hard coded amount after amount input is implemented
+            entries.append(CashFlowEntryWrapper(amount: 1.0))
+            entries.append(CashFlowEntryWrapper(amount: -1.0))
         }
         self._entries = State(initialValue: entries)
     }
@@ -60,17 +61,20 @@ struct EditTransactionView: View {
     }
     
     func save() {
+        onSaveCallback(txn)
         txn.date = self.date
         txn.note = self.notes
         txn.payee = self.payee
         txn.number = self.number
         txn.cleared = self.cleared
-        txn.entries?.removeAll()
+        if txn.entries != nil {
+            txn.entries!.removeAll()
+        }
+        txn.entries = []
         for entry in self.entries {
             let newEntry = CashFlowEntry(transactionRef: txn, account: entry.account, amount: entry.amount, currency: entry.currency)
             txn.entries!.append(newEntry)
         }
-        onSaveCallback(txn)
         dismiss()
     }
     
@@ -189,6 +193,16 @@ struct EditTransactionView: View {
     let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false)
     let journal = initPreviewJournal(container: previewContainer, seedTransactions: false)
     let txn = seedExpenseTransaction(container: previewContainer, journal: journal)
+    return EditTransactionView(txn: txn)
+        .modelContainer(previewContainer)
+        .environmentObject(journal)
+}
+
+#Preview {
+    let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false)
+    let journal = initPreviewJournal(container: previewContainer, seedTransactions: false)
+    let txn = seedIncomeTransaction(container: previewContainer, journal: journal)
+    txn.entries = []
     return EditTransactionView(txn: txn)
         .modelContainer(previewContainer)
         .environmentObject(journal)

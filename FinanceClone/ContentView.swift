@@ -14,10 +14,13 @@ struct ContentView: View {
     
     @State private var isSettingsSheetPresented: Bool = false
     @State private var isCloudSyncSheetPresented: Bool = false
+    @State private var isAddTransactionSheetPresented: Bool = false
     
     var body: some View {
-        NavigationStack {
-            JournalHomeView()
+        VStack {
+            NavigationStack {
+                JournalHomeView()
+            }
             
             Spacer()
             
@@ -39,6 +42,16 @@ struct ContentView: View {
                 })
                 
                 Spacer()
+                
+                if appState.currentJournal != nil {
+                    Button(action: {
+                        isAddTransactionSheetPresented = true
+                    }, label: {
+                        Image(systemName: "square.and.pencil")
+                            .foregroundColor(.accent)
+                            .font(.title2)
+                    })
+                }
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
@@ -47,6 +60,12 @@ struct ContentView: View {
             })
             .sheet(isPresented: $isCloudSyncSheetPresented, content: {
                 CloudSyncView(showDoneButton: true)
+            })
+            .sheet(isPresented: $isAddTransactionSheetPresented, content: {
+                if appState.currentJournal != nil {
+                    CreateTransactionView()
+                        .environmentObject(appState.currentJournal!)
+                }
             })
         }
         .environmentObject(appState)

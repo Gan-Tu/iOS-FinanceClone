@@ -10,10 +10,10 @@ import SwiftData
 
 struct JournalHomeView: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var appState: AppState
+
     @Query(sort: [SortDescriptor(\Journal.creationTimestamp)]) private var journals: [Journal]
-    
     @State private var isAddJournalSheetPresented: Bool = false
-    @State private var currentJournal: Journal? = nil
     
     var body: some View {
         List {
@@ -36,6 +36,10 @@ struct JournalHomeView: View {
                 }
             }
             .onDelete(perform: deleteJournals)
+        }
+        .environmentObject(appState)
+        .onAppear {
+            appState.currentJournal = nil
         }
         .navigationTitle("Journals")
         .toolbar {
@@ -69,6 +73,8 @@ struct JournalHomeView: View {
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer()
     return NavigationStack{
-        JournalHomeView().modelContainer(previewContainer)
+        JournalHomeView()
+            .modelContainer(previewContainer)
+            .environmentObject(AppState())
     }
 }

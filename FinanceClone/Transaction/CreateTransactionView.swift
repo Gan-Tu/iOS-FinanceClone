@@ -13,18 +13,18 @@ struct CreateTransactionView: View {
     @Environment(\.modelContext) private var modelContext
     
     @State private var txn: TransactionEntry
+    @EnvironmentObject var journal: Journal
     
     init() {
         // TODO(tugan): use different initial accounts for new entry template
-        let newEntry = TransactionEntry(date: Date(), note: "", payee: "", cleared: true)
-        self._txn = State(initialValue: newEntry)
+        self._txn = State(initialValue: TransactionEntry(date: Date(), note: "", payee: "", cleared: true))
     }
     
     var body: some View {
         NavigationStack {
-            EditTransactionView(txn: txn) { txn in
+            EditTransactionView(txn: txn, onSaveCallback: { txn in
                 modelContext.insert(txn)
-            }
+            })
             .navigationBarTitle("New Transaction")
             .navigationBarTitleDisplayMode(.inline)
         }
