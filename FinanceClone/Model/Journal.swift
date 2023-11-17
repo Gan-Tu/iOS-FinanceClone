@@ -25,6 +25,12 @@ final class Journal: Identifiable, ObservableObject {
         self.accounts = []
     }
     
+    @Transient
+    var defaultCurreny: Currency {
+        self.currencies.isEmpty ? Currency.USD : self.currencies[0]
+    }
+    
+    @Transient
     var numTransactions : Int {
         var seenTrans = Set<String>()
         if let accounts = self.accounts {

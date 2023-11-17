@@ -29,39 +29,40 @@ struct PickAccountView: View {
                         Section(header: Text(cat.rawValue), content: {
                             ForEach(journal.accounts ?? [], id: \.self) { acc in
                                 if acc.category == cat {
-                                    HStack {
-                                        
-                                        if acc.label != nil {
-                                            Circle()
-                                                .foregroundStyle(acc.label!.color)
-                                                .frame(height: 20)
-                                        }
-                                        
-                                        VStack(alignment: .leading) {
-                                            Text(acc.name)
-                                                .onTapGesture(perform: {
-                                                    selectedAccount = acc;
-                                                    dismiss();
-                                                })
+                                    Button(action: {
+                                        selectedAccount = acc;
+                                        dismiss();
+                                    }, label: {
+                                        HStack {
+                                            if acc.label != nil {
+                                                Circle()
+                                                    .foregroundStyle(acc.label!.color)
+                                                    .frame(height: 20)
+                                            }
                                             
-                                            if !acc.accountDescription.isEmpty {
-                                                Text(acc.accountDescription)
-                                                    .multilineTextAlignment(.leading)
-                                                    .font(.footnote)
-                                                    .foregroundStyle(.secondary)
+                                            VStack(alignment: .leading) {
+                                                Text(acc.name)
+                                                
+                                                if !acc.accountDescription.isEmpty {
+                                                    Text(acc.accountDescription)
+                                                        .multilineTextAlignment(.leading)
+                                                        .font(.footnote)
+                                                        .foregroundStyle(.secondary)
+                                                }
+                                            }
+                                            
+                                            Spacer()
+                                            
+                                            Text(acc.currency.rawValue)
+                                                .foregroundStyle(.secondary)
+                                            
+                                            if acc == selectedAccount {
+                                                Image(systemName: "checkmark")
+                                                    .foregroundStyle(Color.accentColor)
                                             }
                                         }
-                                        
-                                        Spacer()
-                                        
-                                        Text(acc.currency.rawValue)
-                                            .foregroundStyle(.secondary)
-                                        
-                                        if acc == selectedAccount {
-                                            Image(systemName: "checkmark")
-                                                .foregroundStyle(Color.accentColor)
-                                        }
-                                    }
+                                    })
+                                    .buttonStyle(PlainButtonStyle())
                                 }
                             }
                         })
@@ -86,12 +87,21 @@ struct PickAccountView: View {
     }
 }
 
+struct PickAccountViewPreview: View {
+    @State var selectedAccount: Account? = nil
+    
+    var body: some View {
+        NavigationStack {
+            PickAccountView(selectedAccount: $selectedAccount)
+        }
+    }
+}
+
 #Preview {
-    @State var selectedAccount: Account?
     let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false);
     let journal = initPreviewJournal(container: previewContainer)
     return NavigationStack {
-        PickAccountView(selectedAccount: $selectedAccount)
+        PickAccountViewPreview()
             .modelContainer(previewContainer)
             .environmentObject(journal)
     }

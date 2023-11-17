@@ -52,8 +52,10 @@ struct PickCurrencyView: View {
     let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false);
     let journal = initPreviewJournal(container: previewContainer)
     return NavigationStack {
-        PickCurrencyView(selectedCurrency: $selectedCurrency)
-            .modelContainer(previewContainer)
-        .environmentObject(journal)
+        VStack {
+            PickCurrencyView(selectedCurrency: $selectedCurrency)
+                .modelContainer(previewContainer)
+            .environmentObject(journal)
+        }
     }
 }

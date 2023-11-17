@@ -8,6 +8,13 @@
 import Foundation
 import SwiftData
 
+struct CashFlowEntryWrapper: Identifiable, Equatable {
+    var id: String = UUID().uuidString
+    var account: Account? = nil
+    var amount: Double = 0.0
+    var currency: Currency = Currency.USD
+}
+
 @Model
 final class CashFlowEntry : Identifiable {
     var id: String = UUID().uuidString
@@ -17,7 +24,7 @@ final class CashFlowEntry : Identifiable {
     var amount: Double = 0.0
     var currency: Currency? = nil
     
-    init(transactionRef: TransactionEntry, account: Account?, amount: Double, currency: Currency? = nil) {
+    init(transactionRef: TransactionEntry?, account: Account?, amount: Double, currency: Currency? = nil) {
         self.transactionRef = transactionRef
         self.account = account
         self.amount = amount

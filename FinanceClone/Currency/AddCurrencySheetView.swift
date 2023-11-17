@@ -36,6 +36,8 @@ struct AddCurrencySheetView: View {
 
 #Preview {
     AddCurrencySheetView { currency in
-        print(currency?.name)
+        if currency != nil {
+            print(currency!.name)
+        }
     }
 }
