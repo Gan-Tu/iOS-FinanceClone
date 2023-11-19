@@ -74,6 +74,7 @@ struct EditTransactionView: View {
         for entry in self.entries {
             let newEntry = CashFlowEntry(transactionRef: txn, account: entry.account, amount: entry.amount, currency: entry.currency)
             txn.entries!.append(newEntry)
+            entry.account?.cash_flow_entries?.append(newEntry)
         }
         dismiss()
     }
