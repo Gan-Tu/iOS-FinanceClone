@@ -45,12 +45,10 @@ struct AccountTransactionsView: View {
 #Preview {
     let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false)
     let journal = initPreviewJournal(container: previewContainer)
+    let account = journal.accounts!.first(where: { ($0.cash_flow_entries?.count ?? 0) >= 1 } )
     return NavigationView {
-        VStack {
-            ForEach(journal.accounts ?? [], id: \.self) { account in
-
-                AccountTransactionsView(account: account)
-            }
+        if account != nil {
+            AccountTransactionsView(account: account!)
         }
     }
     .modelContainer(previewContainer)
