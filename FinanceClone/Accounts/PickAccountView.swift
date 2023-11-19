@@ -18,6 +18,8 @@ struct PickAccountView: View {
     
     @Binding var selectedAccount: Account?
     @State private var showCreateAccountSheet = false
+    @State private var showChooseAccountType = false
+    @State private var selectedCategory: AccountCategory? = nil
     
     var body: some View {
         Group {
@@ -75,14 +77,32 @@ struct PickAccountView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
-                    showCreateAccountSheet = true
+                    showChooseAccountType = true
                 }, label: {
                     Image(systemName: "plus")
                 })
             }
         }
+        .confirmationDialog(
+            "What kind of account doyou want to create?",
+            isPresented: $showChooseAccountType,
+            titleVisibility: .visible
+        ) {
+            ForEach(AccountCategory.allCases, id: \.self) { category in
+                Button(category.rawValue) {
+                    selectedCategory = category
+                    showCreateAccountSheet = true
+                }
+            }
+        }
         .sheet(isPresented: $showCreateAccountSheet) {
-            Text("Create Account View")
+            if selectedCategory != nil {
+                CreateAccountView(category: selectedCategory!)
+                    .environmentObject(journal)
+            } else {
+                // Defensive coding
+                Text("You need to select an account type")
+            }
         }
     }
 }
