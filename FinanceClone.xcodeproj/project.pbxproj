@@ -18,6 +18,7 @@
 		5912FB7C2AE4B40500333EE8 /* CreateJournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5912FB7B2AE4B40500333EE8 /* CreateJournalView.swift */; };
 		593B23762AEE5E8700BA4EBE /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593B23752AEE5E8700BA4EBE /* AppState.swift */; };
 		593B23782AEE60EC00BA4EBE /* AccountMetadataForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 593B23772AEE60EC00BA4EBE /* AccountMetadataForm.swift */; };
+		594821A72B09CC530025D040 /* SearchTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594821A62B09CC530025D040 /* SearchTransactionView.swift */; };
 		594D1ED12AEE042D00A3BB57 /* PickCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594D1ED02AEE042D00A3BB57 /* PickCurrencyView.swift */; };
 		594D1ED32AEE0D6100A3BB57 /* AddCurrencySheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594D1ED22AEE0D6100A3BB57 /* AddCurrencySheetView.swift */; };
 		594D1ED72AEE19FB00A3BB57 /* EditAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594D1ED62AEE19FB00A3BB57 /* EditAccountView.swift */; };
@@ -61,6 +62,7 @@
 		5912FB7B2AE4B40500333EE8 /* CreateJournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateJournalView.swift; sourceTree = "<group>"; };
 		593B23752AEE5E8700BA4EBE /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		593B23772AEE60EC00BA4EBE /* AccountMetadataForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountMetadataForm.swift; sourceTree = "<group>"; };
+		594821A62B09CC530025D040 /* SearchTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTransactionView.swift; sourceTree = "<group>"; };
 		594D1ED02AEE042D00A3BB57 /* PickCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickCurrencyView.swift; sourceTree = "<group>"; };
 		594D1ED22AEE0D6100A3BB57 /* AddCurrencySheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCurrencySheetView.swift; sourceTree = "<group>"; };
 		594D1ED62AEE19FB00A3BB57 /* EditAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAccountView.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				59B6E68C2B0305FD00B6AF6A /* TransactionDetailView.swift */,
 				59B6E68E2B03210300B6AF6A /* EditTransactionView.swift */,
 				59D541762B073A840003BA46 /* TransactionCashFlowEntryRow.swift */,
+				594821A62B09CC530025D040 /* SearchTransactionView.swift */,
 			);
 			path = Transaction;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				59A6E2AF2AE5E131002ECDBE /* CreateAccountView.swift in Sources */,
 				594D1ED12AEE042D00A3BB57 /* PickCurrencyView.swift in Sources */,
 				597C50322B00A70200C1C818 /* AccountTransactionsView.swift in Sources */,
+				594821A72B09CC530025D040 /* SearchTransactionView.swift in Sources */,
 				59A6E2A92AE5C543002ECDBE /* Extensions.swift in Sources */,
 				59D541772B073A840003BA46 /* TransactionCashFlowEntryRow.swift in Sources */,
 				5912FB7A2AE4AA5000333EE8 /* JournalDetailView.swift in Sources */,

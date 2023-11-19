@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var isSettingsSheetPresented: Bool = false
     @State private var isCloudSyncSheetPresented: Bool = false
     @State private var isAddTransactionSheetPresented: Bool = false
+    @State private var isSearchSheetPresented: Bool = false
     
     var body: some View {
         VStack {
@@ -25,11 +26,19 @@ struct ContentView: View {
             Spacer()
             
             HStack {
-                Button(action: { isSettingsSheetPresented = true }, label: {
-                    Image(systemName: "gear")
-                        .foregroundColor(.accent)
-                        .font(.title2)
-                })
+                if appState.currentJournal != nil {
+                    Button(action: { isSearchSheetPresented = true }, label: {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.accent)
+                            .font(.title2)
+                    })
+                } else {
+                    Button(action: { isSettingsSheetPresented = true }, label: {
+                        Image(systemName: "gear")
+                            .foregroundColor(.accent)
+                            .font(.title2)
+                    })
+                }
                 
                 Spacer()
                 
@@ -64,6 +73,12 @@ struct ContentView: View {
             .sheet(isPresented: $isAddTransactionSheetPresented, content: {
                 if appState.currentJournal != nil {
                     CreateTransactionView()
+                        .environmentObject(appState.currentJournal!)
+                }
+            })
+            .sheet(isPresented: $isSearchSheetPresented, content: {
+                if appState.currentJournal != nil {
+                    SearchTransactionView()
                         .environmentObject(appState.currentJournal!)
                 }
             })
