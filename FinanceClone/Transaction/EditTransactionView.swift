@@ -45,8 +45,8 @@ struct EditTransactionView: View {
         }
         if entries.isEmpty {
             // TODO(tugan): remove hard coded amount after amount input is implemented
-            entries.append(CashFlowEntryWrapper(amount: 1.0))
-            entries.append(CashFlowEntryWrapper(amount: -1.0))
+            entries.append(CashFlowEntryWrapper(amount: 0.0))
+            entries.append(CashFlowEntryWrapper(amount: 0.0))
         }
         self._entries = State(initialValue: entries)
     }
