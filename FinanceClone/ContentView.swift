@@ -14,8 +14,10 @@ struct ContentView: View {
     
     @State private var isSettingsSheetPresented: Bool = false
     @State private var isCloudSyncSheetPresented: Bool = false
-    @State private var isAddTransactionSheetPresented: Bool = false
     @State private var isSearchSheetPresented: Bool = false
+    
+    @State private var isAddTransactionPickAccountPresented: Bool = false
+    @State private var isAddTransactionSheetPresented: Bool = false
     
     var body: some View {
         VStack {
@@ -54,7 +56,7 @@ struct ContentView: View {
                 
                 if appState.currentJournal != nil {
                     Button(action: {
-                        isAddTransactionSheetPresented = true
+                        isAddTransactionPickAccountPresented = true
                     }, label: {
                         Image(systemName: "square.and.pencil")
                             .foregroundColor(.accent)
@@ -70,6 +72,29 @@ struct ContentView: View {
             .sheet(isPresented: $isCloudSyncSheetPresented, content: {
                 CloudSyncView(showDoneButton: true)
             })
+            .confirmationDialog(
+                "You are creating a new transaction.",
+                isPresented: $isAddTransactionPickAccountPresented,
+                titleVisibility: .visible
+            ) {
+                Button {
+                    isAddTransactionSheetPresented = true
+                } label: {
+                    Text("Expense")
+                }
+                
+                Button {
+                    isAddTransactionSheetPresented = true
+                } label: {
+                    Text("Income")
+                }
+                
+                Button {
+                    isAddTransactionSheetPresented = true
+                } label: {
+                    Text("Transfer")
+                }
+            }
             .sheet(isPresented: $isAddTransactionSheetPresented, content: {
                 if appState.currentJournal != nil {
                     CreateTransactionView()

@@ -38,13 +38,11 @@ struct TransactionCashFlowEntryRow: View {
             
             Spacer()
             
-            //                            TextField(value: $amount, format: .number, label: {
-            //                                Text("0.00")
-            //                            })
-            //                            .keyboardType(.numbersAndPunctuation)
-            //                            .multilineTextAlignment(.trailing)
-            
-            Text(amount.formatted(.number.precision(.fractionLength(0...2))))
+            TextField(value: $amount, format: .number, label: {
+                Text("0.00")
+            })
+            .keyboardType(.numbersAndPunctuation)
+            .multilineTextAlignment(.trailing)
             
             Text(currency.rawValue).foregroundStyle(.secondary)
         } // HSTACK
