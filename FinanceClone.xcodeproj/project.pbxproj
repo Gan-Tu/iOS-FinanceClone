@@ -35,6 +35,7 @@
 		59A6E2A72AE5C2D2002ECDBE /* CloudSyncView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A6E2A62AE5C2D2002ECDBE /* CloudSyncView.swift */; };
 		59A6E2A92AE5C543002ECDBE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A6E2A82AE5C543002ECDBE /* Extensions.swift */; };
 		59A6E2AF2AE5E131002ECDBE /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A6E2AE2AE5E131002ECDBE /* CreateAccountView.swift */; };
+		59A8EE592C39CFDC00A50AB7 /* NumberFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A8EE582C39CFDC00A50AB7 /* NumberFormat.swift */; };
 		59B6E68D2B0305FD00B6AF6A /* TransactionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B6E68C2B0305FD00B6AF6A /* TransactionDetailView.swift */; };
 		59B6E68F2B03210300B6AF6A /* EditTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B6E68E2B03210300B6AF6A /* EditTransactionView.swift */; };
 		59C58D772AEDDEE500D8F379 /* AccountCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C58D762AEDDEE500D8F379 /* AccountCategory.swift */; };
@@ -79,6 +80,7 @@
 		59A6E2A62AE5C2D2002ECDBE /* CloudSyncView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncView.swift; sourceTree = "<group>"; };
 		59A6E2A82AE5C543002ECDBE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		59A6E2AE2AE5E131002ECDBE /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
+		59A8EE582C39CFDC00A50AB7 /* NumberFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormat.swift; sourceTree = "<group>"; };
 		59B6E68C2B0305FD00B6AF6A /* TransactionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailView.swift; sourceTree = "<group>"; };
 		59B6E68E2B03210300B6AF6A /* EditTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTransactionView.swift; sourceTree = "<group>"; };
 		59C58D762AEDDEE500D8F379 /* AccountCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCategory.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				59A6E29E2AE59690002ECDBE /* ModelContainer.swift */,
+				59A8EE582C39CFDC00A50AB7 /* NumberFormat.swift */,
 				59A6E2A22AE5A9B2002ECDBE /* CustomListRowView.swift */,
 				59A6E2A82AE5C543002ECDBE /* Extensions.swift */,
 				593B23752AEE5E8700BA4EBE /* AppState.swift */,
@@ -313,6 +316,7 @@
 				59B6E68D2B0305FD00B6AF6A /* TransactionDetailView.swift in Sources */,
 				597C50302B00A41400C1C818 /* TransactionEntry.swift in Sources */,
 				59FE738C2AEEB50B00EB88DE /* CreateTransactionView.swift in Sources */,
+				59A8EE592C39CFDC00A50AB7 /* NumberFormat.swift in Sources */,
 				59A6E2A32AE5A9B2002ECDBE /* CustomListRowView.swift in Sources */,
 				59A6E2A12AE5A8E5002ECDBE /* SettingsView.swift in Sources */,
 				593B23782AEE60EC00BA4EBE /* AccountMetadataForm.swift in Sources */,

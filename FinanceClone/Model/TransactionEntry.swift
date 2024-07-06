@@ -88,8 +88,7 @@ final class TransactionEntry : Identifiable{
     
     func describeAmount() -> String {
         let isIncome = self.entries != nil && self.entries!.contains(where: { $0.account?.category == .income })
-        let amountSign = isIncome ? "" : "-"
-        return "\(amountSign)\(currencySymbol)\(String(format: "%.2f", amount))"
+        return formatAmount(amount: isIncome ? amount : -amount, currencySymbol: currencySymbol)
     }
 }
 

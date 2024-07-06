@@ -53,9 +53,7 @@ final class Account : Identifiable, ObservableObject {
     }
     
     func describeBalance() -> String {
-        let amount = self.balance
-        let amountSign = amount >= 0 ? "" : "-"
-        return "\(amountSign)\(self.currency.symbol)\(abs(amount).formatted(.number.precision(.fractionLength(2))))"
+        return formatAmount(amount: self.balance, currency: self.currency)
     }
     
     func balanceUntil(date: Date) -> Double {
