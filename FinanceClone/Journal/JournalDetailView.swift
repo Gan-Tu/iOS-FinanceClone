@@ -111,18 +111,23 @@ struct AccountSection: View {
                                         Button(action: {
                                             accountToEdit = account
                                         }, label: {
-                                            Button(action: {
-                                                accountToEdit = account
-                                            }, label: {
-                                                Image(systemName: "info.circle")
-                                                    .foregroundStyle(Color.accentColor)
-                                            })
+                                            Image(systemName: "info.circle")
+                                                .foregroundStyle(Color.accentColor)
                                         })
                                     } else {
                                         NavigationLink(destination: AccountTransactionsView(account: account)
                                                 .environmentObject(journal)
                                         ) {
-                                            Text(account.name)
+                                            if account.label != nil {
+                                                Text(account.name)
+                                            } else {
+                                                HStack {
+                                                    Text(account.name)
+                                                    Spacer()
+                                                    Text("\(account.describeBalance())")
+                                                        .foregroundStyle(.gray)
+                                                }
+                                            }
                                         }
                                     }
                                 }

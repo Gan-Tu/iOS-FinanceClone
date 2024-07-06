@@ -52,6 +52,12 @@ final class Account : Identifiable, ObservableObject {
         return 0.0
     }
     
+    func describeBalance() -> String {
+        let amount = self.balance
+        let amountSign = amount >= 0 ? "" : "-"
+        return "\(amountSign)\(self.currency.symbol)\(abs(amount).formatted(.number.precision(.fractionLength(2))))"
+    }
+    
     func balanceUntil(date: Date) -> Double {
         // TODO(tugan): calculate balance from cashflow
         if cash_flow_entries != nil {
