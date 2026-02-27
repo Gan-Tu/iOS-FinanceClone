@@ -61,7 +61,9 @@ struct SearchTransactionView: View {
                             }
                         }
                     }
-                    .listStyle(.inset)
+                    .listStyle(.plain)
+                    .contentMargins(.horizontal, 12, for: .scrollContent)
+                    .contentMargins(.horizontal, 0, for: .scrollIndicators)
                 } else {
                     Text("Results for \(searchText)")
                 }

@@ -19,7 +19,7 @@ struct CreateJournalView: View {
     
     var body: some View {
         NavigationStack {
-            Form {
+            List {
                 Section {
                     TextField("Name", text: $name)
                 }
@@ -51,6 +51,11 @@ struct CreateJournalView: View {
                     .pickerStyle(.inline)
                 }
             }
+            .listStyle(.plain)
+            .contentMargins(.horizontal, 12, for: .scrollContent)
+            .contentMargins(.horizontal, 0, for: .scrollIndicators)
+            .scrollContentBackground(.hidden)
+            .background(Color(uiColor: .systemGroupedBackground))
             .navigationBarTitle("New Journal")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {

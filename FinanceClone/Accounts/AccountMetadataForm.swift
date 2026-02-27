@@ -16,7 +16,7 @@ struct AccountMetadataForm: View {
     @Binding var accountLabel: AccountLabel?
     
     var body: some View {
-        Form {
+        List {
             Section {
                 TextField("Name", text: $name)
                 TextField("Description", text: $description)
@@ -76,41 +76,78 @@ struct AccountMetadataForm: View {
                 }
             }
         }
+        .listStyle(.plain)
+        .contentMargins(.horizontal, 12, for: .scrollContent)
+        .contentMargins(.horizontal, 0, for: .scrollIndicators)
+        .scrollContentBackground(.hidden)
+        .background(Color(uiColor: .systemGroupedBackground))
     }
 }
 
-#Preview("Asset") {
+private struct AccountMetadataFormAssetPreview: View {
     @State var name = ""
     @State var description = ""
     @State var category = AccountCategory.asset
     @State var currency: Currency? = Currency.USD
     @State var accountLabel: AccountLabel? = nil
+    private let previewContainer: ModelContainer
+    private let journal: Journal
 
-    return NavigationStack {
-        AccountMetadataForm(
-            name: $name,
-            description: $description,
-            category: $category,
-            accountCurrency: $currency,
-            accountLabel: $accountLabel
-        )
+    init() {
+        let container = createPreviewModelContainer(seedData: false)
+        self.previewContainer = container
+        self.journal = initPreviewJournal(container: container, seedTransactions: false)
+    }
+
+    var body: some View {
+        NavigationStack {
+            AccountMetadataForm(
+                name: $name,
+                description: $description,
+                category: $category,
+                accountCurrency: $currency,
+                accountLabel: $accountLabel
+            )
+            .environmentObject(journal)
+        }
+        .modelContainer(previewContainer)
     }
 }
 
-#Preview("Income") {
+private struct AccountMetadataFormIncomePreview: View {
     @State var name = "Income"
     @State var description = ""
     @State var category = AccountCategory.income
     @State var currency: Currency? = Currency.GBP
     @State var accountLabel: AccountLabel? = .green
+    private let previewContainer: ModelContainer
+    private let journal: Journal
 
-    return NavigationStack {
-        AccountMetadataForm(
-            name: $name,
-            description: $description,
-            category: $category,
-            accountCurrency: $currency,
-            accountLabel: $accountLabel
-        )
+    init() {
+        let container = createPreviewModelContainer(seedData: false)
+        self.previewContainer = container
+        self.journal = initPreviewJournal(container: container, seedTransactions: false)
     }
+
+    var body: some View {
+        NavigationStack {
+            AccountMetadataForm(
+                name: $name,
+                description: $description,
+                category: $category,
+                accountCurrency: $currency,
+                accountLabel: $accountLabel
+            )
+            .environmentObject(journal)
+        }
+        .modelContainer(previewContainer)
+    }
+}
+
+#Preview("Asset") {
+    AccountMetadataFormAssetPreview()
+}
+
+#Preview("Income") {
+    AccountMetadataFormIncomePreview()
 }

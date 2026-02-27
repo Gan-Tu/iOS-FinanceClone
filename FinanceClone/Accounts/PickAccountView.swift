@@ -70,6 +70,9 @@ struct PickAccountView: View {
                         })
                     }
                 }
+                .listStyle(.plain)
+                .contentMargins(.horizontal, 12, for: .scrollContent)
+                .contentMargins(.horizontal, 0, for: .scrollIndicators)
             }
         }
         .navigationBarTitle("Choose Account")
@@ -84,7 +87,7 @@ struct PickAccountView: View {
             }
         }
         .confirmationDialog(
-            "What kind of account doyou want to create?",
+            "What kind of account do you want to create?",
             isPresented: $showChooseAccountType,
             titleVisibility: .visible
         ) {

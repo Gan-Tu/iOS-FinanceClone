@@ -66,6 +66,11 @@ struct SettingsView: View {
                 }
                 
             }
+            .listStyle(.plain)
+            .contentMargins(.horizontal, 12, for: .scrollContent)
+            .contentMargins(.horizontal, 0, for: .scrollIndicators)
+            .scrollContentBackground(.hidden)
+            .background(Color(uiColor: .systemGroupedBackground))
             .navigationBarTitle("Settings")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {

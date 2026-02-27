@@ -12,6 +12,7 @@ import SwiftData
 struct EditAccountView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var journal: Journal
     
     let account: Account
     
@@ -39,6 +40,7 @@ struct EditAccountView: View {
                 accountCurrency: $accountCurrency,
                 accountLabel: $label
             )
+            .environmentObject(journal)
             .font(.body)
             .navigationBarTitle("Account")
             .navigationBarTitleDisplayMode(.inline)
@@ -76,4 +78,3 @@ struct EditAccountView: View {
         .modelContainer(previewContainer)
         .environmentObject(journal)
 }
-

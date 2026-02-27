@@ -33,6 +33,7 @@ struct CreateAccountView: View {
                 accountCurrency: $accountCurrency,
                 accountLabel: $label
             )
+            .environmentObject(journal)
             .font(.body)
             .navigationBarTitle("New Account")
             .navigationBarTitleDisplayMode(.inline)

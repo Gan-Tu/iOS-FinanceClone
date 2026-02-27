@@ -43,13 +43,9 @@ final class Account : Identifiable, ObservableObject {
     }
     
     var balance: Double {
-        // TODO(tugan): calculate balance from cashflow
-        if cash_flow_entries != nil {
-            return cash_flow_entries!.reduce(0, { cur, entry in
-                cur + entry.amount
-            })
+        (cash_flow_entries ?? []).reduce(0) { cur, entry in
+            cur + entry.amount
         }
-        return 0.0
     }
     
     func describeBalance() -> String {
@@ -57,17 +53,13 @@ final class Account : Identifiable, ObservableObject {
     }
     
     func balanceUntil(date: Date) -> Double {
-        // TODO(tugan): calculate balance from cashflow
-        if cash_flow_entries != nil {
-            return cash_flow_entries!.reduce(0, { cur, entry in
-                if entry.transactionRef?.date != nil &&
-                    entry.transactionRef!.date! < date {
-                    return cur + entry.amount
-                }
-                return cur
-            })
+        (cash_flow_entries ?? []).reduce(0) { cur, entry in
+            guard let txnDate = entry.transactionRef?.date else { return cur }
+            if txnDate <= date {
+                return cur + entry.amount
+            }
+            return cur
         }
-        return 0.0
     }
 }
 

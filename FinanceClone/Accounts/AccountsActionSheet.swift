@@ -20,11 +20,16 @@ struct AccountsActionSheet: View {
     var body: some View {
         HStack {
             Text("ACCOUNTS")
+                .font(.footnote)
+                .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
             
             Spacer()
             
             Button(action: { showActionSheet = true }) {
                 Image(systemName: "ellipsis")
+                    .font(.subheadline)
+                    .foregroundStyle(.accent)
             }
             .confirmationDialog(
                 "Select a action",
@@ -50,6 +55,7 @@ struct AccountsActionSheet: View {
         }
         .sheet(isPresented: $openCreateAccountSheet, content: {
             CreateAccountView(category: selectedCategroy)
+                .environmentObject(journal)
         })
     }
 }

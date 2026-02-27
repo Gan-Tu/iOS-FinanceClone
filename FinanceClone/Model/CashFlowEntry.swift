@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-struct CashFlowEntryWrapper: Identifiable, Equatable {
+struct CashFlowEntryWrapper: Identifiable {
     var id: String = UUID().uuidString
     var account: Account? = nil
     var amount: Double = 0.0

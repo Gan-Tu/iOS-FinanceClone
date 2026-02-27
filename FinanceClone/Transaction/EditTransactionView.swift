@@ -22,10 +22,10 @@ struct EditTransactionView: View {
     @State private var payee = ""
     @State private var number = ""
     @State private var cleared = true
-    
-    @State private var account: Account? = nil
-    
-    //    @State private var amount = 0.0
+    @State private var isApplyingAutoSplitSuggestion = false
+
+    private let balanceTolerance = 0.000001
+    private let amountPrecisionScale = 100.0
     
     init(txn: TransactionEntry,
          onSaveCallback: @escaping (_ txn: TransactionEntry) -> Void = {txn in }) {
@@ -40,11 +40,16 @@ struct EditTransactionView: View {
         var entries: [CashFlowEntryWrapper] = []
         if txn.entries != nil {
             for entry in txn.entries! {
-                entries.append(CashFlowEntryWrapper(account: entry.account, amount: entry.amount, currency: entry.currency ?? journal.defaultCurreny))
+                entries.append(
+                    CashFlowEntryWrapper(
+                        account: entry.account,
+                        amount: entry.amount,
+                        currency: entry.currency ?? entry.account?.currency ?? .USD
+                    )
+                )
             }
         }
         if entries.isEmpty {
-            // TODO(tugan): remove hard coded amount after amount input is implemented
             entries.append(CashFlowEntryWrapper(amount: 0.0))
             entries.append(CashFlowEntryWrapper(amount: 0.0))
         }
@@ -55,35 +60,84 @@ struct EditTransactionView: View {
         self.entries.count >= 2 &&
         self.entries.allSatisfy({$0.account != nil}) &&
         self.entries.allSatisfy({$0.amount != 0}) &&
-        (self.entries.reduce(0, { total, newEntry in
+        abs(self.entries.reduce(0, { total, newEntry in
             return total + newEntry.amount
-        }) == 0)
+        })) <= balanceTolerance
     }
     
     func save() {
-        onSaveCallback(txn)
         txn.date = self.date
         txn.note = self.notes
         txn.payee = self.payee
         txn.number = self.number
         txn.cleared = self.cleared
-        if txn.entries != nil {
-            txn.entries!.removeAll()
+        if txn.journal == nil {
+            txn.journal = journal
         }
+
+        for existingEntry in txn.entries ?? [] {
+            modelContext.delete(existingEntry)
+        }
+
         txn.entries = []
         for entry in self.entries {
             let newEntry = CashFlowEntry(transactionRef: txn, account: entry.account, amount: entry.amount, currency: entry.currency)
             txn.entries!.append(newEntry)
-            entry.account?.cash_flow_entries?.append(newEntry)
         }
+
+        onSaveCallback(txn)
         dismiss()
     }
-    
-    func formatDate(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .full
-        formatter.timeStyle = .short
-        return formatter.string(from: date)
+
+    func addSplitEntry() {
+        entries.append(CashFlowEntryWrapper(currency: journal.defaultCurreny))
+        suggestSplitAmountsIfNeeded()
+    }
+
+    private var entrySignature: String {
+        entries
+            .map { entry in
+                "\(entry.id)|\(entry.account?.id ?? "")|\(entry.amount)|\(entry.currency.rawValue)"
+            }
+            .joined(separator: ";")
+    }
+
+    private func roundedToCurrencyPrecision(_ value: Double) -> Double {
+        (value * amountPrecisionScale).rounded() / amountPrecisionScale
+    }
+
+    private func suggestSplitAmountsIfNeeded() {
+        if isApplyingAutoSplitSuggestion {
+            return
+        }
+
+        let unfilledIndices = entries.indices.filter { idx in
+            abs(entries[idx].amount) <= balanceTolerance
+        }
+        guard !unfilledIndices.isEmpty else { return }
+
+        let filledTotal = entries.enumerated().reduce(0.0) { partial, item in
+            unfilledIndices.contains(item.offset) ? partial : partial + item.element.amount
+        }
+        let balancingAmount = -filledTotal
+
+        isApplyingAutoSplitSuggestion = true
+        defer { isApplyingAutoSplitSuggestion = false }
+
+        if unfilledIndices.count == 1, let idx = unfilledIndices.first {
+            entries[idx].amount = roundedToCurrencyPrecision(balancingAmount)
+            return
+        }
+
+        let eachShare = roundedToCurrencyPrecision(balancingAmount / Double(unfilledIndices.count))
+        var remaining = balancingAmount
+        for idx in unfilledIndices.dropLast() {
+            entries[idx].amount = eachShare
+            remaining -= eachShare
+        }
+        if let last = unfilledIndices.last {
+            entries[last].amount = roundedToCurrencyPrecision(remaining)
+        }
     }
     
     var body: some View {
@@ -97,7 +151,7 @@ struct EditTransactionView: View {
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(role: .destructive, action: {
                                     self.entries.removeAll(where: {
-                                        $0 == entry.wrappedValue
+                                        $0.id == entry.wrappedValue.id
                                     })
                                 }, label: {
                                     Text("Delete")
@@ -107,15 +161,9 @@ struct EditTransactionView: View {
                     }
                 }, footer: {
                     Button(action: {
-                        self.entries.append(CashFlowEntryWrapper())
+                        addSplitEntry()
                     }, label: {
-                        Image(systemName: "plus.circle.fill")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                            .foregroundStyle(.green)
-                            .symbolRenderingMode(.multicolor)
-                            .shadow(radius: 2)
-                            .padding(.vertical, 2)
+                        Label("Add Split", systemImage: "plus.circle.fill")
                     })
                 })
                 
@@ -175,8 +223,13 @@ struct EditTransactionView: View {
                 }
             }
         }
-        .listStyle(.insetGrouped)
+        .listStyle(.plain)
+        .contentMargins(.horizontal, 12, for: .scrollContent)
+        .contentMargins(.horizontal, 0, for: .scrollIndicators)
         .multilineTextAlignment(.leading)
+        .onChange(of: entrySignature, initial: true) { _, _ in
+            suggestSplitAmountsIfNeeded()
+        }
     }
 }
 
@@ -208,4 +261,3 @@ struct EditTransactionView: View {
         .modelContainer(previewContainer)
         .environmentObject(journal)
 }
-

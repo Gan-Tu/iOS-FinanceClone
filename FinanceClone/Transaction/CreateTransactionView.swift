@@ -8,26 +8,36 @@
 import SwiftUI
 import SwiftData
 
+enum TransactionTemplate: String, CaseIterable {
+    case expense = "Expense"
+    case income = "Income"
+    case transfer = "Transfer"
+}
+
 struct CreateTransactionView: View {
-    @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
     
+    let template: TransactionTemplate
+    let seedNote: String
     @State private var txn: TransactionEntry
     @EnvironmentObject var journal: Journal
     
-    init() {
-        // TODO(tugan): use different initial accounts for new entry template
-        self._txn = State(initialValue: TransactionEntry(date: Date(), note: "", payee: "", cleared: true))
+    init(template: TransactionTemplate = .transfer, seedNote: String = "") {
+        self.template = template
+        self.seedNote = seedNote
+        self._txn = State(initialValue: TransactionEntry(date: Date(), note: seedNote, payee: "", cleared: true))
     }
     
     var body: some View {
-        NavigationStack {
-            EditTransactionView(txn: txn, onSaveCallback: { txn in
-                modelContext.insert(txn)
-            })
-            .navigationBarTitle("New Transaction")
-            .navigationBarTitleDisplayMode(.inline)
-        }
+        EditTransactionView(txn: txn, onSaveCallback: { txn in
+            txn.journal = journal
+            if !(journal.transactions?.contains(where: { $0.id == txn.id }) ?? false) {
+                journal.transactions?.append(txn)
+            }
+            modelContext.insert(txn)
+        })
+        .navigationBarTitle("New \(template.rawValue)")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

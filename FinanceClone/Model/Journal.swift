@@ -18,6 +18,9 @@ final class Journal: Identifiable, ObservableObject {
     
     @Relationship(deleteRule: .cascade, inverse: \Account.journal)
     var accounts: [Account]? = []
+
+    @Relationship(deleteRule: .cascade, inverse: \TransactionEntry.journal)
+    var transactions: [TransactionEntry]? = []
     
     init(name: String) {
         self.name = name
@@ -32,19 +35,21 @@ final class Journal: Identifiable, ObservableObject {
     
     @Transient
     var numTransactions : Int {
-        var seenTrans = Set<String>()
-        if let accounts = self.accounts {
-            for account in accounts {
-                if let entries = account.cash_flow_entries {
-                    for entry in entries {
-                        if entry.transactionRef != nil {
-                            seenTrans.insert(entry.transactionRef!.id)
-                        }
-                    }
+        var seenTransactionIDs = Set<String>()
+
+        for transaction in transactions ?? [] {
+            seenTransactionIDs.insert(transaction.id)
+        }
+
+        for account in accounts ?? [] {
+            for entry in account.cash_flow_entries ?? [] {
+                if let transaction = entry.transactionRef {
+                    seenTransactionIDs.insert(transaction.id)
                 }
             }
         }
-        return seenTrans.count
+
+        return seenTransactionIDs.count
     }
 }
 

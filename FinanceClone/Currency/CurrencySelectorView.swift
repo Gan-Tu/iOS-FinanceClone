@@ -30,10 +30,20 @@ struct CurrencySelectorView: View {
                 }
             }
         }
+        .listStyle(.plain)
+        .contentMargins(.horizontal, 12, for: .scrollContent)
+        .contentMargins(.horizontal, 0, for: .scrollIndicators)
+    }
+}
+
+private struct CurrencySelectorViewPreview: View {
+    @State var selectedCurrency: Currency?
+
+    var body: some View {
+        CurrencySelectorView(selectedCurrency: $selectedCurrency)
     }
 }
 
 #Preview {
-    @State var selectedCurrency: Currency?
-    return CurrencySelectorView(selectedCurrency: $selectedCurrency)
+    CurrencySelectorViewPreview()
 }

@@ -15,8 +15,24 @@ let schema = Schema([
     CashFlowEntry.self,
 ])
 
-func createMainModelContainer() -> ModelContainer {
-    let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+func createMainModelContainer(cloudSyncEnabled: Bool? = nil) -> ModelContainer {
+    let defaults = UserDefaults.standard
+    let isCloudSyncEnabled: Bool = {
+        if let cloudSyncEnabled {
+            defaults.set(cloudSyncEnabled, forKey: AppState.cloudSyncPreferenceKey)
+            return cloudSyncEnabled
+        }
+        if defaults.object(forKey: AppState.cloudSyncPreferenceKey) == nil {
+            defaults.set(true, forKey: AppState.cloudSyncPreferenceKey)
+            return true
+        }
+        return defaults.bool(forKey: AppState.cloudSyncPreferenceKey)
+    }()
+    let modelConfiguration = ModelConfiguration(
+        schema: schema,
+        isStoredInMemoryOnly: false,
+        cloudKitDatabase: isCloudSyncEnabled ? .automatic : .none
+    )
     do {
         return try ModelContainer(for: schema, configurations: [modelConfiguration])
     } catch {
@@ -26,7 +42,15 @@ func createMainModelContainer() -> ModelContainer {
 
 @MainActor @discardableResult
 func addTransaction(container: ModelContainer, from: Account, to: Account, amount: Double, note: String, payee: String, currency: Currency? = nil) -> TransactionEntry {
-    let transaction = TransactionEntry(date: Date.now, note: note, payee: payee, number: "", cleared: true)
+    let transaction = TransactionEntry(
+        date: Date.now,
+        note: note,
+        payee: payee,
+        number: "",
+        cleared: true,
+        journal: from.journal
+    )
+    from.journal?.transactions?.append(transaction)
     container.mainContext.insert(transaction)
     let flow1 = CashFlowEntry(transactionRef: transaction, account: from, amount: -amount, currency: currency)
     let flow2 = CashFlowEntry(transactionRef: transaction, account: to, amount: amount, currency: currency)
@@ -146,6 +170,8 @@ func seedMutliAccountTransaction(container: ModelContainer, journal: Journal) ->
     journal.accounts?.append(household)
     
     let transaction = TransactionEntry(date: Date.now, note: "Multiple Trans", payee: "Uber", number: "", cleared: true)
+    transaction.journal = journal
+    journal.transactions?.append(transaction)
     container.mainContext.insert(transaction)
 
     let flow1 = CashFlowEntry(transactionRef: transaction, account: cash, amount: -10, currency: .USD)

@@ -9,28 +9,30 @@ import SwiftUI
 import SwiftData
 
 struct CurrencyActionSheet: View {
-    @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var journal: Journal
     
     @State private var showChoices = false
     @State private var showAddCurrencySheet = false
-    @State private var newCurrency: Currency?
-    
     var body: some View {
         HStack {
             Text("CURRENCIES")
+                .font(.footnote)
+                .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
             
             Spacer()
             
             Button(action: { showChoices = true }) {
                 Image(systemName: "ellipsis")
+                    .font(.subheadline)
+                    .foregroundStyle(.accent)
             }
             .confirmationDialog(
                 "Select a action",
                 isPresented: $showChoices,
                 titleVisibility: .hidden
             ) {
-                Button("Add Curency") {
+                Button("Add Currency") {
                     showAddCurrencySheet = true
                 }
             }
@@ -45,12 +47,25 @@ struct CurrencyActionSheet: View {
     }
 }
 
-#Preview {
-    let previewContainer: ModelContainer = createPreviewModelContainer();
-    let example = Journal(name: "Example")
-    previewContainer.mainContext.insert(example)
+private struct CurrencyActionSheetPreview: View {
+    private let previewContainer: ModelContainer
+    private let example: Journal
 
-    return CurrencyActionSheet()
-        .modelContainer(previewContainer)
-        .environmentObject(example)
+    init() {
+        let container = createPreviewModelContainer(seedData: false)
+        let journal = Journal(name: "Example")
+        container.mainContext.insert(journal)
+        self.previewContainer = container
+        self.example = journal
+    }
+
+    var body: some View {
+        CurrencyActionSheet()
+            .modelContainer(previewContainer)
+            .environmentObject(example)
+    }
+}
+
+#Preview {
+    CurrencyActionSheetPreview()
 }

@@ -13,11 +13,16 @@ struct TransactionActionSheet: View {
     var body: some View {
         HStack {
             Text("TRANSACTIONS")
+                .font(.footnote)
+                .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
             
             Spacer()
             
             Button(action: { isOpen = true }) {
                 Image(systemName: "ellipsis")
+                    .font(.subheadline)
+                    .foregroundStyle(.accent)
             }
             .confirmationDialog(
                 "Select a action", isPresented: $isOpen, titleVisibility: .hidden

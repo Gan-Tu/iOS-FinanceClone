@@ -8,107 +8,138 @@
 import SwiftUI
 import SwiftData
 
-
 struct ContentView: View {
-    @ObservedObject var appState = AppState()
-    
-    @State private var isSettingsSheetPresented: Bool = false
-    @State private var isCloudSyncSheetPresented: Bool = false
-    @State private var isSearchSheetPresented: Bool = false
-    
-    @State private var isAddTransactionPickAccountPresented: Bool = false
-    @State private var isAddTransactionSheetPresented: Bool = false
-    
+    @EnvironmentObject var appState: AppState
+
+    @State private var isSettingsSheetPresented = false
+    @State private var isCloudSyncSheetPresented = false
+    @State private var isSearchSheetPresented = false
+    @State private var isAddTransactionPickerPresented = false
+    @State private var isAddTransactionSheetPresented = false
+
+    @State private var selectedTemplate: TransactionTemplate = .transfer
+    @State private var selectedSeedNote = ""
+
     var body: some View {
-        VStack {
-            NavigationStack {
-                JournalHomeView()
-            }
-            
-            Spacer()
-            
-            HStack {
-                if appState.currentJournal != nil {
-                    Button(action: { isSearchSheetPresented = true }, label: {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.accent)
-                            .font(.title2)
-                    })
-                } else {
-                    Button(action: { isSettingsSheetPresented = true }, label: {
-                        Image(systemName: "gear")
-                            .foregroundColor(.accent)
-                            .font(.title2)
-                    })
-                }
-                
-                Spacer()
-                
-                Button(action: { isCloudSyncSheetPresented = true }, label: {
-                    if appState.isCloudSyncEnabled {
-                        Text("Update to date")
-                    } else {
-                        Text("Sync Disabled")
-                    }
-                })
-                
-                Spacer()
-                
-                if appState.currentJournal != nil {
-                    Button(action: {
-                        isAddTransactionPickAccountPresented = true
-                    }, label: {
-                        Image(systemName: "square.and.pencil")
-                            .foregroundColor(.accent)
-                            .font(.title2)
-                    })
-                }
-            }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 10)
-            .sheet(isPresented: $isSettingsSheetPresented, content: {
-                SettingsView()
-            })
-            .sheet(isPresented: $isCloudSyncSheetPresented, content: {
-                CloudSyncView(showDoneButton: true)
-            })
-            .confirmationDialog(
-                "You are creating a new transaction.",
-                isPresented: $isAddTransactionPickAccountPresented,
-                titleVisibility: .visible
-            ) {
-                Button {
-                    isAddTransactionSheetPresented = true
-                } label: {
-                    Text("Expense")
-                }
-                
-                Button {
-                    isAddTransactionSheetPresented = true
-                } label: {
-                    Text("Income")
-                }
-                
-                Button {
-                    isAddTransactionSheetPresented = true
-                } label: {
-                    Text("Transfer")
-                }
-            }
-            .sheet(isPresented: $isAddTransactionSheetPresented, content: {
-                if appState.currentJournal != nil {
-                    CreateTransactionView()
-                        .environmentObject(appState.currentJournal!)
-                }
-            })
-            .sheet(isPresented: $isSearchSheetPresented, content: {
-                if appState.currentJournal != nil {
-                    SearchTransactionView()
-                        .environmentObject(appState.currentJournal!)
-                }
-            })
+        NavigationStack {
+            JournalHomeView()
         }
-        .environmentObject(appState)
+        .safeAreaInset(edge: .bottom) {
+            bottomToolbar
+        }
+        .sheet(isPresented: $isSettingsSheetPresented) {
+            SettingsView()
+                .environmentObject(appState)
+        }
+        .sheet(isPresented: $isCloudSyncSheetPresented) {
+            CloudSyncView(showDoneButton: true)
+                .environmentObject(appState)
+        }
+        .sheet(isPresented: $isAddTransactionSheetPresented) {
+            if let journal = appState.currentJournal {
+                CreateTransactionView(
+                    template: selectedTemplate,
+                    seedNote: selectedSeedNote
+                )
+                .environmentObject(journal)
+            }
+        }
+        .sheet(isPresented: $isSearchSheetPresented) {
+            if let journal = appState.currentJournal {
+                SearchTransactionView()
+                    .environmentObject(journal)
+            }
+        }
+        .confirmationDialog(
+            "You are creating a new transaction.",
+            isPresented: $isAddTransactionPickerPresented,
+            titleVisibility: .visible
+        ) {
+            Button("💵 收入 Income") {
+                startTransactionCreation(template: .income)
+            }
+
+            Button("💰 支出 Expense") {
+                startTransactionCreation(template: .expense)
+            }
+
+            Button("🏮 转账 Transfer") {
+                startTransactionCreation(template: .transfer)
+            }
+
+            Button("🥡🍹 吃喝 Food & Drinks") {
+                startTransactionCreation(template: .expense, seedNote: "Food & Drinks")
+            }
+
+            Button("🛍️ 购物 Shopping") {
+                startTransactionCreation(template: .expense, seedNote: "Shopping")
+            }
+
+            Button("🚕 打车 Ride Share") {
+                startTransactionCreation(template: .expense, seedNote: "Ride Share")
+            }
+
+            Button("🏦 Venmo") {
+                startTransactionCreation(template: .transfer, seedNote: "Venmo")
+            }
+
+            Button("💳 信用卡还款 Credit Card Pymt") {
+                startTransactionCreation(template: .transfer, seedNote: "Credit Card Payment")
+            }
+
+            Button("Customize...") {
+                startTransactionCreation(template: .transfer)
+            }
+        }
+    }
+
+    private var bottomToolbar: some View {
+        HStack {
+            if appState.currentJournal != nil {
+                Button(action: { isSearchSheetPresented = true }) {
+                    Image(systemName: "magnifyingglass")
+                        .font(.title3)
+                }
+            } else {
+                Button(action: { isSettingsSheetPresented = true }) {
+                    Image(systemName: "gear")
+                        .font(.title3)
+                }
+            }
+
+            Spacer()
+
+            Button(action: { isCloudSyncSheetPresented = true }) {
+                Text(appState.isCloudSyncEnabled ? "Up to date" : "Sync Disabled")
+                    .font(.headline)
+            }
+            .buttonStyle(.plain)
+
+            Spacer()
+
+            if appState.currentJournal != nil {
+                Button(action: {
+                    isAddTransactionPickerPresented = true
+                }) {
+                    Image(systemName: "square.and.pencil")
+                        .font(.title3)
+                }
+            } else {
+                Color.clear.frame(width: 18, height: 18)
+            }
+        }
+        .padding(.horizontal, 24)
+        .padding(.vertical, 10)
+        .background(.ultraThinMaterial)
+        .overlay(alignment: .top) {
+            Divider()
+        }
+    }
+
+    private func startTransactionCreation(template: TransactionTemplate, seedNote: String = "") {
+        selectedTemplate = template
+        selectedSeedNote = seedNote
+        isAddTransactionSheetPresented = true
     }
 }
 
@@ -116,4 +147,5 @@ struct ContentView: View {
     let previewContainer: ModelContainer = createPreviewModelContainer()
     return ContentView()
         .modelContainer(previewContainer)
+        .environmentObject(AppState())
 }

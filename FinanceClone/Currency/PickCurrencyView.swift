@@ -9,7 +9,6 @@ import SwiftUI
 import SwiftData
 
 struct PickCurrencyView: View {
-    @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var journal: Journal
     
@@ -23,9 +22,12 @@ struct PickCurrencyView: View {
                     .onTapGesture(perform: {
                         selectedCurrency = currency;
                         dismiss();
-                    })
+                })
             }
         }
+        .listStyle(.plain)
+        .contentMargins(.horizontal, 12, for: .scrollContent)
+        .contentMargins(.horizontal, 0, for: .scrollIndicators)
         .navigationBarTitle("Currencies")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -47,15 +49,26 @@ struct PickCurrencyView: View {
     }
 }
 
-#Preview {
+private struct PickCurrencyViewPreview: View {
     @State var selectedCurrency: Currency?
-    let previewContainer: ModelContainer = createPreviewModelContainer(seedData: false);
-    let journal = initPreviewJournal(container: previewContainer)
-    return NavigationStack {
-        VStack {
+    private let previewContainer: ModelContainer
+    private let journal: Journal
+
+    init() {
+        let container = createPreviewModelContainer(seedData: false)
+        self.previewContainer = container
+        self.journal = initPreviewJournal(container: container)
+    }
+
+    var body: some View {
+        NavigationStack {
             PickCurrencyView(selectedCurrency: $selectedCurrency)
                 .modelContainer(previewContainer)
-            .environmentObject(journal)
+                .environmentObject(journal)
         }
     }
+}
+
+#Preview {
+    PickCurrencyViewPreview()
 }

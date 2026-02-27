@@ -15,12 +15,10 @@ struct CloudSyncView: View {
     var showDoneButton: Bool = true
     
     @Environment(\.dismiss) var dismiss
-    @State private var showSyncAlert: Bool = false
     @State private var showResetActionSheet: Bool = false
+    @State private var showSyncToast: Bool = false
     
-    private var isCloudSyncEnabled: Bool {
-        return appState.isCloudSyncEnabled
-    }
+    private var isCloudSyncEnabled: Bool { appState.isCloudSyncEnabled }
     
     var body: some View {
         NavigationStack {
@@ -31,13 +29,12 @@ struct CloudSyncView: View {
                             Text("Cloud Sync")
                                 .font(.title)
                         })
-                        .onChange(of: isCloudSyncEnabled, initial: false, {
-                            showSyncAlert = true
-                            // Automatically dismiss after 1 second
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                self.showSyncAlert = false
+                        .onChange(of: appState.isCloudSyncEnabled, initial: false) { _, _ in
+                            showSyncToast = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                                showSyncToast = false
                             }
-                        })
+                        }
                         
                         Text("Keep your data up-to-date between your iPhone, iPad, and Mac. Data is securely stored on iCloud.")
                             .multilineTextAlignment(.leading)
@@ -54,9 +51,12 @@ struct CloudSyncView: View {
                 
                 Section {
                     Button(action: {
-                        // TODO
+                        showSyncToast = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                            showSyncToast = false
+                        }
                     }, label: {
-                        Text("Sync Now")
+                        Text("Synchronize Now")
                             .if(!isCloudSyncEnabled) {
                                 $0.foregroundStyle(Color.gray)
                             }
@@ -77,11 +77,11 @@ struct CloudSyncView: View {
                                 $0.foregroundStyle(Color.blue)
                             }
                     })
-                    .disabled(isCloudSyncEnabled)
-                    .confirmationDialog(
-                        "You are resetting your data.",
-                        isPresented: $showResetActionSheet,
-                        titleVisibility: .visible) {
+                        .disabled(isCloudSyncEnabled)
+                        .confirmationDialog(
+                            "You are resetting your data.",
+                            isPresented: $showResetActionSheet,
+                            titleVisibility: .visible) {
                             Button("Reset All Data", role: .destructive) {
                                 resetData()
                             }
@@ -94,12 +94,13 @@ struct CloudSyncView: View {
                         }
                     
                 }
-                .alert(isCloudSyncEnabled ? "Enabling Sync..." : "Disabling Sync...", isPresented: $showSyncAlert) {
-                    Button("Cancel", role: .cancel) {
-                        // TODO
-                    }
-                }
+                .alert("Sync status updated.", isPresented: $showSyncToast) {}
             }
+            .listStyle(.plain)
+            .contentMargins(.horizontal, 12, for: .scrollContent)
+            .contentMargins(.horizontal, 0, for: .scrollIndicators)
+            .scrollContentBackground(.hidden)
+            .background(Color(uiColor: .systemGroupedBackground))
             .navigationBarTitle("Cloud Sync")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -120,6 +121,8 @@ struct CloudSyncView: View {
     
     func resetData() {
         do {
+            try modelContext.delete(model: CashFlowEntry.self)
+            try modelContext.delete(model: TransactionEntry.self)
             try modelContext.delete(model: Journal.self)
             try modelContext.delete(model: Account.self)
         } catch {
@@ -136,7 +139,6 @@ struct CloudSyncView: View {
 }
 
 #Preview("Navigation") {
-    @State var isSyncEnabled = false
     let previewContainer: ModelContainer = createPreviewModelContainer();
     return CloudSyncView(showDoneButton: true)
         .modelContainer(previewContainer)
